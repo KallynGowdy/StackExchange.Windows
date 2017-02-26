@@ -112,6 +112,7 @@
       <DependentUpon>QuestionsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Questions\QuestionsViewModel.cs" />
+    <Compile Include="Questions\QuestionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

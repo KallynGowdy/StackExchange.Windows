@@ -18,17 +18,17 @@ namespace StackExchange.Windows.Questions
         /// <summary>
         /// Gets the command that can load questions from the site.
         /// </summary>
-        public ReactiveCommand<Unit, Question[]> LoadQuestions { get; }
+        public ReactiveCommand<Unit, QuestionViewModel[]> LoadQuestions { get; }
 
         /// <summary>
         /// Gets the list of questions that have been loaded.
         /// </summary>
-        public ReactiveList<Question> Questions { get; } = new ReactiveList<Question>();
+        public ReactiveList<QuestionViewModel> Questions { get; } = new ReactiveList<QuestionViewModel>();
 
         public QuestionsViewModel()
         {
             QuestionsApi = RestService.For<IQuestionsApi>(Application.HttpClient);
-            LoadQuestions = ReactiveCommand.CreateFromTask(async () => await QuestionsApi.Questions(Application.CurrentSite));
+            LoadQuestions = ReactiveCommand.CreateFromTask(LoadQuestionsImpl);
 
             LoadQuestions.Subscribe(questions =>
             {
@@ -36,5 +36,10 @@ namespace StackExchange.Windows.Questions
             });
         }
 
+        private async Task<QuestionViewModel[]> LoadQuestionsImpl()
+        {
+            var response = await QuestionsApi.Questions(Application.CurrentSite);
+            return response.Items.Select(q => new QuestionViewModel(q)).ToArray();
+        }
     }
 }

@@ -5,9 +5,79 @@
     xmlns:local="using:StackExchange.Windows.Questions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:StackExchange.Windows.Api.Models"
+    xmlns:system="using:System"
+    xmlns:interop="using:Windows.UI.Xaml.Interop"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
+                <Button x:Name="Tag"
+                        Content="{x:Bind}"/>
+            </DataTemplate>
+            <DataTemplate x:Name="QuestionTemplate" x:DataType="local:QuestionViewModel">
+                <Grid x:Name="QuestionGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" MinHeight="50"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
+                    <TextBlock x:Name="Title"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               Text="{x:Bind Title}"/>
+
+                    <TextBlock x:Name="Activity"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               Margin="8,0,0,0"
+                               Text="{x:Bind Activity}"
+                               FontSize="10"/>
+
+                    <ListView x:Name="Tags"
+                              Grid.Row="1"
+                              Grid.Column="0"
+                              HorizontalAlignment="Left"
+                              HorizontalContentAlignment="Left"
+                              Margin="0,8,0,0"
+                              SelectionMode="None"
+                              ItemsSource="{x:Bind Tags}"
+                              ItemTemplate="{StaticResource TagTemplate}">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid x:Name="MainGrid"
+          Padding="8"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="Title" 
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Text="Questions"
+                   Style="{StaticResource TitleTextBlockStyle}"/>
+
+        <ListView x:Name="Questions"
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  Margin="0,8,0,0"
+                  ItemTemplate="{StaticResource QuestionTemplate}"></ListView>
     </Grid>
 </Page>

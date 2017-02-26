@@ -10,10 +10,12 @@ namespace StackExchange.Windows.Api
     public interface IQuestionsApi
     {
         [Get("/questions")]
-        Task<Question[]> Questions(
+        Task<Response<Question>> Questions(
             string site,
-            string sort = "",
-            int page = 0,
-            int pagesize = 10);
+            string order = "desc",
+            string sort = "activity",
+            int page = 1,
+            int pagesize = 10,
+            string filter = "withbody");
     }
 }

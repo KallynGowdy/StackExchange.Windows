@@ -11,6 +11,7 @@ using Splat;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Application;
 using StackExchange.Windows.Authentication;
+using StackExchange.Windows.Questions;
 
 namespace StackExchange.Windows.Login
 {
@@ -25,7 +26,7 @@ namespace StackExchange.Windows.Login
         {
             GoToMainPage = ReactiveCommand.CreateFromTask(async () =>
             {
-                await Application.NavigateAndClearStack.Handle(typeof(MainPage));
+                await Application.NavigateAndClearStack.Handle(typeof(QuestionsPage));
             });
 
             Authentication.Login.InvokeCommand(this, vm => vm.GoToMainPage);

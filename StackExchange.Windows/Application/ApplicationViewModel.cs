@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using ReactiveUI;
 using Splat;
+using StackExchange.Windows.Api.Converters;
 using StackExchange.Windows.Authentication;
 
 namespace StackExchange.Windows.Application
@@ -17,7 +21,7 @@ namespace StackExchange.Windows.Application
     /// </summary>
     public class ApplicationViewModel : ReactiveObject
     {
-        private string currentSite;
+        private string currentSite = "stackoverflow";
         public AuthenticationViewModel Authentication { get; }
 
         /// <summary>
@@ -55,8 +59,13 @@ namespace StackExchange.Windows.Application
 
             Authentication.Login.Do(u =>
             {
+                var handler = new HttpClientHandler()
+                {
+                    AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+                };
+
                 // TODO: Add message handler to add access token
-                HttpClient = new HttpClient()
+                HttpClient = new HttpClient(handler)
                 {
                     BaseAddress = new Uri("https://api.stackexchange.com/2.2")
                 };
@@ -67,6 +76,18 @@ namespace StackExchange.Windows.Application
         {
             Locator.CurrentMutable.RegisterConstant(this, typeof(ApplicationViewModel));
             Locator.CurrentMutable.RegisterConstant(Authentication, typeof(AuthenticationViewModel));
+
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
+            {
+                ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                },
+                Converters = new List<JsonConverter>()
+                {
+                    new UnixDateConverter()
+                }
+            };
         }
     }
 }
