@@ -123,6 +123,10 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StackExchange.Windows.Api\StackExchange.Windows.Api.csproj">
+      <Project>{55152ede-7ab0-4573-b310-d40a9a3095f5}</Project>
+      <Name>StackExchange.Windows.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StackExchange.Windows\StackExchange.Windows.csproj">
       <Project>{03FD3644-CDCD-4D91-AF7A-42E4254C5159}</Project>
       <Name>StackExchange.Windows</Name>

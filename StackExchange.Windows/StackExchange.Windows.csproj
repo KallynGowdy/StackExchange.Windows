@@ -138,6 +138,12 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StackExchange.Windows.Api\StackExchange.Windows.Api.csproj">
+      <Project>{55152ede-7ab0-4573-b310-d40a9a3095f5}</Project>
+      <Name>StackExchange.Windows.Api</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
