@@ -58,6 +58,25 @@ namespace StackExchange.Windows
                     }
                 }
             });
+            Application.NavigateBack.RegisterHandler(context =>
+            {
+                if (!context.IsHandled)
+                {
+                    if (rootFrame.CanGoBack)
+                    {
+                        rootFrame.GoBack();
+                    }
+                }
+            });
+            Application.NavigateAndClearStack.RegisterHandler(context =>
+            {
+                if (!context.IsHandled)
+                {
+                    rootFrame.Navigate(context.Input);
+                    rootFrame.BackStack.Clear();
+                    context.SetOutput(Unit.Default);
+                }
+            });
             Application.Start();
 
             rootFrame = Window.Current.Content as Frame;

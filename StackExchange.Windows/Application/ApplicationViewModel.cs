@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ReactiveUI;
 using Splat;
+using StackExchange.Windows.Authentication;
 
 namespace StackExchange.Windows.Application
 {
@@ -20,6 +21,16 @@ namespace StackExchange.Windows.Application
         /// Gets the interaction that requests navigation to other pages.
         /// </summary>
         public Interaction<Type, Unit> Navigate { get; } = new Interaction<Type, Unit>();
+
+        /// <summary>
+        /// Gets the interaction that requests navigation back in the navigation stack.
+        /// </summary>
+        public Interaction<Unit, Unit> NavigateBack { get; } = new Interaction<Unit, Unit>();
+
+        /// <summary>
+        /// Gets the interaction that requests navigation to the given page type and clears the page stack at the same time.
+        /// </summary>
+        public Interaction<Type, Unit> NavigateAndClearStack { get; } = new Interaction<Type, Unit>();
 
         public ApplicationViewModel()
         {

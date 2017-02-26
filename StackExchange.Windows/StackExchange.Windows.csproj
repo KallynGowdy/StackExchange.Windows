@@ -97,7 +97,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Application\ApplicationViewModel.cs" />
-    <Compile Include="Application\AuthenticationViewModel.cs" />
+    <Compile Include="Authentication\AuthenticationSettings.cs" />
+    <Compile Include="Authentication\AuthenticationViewModel.cs" />
     <Compile Include="Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>

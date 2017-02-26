@@ -29,12 +29,21 @@ namespace StackExchange.Windows.Login
             this.InitializeComponent();
             this.WhenActivated(d =>
             {
-                d(Observable
+                var navigationStarting = Observable
                     .FromEventPattern<TypedEventHandler<WebView, WebViewNavigationStartingEventArgs>, WebViewNavigationStartingEventArgs>
-                    (h => OAuthWebView.NavigationStarting += h, h => OAuthWebView.NavigationStarting -= h)
-                    .Select(args => args.EventArgs)
-                    .InvokeCommand(ViewModel, vm => vm.NavigationStarted));
-                OAuthWebView.Navigate(new Uri(ViewModel.OAuthUrl));
+                    (h => OAuthWebView.NavigationStarting += h, h => OAuthWebView.NavigationStarting -= h);
+
+                d(ViewModel.Authentication.RedirectToLogin
+                    .RegisterHandler(async c =>
+                    {
+                        OAuthWebView.Navigate(c.Input);
+                        var url = await navigationStarting.Select(args => args.EventArgs.Uri)
+                            .FirstAsync(ViewModel.Authentication.IsSuccessUrl);
+
+                        c.SetOutput(url);
+                    }));
+                
+                d(ViewModel.Authentication.Login.Execute().Subscribe());
             });
         }
 
