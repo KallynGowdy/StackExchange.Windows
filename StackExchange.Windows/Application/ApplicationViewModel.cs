@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReactiveUI;
@@ -15,6 +17,7 @@ namespace StackExchange.Windows.Application
     /// </summary>
     public class ApplicationViewModel : ReactiveObject
     {
+        private string currentSite;
         public AuthenticationViewModel Authentication { get; }
 
         /// <summary>
@@ -32,9 +35,32 @@ namespace StackExchange.Windows.Application
         /// </summary>
         public Interaction<Type, Unit> NavigateAndClearStack { get; } = new Interaction<Type, Unit>();
 
+        /// <summary>
+        /// Gets or sets the site that the user is currently viewing.
+        /// </summary>
+        public string CurrentSite
+        {
+            get { return currentSite; }
+            set { this.RaiseAndSetIfChanged(ref currentSite, value); }
+        }
+
+        /// <summary>
+        /// Gets the current HTTP client for the application.
+        /// </summary>
+        public HttpClient HttpClient { get; private set; }
+
         public ApplicationViewModel()
         {
             Authentication = new AuthenticationViewModel(this);
+
+            Authentication.Login.Do(u =>
+            {
+                // TODO: Add message handler to add access token
+                HttpClient = new HttpClient()
+                {
+                    BaseAddress = new Uri("https://api.stackexchange.com/2.2")
+                };
+            }).Subscribe();
         }
 
         public void Start()
@@ -44,3 +70,4 @@ namespace StackExchange.Windows.Application
         }
     }
 }
+
