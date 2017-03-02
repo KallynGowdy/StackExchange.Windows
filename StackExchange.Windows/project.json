@@ -1,8 +1,8 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "IdentityModel": "2.5.1",
-    "reactiveui": "7.1.0",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
+    "reactiveui": "7.2.0",
     "refit": "3.0.1"
   },
   "frameworks": {

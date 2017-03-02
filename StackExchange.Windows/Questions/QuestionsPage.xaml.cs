@@ -29,7 +29,6 @@ namespace StackExchange.Windows.Questions
             this.WhenActivated(d =>
             {
                 d(this.OneWayBind(ViewModel, vm => vm.Questions, view => view.Questions.ItemsSource));
-
                 d(ViewModel.LoadQuestions.Execute().Subscribe());
             });
         }

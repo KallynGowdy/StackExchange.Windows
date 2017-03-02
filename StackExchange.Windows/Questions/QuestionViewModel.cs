@@ -4,7 +4,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using StackExchange.Windows.Api.Models;
+using StackExchange.Windows.User.UserCard;
 
 namespace StackExchange.Windows.Questions
 {
@@ -17,13 +20,13 @@ namespace StackExchange.Windows.Questions
 
         public string[] Tags { get; }
 
-        public string Activity { get; }
+        public UserCardViewModel User { get; }
 
         public QuestionViewModel(Question question)
         {
             Title = WebUtility.HtmlDecode(question.Title);
             Tags = question.Tags;
-            Activity = $"{question.Owner.DisplayName} asked on {question.CreationDate:f}";
+            User = new UserCardViewModel(question);
         }
     }
 }

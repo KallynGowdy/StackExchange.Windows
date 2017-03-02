@@ -14,5 +14,7 @@ namespace StackExchange.Windows.Api.Models
         public int UserId { get; set; }
         
         public int? Reputation { get; set; }
+
+        public string ProfileImage { get; set; }
     }
 }

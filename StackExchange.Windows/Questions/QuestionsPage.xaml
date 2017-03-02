@@ -8,19 +8,23 @@
     xmlns:models="using:StackExchange.Windows.Api.Models"
     xmlns:system="using:System"
     xmlns:interop="using:Windows.UI.Xaml.Interop"
+    xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
             <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
                 <Button x:Name="Tag"
+                        Margin="0,0,8,0"
+                        IsEnabled="False"
                         Content="{x:Bind}"/>
             </DataTemplate>
             <DataTemplate x:Name="QuestionTemplate" x:DataType="local:QuestionViewModel">
-                <Grid x:Name="QuestionGrid">
+                <Grid x:Name="QuestionGrid"
+                      HorizontalAlignment="Stretch"
+                      Padding="8">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto" MinHeight="50"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -33,28 +37,24 @@
                                Grid.Column="0"
                                Text="{x:Bind Title}"/>
 
-                    <TextBlock x:Name="Activity"
-                               Grid.Row="0"
-                               Grid.Column="1"
-                               Margin="8,0,0,0"
-                               Text="{x:Bind Activity}"
-                               FontSize="10"/>
-
-                    <ListView x:Name="Tags"
-                              Grid.Row="1"
-                              Grid.Column="0"
-                              HorizontalAlignment="Left"
-                              HorizontalContentAlignment="Left"
-                              Margin="0,8,0,0"
-                              SelectionMode="None"
-                              ItemsSource="{x:Bind Tags}"
-                              ItemTemplate="{StaticResource TagTemplate}">
-                        <ListView.ItemsPanel>
+                    <userCard:UserCard x:Name="UserCard"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       Grid.RowSpan="2"
+                                       User="{x:Bind User}"/>
+                    
+                    <ItemsControl x:Name="Tags"
+                                  Grid.Row="1"
+                                  Grid.Column="0"
+                                  Margin="0,8,0,0"
+                                  ItemsSource="{x:Bind Tags}"
+                                  ItemTemplate="{StaticResource TagTemplate}">
+                        <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal"/>
+                                <StackPanel Orientation="Horizontal"/>
                             </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                    </ListView>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -62,6 +62,7 @@
 
     <Grid x:Name="MainGrid"
           Padding="8"
+          HorizontalAlignment="Stretch"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -78,6 +79,13 @@
                   Grid.Row="1"
                   Grid.Column="0"
                   Margin="0,8,0,0"
-                  ItemTemplate="{StaticResource QuestionTemplate}"></ListView>
+                  SelectionMode="Single"
+                  ItemTemplate="{StaticResource QuestionTemplate}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 </Page>
