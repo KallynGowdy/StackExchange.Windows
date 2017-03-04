@@ -11,19 +11,21 @@
 
     <Grid x:Name="UserCardGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition MinHeight="18" Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
 
         <Image x:Name="OwnerImage"
                Grid.Row="1"
                Grid.Column="0"
                Grid.RowSpan="2"
+               Margin="0,0,8,0"
+               Stretch="Fill"
                Width="32"
                Height="32"/>
 
@@ -31,14 +33,14 @@
                    Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   TextAlignment="Right"
+                   TextAlignment="Left"
                    FontSize="11"/>
 
         <TextBlock x:Name="Owner"
                    Grid.Row="1"
                    Grid.Column="1"
                    Grid.RowSpan="2"
-                   TextAlignment="Right"
+                   TextAlignment="Left"
                    FontSize="11"/>
     </Grid>
 </UserControl>

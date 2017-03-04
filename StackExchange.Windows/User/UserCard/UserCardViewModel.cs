@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
@@ -20,7 +21,7 @@ namespace StackExchange.Windows.User.UserCard
 
         public UserCardViewModel(Post post)
         {
-            Owner = post.Owner.DisplayName;
+            Owner = WebUtility.HtmlDecode(post.Owner.DisplayName);
             PostedOn = post.FormattedDate;
             Image = new BitmapImage(new Uri(post.Owner.ProfileImage));
         }

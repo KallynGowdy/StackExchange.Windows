@@ -1,0 +1,104 @@
+﻿<UserControl
+    x:Class="StackExchange.Windows.Questions.QuestionListItem.QuestionListItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userCard="using:StackExchange.Windows.User.UserCard"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
+            <Button x:Name="Tag"
+                        Margin="0,0,8,0"
+                        IsEnabled="False"
+                        Content="{x:Bind}"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid x:Name="QuestionGrid"
+          HorizontalAlignment="Stretch"
+          Padding="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel x:Name="VotesPanel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.RowSpan="2"
+                    Margin="0,0,16,0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBlock x:Name="Score"
+                       TextAlignment="Center"/>
+            <TextBlock x:Name="ScoreLabel"
+                       Style="{StaticResource CaptionTextBlockStyle}"
+                       TextAlignment="Center"
+                       Text="Votes"/>
+        </StackPanel>
+
+        <StackPanel x:Name="AnswersPanel"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.RowSpan="2"
+                    Margin="0,0,16,0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBlock x:Name="NumAnswers"
+                       TextAlignment="Center"/>
+            <TextBlock x:Name="AnswersLabel"
+                       Style="{StaticResource CaptionTextBlockStyle}"
+                       TextAlignment="Center"
+                       Text="Answers"/>
+        </StackPanel>
+
+        <StackPanel x:Name="ViewsPanel"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Grid.RowSpan="2"
+                    Margin="0,0,16,0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBlock x:Name="NumViews"
+                       TextAlignment="Center"/>
+            <TextBlock x:Name="ViewsLabel"
+                       Style="{StaticResource CaptionTextBlockStyle}"
+                       TextAlignment="Center"
+                       Text="Views"/>
+        </StackPanel>
+
+        <TextBlock x:Name="Title"
+                   Grid.Row="0"
+                   Grid.Column="3"
+                   TextWrapping="WrapWholeWords"
+                   Style="{StaticResource BodyTextBlockStyle}"/>
+
+        <userCard:UserCard x:Name="UserCard"
+                           Grid.Row="0"
+                           Grid.Column="4"
+                           Grid.RowSpan="2"
+                           Margin="8,0,0,0"/>
+
+        <ItemsControl x:Name="Tags"
+                      Grid.Row="1"
+                      Grid.Column="3"
+                      Margin="0,8,0,0"
+                      ItemTemplate="{StaticResource TagTemplate}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
+</UserControl>

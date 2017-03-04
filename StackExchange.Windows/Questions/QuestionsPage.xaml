@@ -9,53 +9,16 @@
     xmlns:system="using:System"
     xmlns:interop="using:Windows.UI.Xaml.Interop"
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
+    xmlns:questionListItem="using:StackExchange.Windows.Questions.QuestionListItem"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
-                <Button x:Name="Tag"
-                        Margin="0,0,8,0"
-                        IsEnabled="False"
-                        Content="{x:Bind}"/>
-            </DataTemplate>
             <DataTemplate x:Name="QuestionTemplate" x:DataType="local:QuestionViewModel">
-                <Grid x:Name="QuestionGrid"
-                      HorizontalAlignment="Stretch"
-                      Padding="8">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock x:Name="Title"
-                               Grid.Row="0"
-                               Grid.Column="0"
-                               Text="{x:Bind Title}"/>
-
-                    <userCard:UserCard x:Name="UserCard"
-                                       Grid.Row="0"
-                                       Grid.Column="1"
-                                       Grid.RowSpan="2"
-                                       User="{x:Bind User}"/>
-                    
-                    <ItemsControl x:Name="Tags"
-                                  Grid.Row="1"
-                                  Grid.Column="0"
-                                  Margin="0,8,0,0"
-                                  ItemsSource="{x:Bind Tags}"
-                                  ItemTemplate="{StaticResource TagTemplate}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </Grid>
+                
+                <!--<userCard:UserCard User="{x:Bind User}"/>-->
+                <questionListItem:QuestionListItem x:Name="Question"
+                                                   Question="{x:Bind Self}"/>
             </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
@@ -68,13 +31,16 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="900"/>
+        </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="Title" 
                    Grid.Row="0"
                    Grid.Column="0"
                    Text="Questions"
-                   Style="{StaticResource TitleTextBlockStyle}"/>
-
+                   Style="{StaticResource HeaderTextBlockStyle}"/>
+        
         <ListView x:Name="Questions"
                   Grid.Row="1"
                   Grid.Column="0"

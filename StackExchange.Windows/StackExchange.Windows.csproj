@@ -113,6 +113,9 @@
     </Compile>
     <Compile Include="Questions\QuestionsViewModel.cs" />
     <Compile Include="Questions\QuestionViewModel.cs" />
+    <Compile Include="Questions\QuestionListItem\QuestionListItem.xaml.cs">
+      <DependentUpon>QuestionListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="User\UserCard\UserCard.xaml.cs">
       <DependentUpon>UserCard.xaml</DependentUpon>
     </Compile>
@@ -148,6 +151,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Questions\QuestionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Questions\QuestionListItem\QuestionListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
