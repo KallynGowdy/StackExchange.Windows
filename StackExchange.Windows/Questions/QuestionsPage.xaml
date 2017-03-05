@@ -10,6 +10,7 @@
     xmlns:interop="using:Windows.UI.Xaml.Interop"
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     xmlns:questionListItem="using:StackExchange.Windows.Questions.QuestionListItem"
+    xmlns:controls="using:StackExchange.Windows.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -41,7 +42,7 @@
                    Padding="8"
                    Text="Questions"
                    Style="{StaticResource HeaderTextBlockStyle}"/>
-        
+
         <ListView x:Name="Questions"
                   Grid.Row="1"
                   Grid.Column="0"

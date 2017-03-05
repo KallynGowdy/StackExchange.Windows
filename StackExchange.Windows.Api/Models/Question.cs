@@ -15,6 +15,7 @@ namespace StackExchange.Windows.Api.Models
         public int Score { get; set; }
         public int AnswerCount { get; set; }
         public int ViewCount { get; set; }
+        public bool IsAnswered { get; set; }
 
         public override string FormattedDate => $"asked {CreationDate:MMM dd \"'\"yy} at {CreationDate:HH:mm}";
     }

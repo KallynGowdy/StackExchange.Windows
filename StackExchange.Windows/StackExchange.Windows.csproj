@@ -100,6 +100,9 @@
     <Compile Include="Authentication\AuthenticationSettings.cs" />
     <Compile Include="Authentication\AuthenticationViewModel.cs" />
     <Compile Include="BaseViewModel.cs" />
+    <Compile Include="BindingConverters\BooleanToBrushBindingTypeConverter.cs" />
+    <Compile Include="Controls\RefreshableListView.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
