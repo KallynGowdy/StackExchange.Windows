@@ -31,6 +31,30 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="MobileOrSmaller">
+                    <VisualState.Setters>
+                        <Setter Target="VotesPanel.Visibility" Value="Collapsed"/>
+                        <Setter Target="AnswersPanel.Visibility" Value="Collapsed"/>
+                        <Setter Target="ViewsPanel.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="TabletOrLarger">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="VotesPanel.Visibility" Value="Visible"/>
+                        <Setter Target="AnswersPanel.Visibility" Value="Visible"/>
+                        <Setter Target="ViewsPanel.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
         <StackPanel x:Name="VotesPanel"
                     Grid.Row="0"

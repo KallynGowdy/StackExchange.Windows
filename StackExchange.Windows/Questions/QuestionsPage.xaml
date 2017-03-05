@@ -11,12 +11,12 @@
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     xmlns:questionListItem="using:StackExchange.Windows.Questions.QuestionListItem"
     mc:Ignorable="d">
-
     <Page.Resources>
         <ResourceDictionary>
             <DataTemplate x:Name="QuestionTemplate" x:DataType="local:QuestionViewModel">
-                
-                <!--<userCard:UserCard User="{x:Bind User}"/>-->
+                <!-- 
+                Bind Question to Self because if we just use {x:Bind} then the Question will be set to null, activated (WhenActivated called), and then set to the correct question.
+                -->
                 <questionListItem:QuestionListItem x:Name="Question"
                                                    Question="{x:Bind Self}"/>
             </DataTemplate>
@@ -38,6 +38,7 @@
         <TextBlock x:Name="Title" 
                    Grid.Row="0"
                    Grid.Column="0"
+                   Padding="8"
                    Text="Questions"
                    Style="{StaticResource HeaderTextBlockStyle}"/>
         

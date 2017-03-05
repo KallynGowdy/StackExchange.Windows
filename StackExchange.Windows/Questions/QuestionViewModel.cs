@@ -31,6 +31,10 @@ namespace StackExchange.Windows.Questions
 
         public string Views => views.ToString();
 
+        /// <summary>
+        /// Returns this object.
+        /// Workaround for XAML ListView item bindings to the entire object.
+        /// </summary>
         public QuestionViewModel Self => this;
 
         public QuestionViewModel(Question question)
