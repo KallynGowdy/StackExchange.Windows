@@ -23,6 +23,11 @@
             </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="Refresh" Icon="RepeatAll" Label="Refresh"/>
+        </CommandBar>
+    </Page.BottomAppBar>
 
     <Grid x:Name="MainGrid"
           Padding="8"
@@ -55,5 +60,13 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+        
+        <ProgressRing x:Name="LoadingRing"
+                      Grid.Row="1"
+                      Grid.Column="0"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Width="40"
+                      Height="40"/>
     </Grid>
 </Page>

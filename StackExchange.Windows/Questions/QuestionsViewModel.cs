@@ -18,7 +18,17 @@ namespace StackExchange.Windows.Questions
         /// <summary>
         /// Gets the command that can load questions from the site.
         /// </summary>
-        public ReactiveCommand<Unit, QuestionViewModel[]> LoadQuestions { get; }
+        public ReactiveCommand<Unit, Unit> LoadQuestions { get; }
+
+        /// <summary>
+        /// Gets the command that can clear the loaded questions.
+        /// </summary>
+        public ReactiveCommand<Unit, Unit> Clear { get; }
+
+        /// <summary>
+        /// Gets the command that can refresh the loaded questions on demand.
+        /// </summary>
+        public CombinedReactiveCommand<Unit, Unit> Refresh { get; }
 
         /// <summary>
         /// Gets the list of questions that have been loaded.
@@ -29,17 +39,22 @@ namespace StackExchange.Windows.Questions
         {
             QuestionsApi = RestService.For<IQuestionsApi>(Application.HttpClient);
             LoadQuestions = ReactiveCommand.CreateFromTask(LoadQuestionsImpl);
-
-            LoadQuestions.Subscribe(questions =>
+            Clear = ReactiveCommand.Create(() =>
             {
-                Questions.AddRange(questions);
+                Questions.Clear();
+            });
+            Refresh = ReactiveCommand.CreateCombined(new[]
+            {
+                Clear,
+                LoadQuestions
             });
         }
 
-        private async Task<QuestionViewModel[]> LoadQuestionsImpl()
+        private async Task LoadQuestionsImpl()
         {
             var response = await QuestionsApi.Questions(Application.CurrentSite);
-            return response.Items.Select(q => new QuestionViewModel(q)).ToArray();
+            var questions = response.Items.Select(q => new QuestionViewModel(q)).ToArray();
+            Questions.AddRange(questions);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace StackExchange.Windows.Search.SearchBox
     /// </summary>
     public class SearchBoxViewModel : ReactiveObject
     {
-        private string query;
+        private string query = "";
         private ObservableAsPropertyHelper<string[]> tags;
         private ObservableAsPropertyHelper<string> sort;
 
