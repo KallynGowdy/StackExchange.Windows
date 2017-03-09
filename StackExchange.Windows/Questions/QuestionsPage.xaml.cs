@@ -43,5 +43,15 @@ namespace StackExchange.Windows.Questions
         }
 
         public QuestionsViewModel ViewModel { get; set; } = new QuestionsViewModel();
+
+        private void SearchBox_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchCompletionBox.Visibility = Visibility.Visible;
+        }
+
+        private void SearchBox_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            SearchCompletionBox.Visibility = Visibility.Collapsed;
+        }
     }
 }
