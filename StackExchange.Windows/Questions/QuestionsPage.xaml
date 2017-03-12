@@ -11,6 +11,7 @@
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     xmlns:questionListItem="using:StackExchange.Windows.Questions.QuestionListItem"
     xmlns:controls="using:StackExchange.Windows.Controls"
+    xmlns:searchBox="using:StackExchange.Windows.Search.SearchBox"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -25,19 +26,13 @@
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
+            <AppBarButton x:Name="LastPage" Icon="Back" Label="Previous" />
+            <AppBarButton x:Name="NextPage" Icon="Forward" Label="Next" />
+            <AppBarSeparator/>
             <AppBarButton x:Name="Refresh" Icon="RepeatAll" Label="Refresh"/>
 
             <CommandBar.Content>
-                <RelativePanel>
-                    <TextBox x:Name="SearchBox"
-                             RelativePanel.AlignTopWithPanel="True"
-                             Margin="8"
-                             VerticalAlignment="Center"
-                             MinWidth="300"
-                             PlaceholderText="Search..."
-                             GotFocus="SearchBox_OnGotFocus"
-                             LostFocus="SearchBox_OnLostFocus"/>
-                </RelativePanel>
+                <searchBox:QuestionSearchBox/>
             </CommandBar.Content>
         </CommandBar>
     </Page.BottomAppBar>
@@ -81,60 +76,5 @@
                       HorizontalAlignment="Center"
                       Width="40"
                       Height="40"/>
-
-        <StackPanel x:Name="SearchCompletionBox"
-                    Grid.Column="0"
-                    Grid.Row="0"
-                    Grid.RowSpan="2"
-                    Margin="0,-8,-8,-8"
-                    Padding="8"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Left"
-                    Width="300"
-                    Height="400"
-                    Background="#FFE6E6E6"
-                    Visibility="Visible">
-            <Grid x:Name="ZeroInputSearchGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                    
-                <TextBlock Grid.Column="0"
-                           Grid.Row="0" 
-                           Text="Common Searches" 
-                           Style="{StaticResource CaptionTextBlockStyle}"/>
-                <ListView Grid.Column="0"
-                          Grid.Row="1">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="x:String">
-                            <TextBlock Text="{x:Bind}" FontSize="14"/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <x:String>Most recent questions</x:String>
-                    <x:String>Voted questions with no answers</x:String>
-                </ListView>
-
-                <TextBlock Grid.Column="0"
-                           Grid.Row="2" 
-                           Text="Recent" 
-                           Style="{StaticResource CaptionTextBlockStyle}"/>
-                <ListView Grid.Column="0"
-                          Grid.Row="3">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="x:String">
-                            <TextBlock Text="{x:Bind}" FontSize="14"/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <x:String>Most recent questions</x:String>
-                    <x:String>Voted questions with no answers</x:String>
-                </ListView>
-            </Grid>
-            
-            <!-- TODO: Add search results list -->
-        </StackPanel>
     </Grid>
 </Page>

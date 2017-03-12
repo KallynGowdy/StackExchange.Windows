@@ -17,11 +17,16 @@ using Windows.UI.Xaml.Navigation;
 
 namespace StackExchange.Windows.Search.SearchBox
 {
-    public sealed partial class SearchBox : UserControl
+    public sealed partial class QuestionSearchBox : UserControl
     {
-        public SearchBox()
+        public QuestionSearchBox()
         {
             this.InitializeComponent();
+        }
+
+        private void SearchBox_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
     }
 }
