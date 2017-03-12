@@ -17,7 +17,7 @@
              PlaceholderText="Search..."
              GotFocus="SearchBox_OnGotFocus">
         <FlyoutBase.AttachedFlyout>
-            <Flyout Placement="Top" AllowFocusOnInteraction="False">
+            <Flyout Placement="Top">
                 <StackPanel x:Name="SearchCompletionBox"
                                             VerticalAlignment="Bottom"
                                             HorizontalAlignment="Left"
@@ -40,12 +40,8 @@
                         <ComboBox x:Name="Site" 
                                   Grid.Column="0"
                                   Grid.Row="1"
-                                  Margin="0,8,0,0">
-                            <ComboBox.Items>
-                                <x:String>Stack Overflow</x:String>
-                                <x:String>Super User</x:String>
-                                <x:String>Workplace</x:String>
-                            </ComboBox.Items>
+                                  Margin="0,8,0,0"
+                                  DisplayMemberPath="Name">
                         </ComboBox>
 
                         <TextBlock Grid.Column="0"

@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.ViewManagement;
 using ReactiveUI;
+using Refit;
+using Splat;
+using StackExchange.Windows.Api;
+using StackExchange.Windows.Application;
 
 namespace StackExchange.Windows.Search.SearchBox
 {
     /// <summary>
     /// Defines a view model that represents the logic for the current search state.
     /// </summary>
-    public class SearchViewModel : ReactiveObject
+    public class SearchViewModel : BaseViewModel
     {
         private string query = "";
         private ObservableAsPropertyHelper<string[]> tags;
@@ -35,9 +41,30 @@ namespace StackExchange.Windows.Search.SearchBox
         /// </summary>
         public string Sort => sort.Value;
 
-        public SearchViewModel()
+        public INetworkApi NetworkApi { get; }
+
+        /// <summary>
+        /// Loads the list of available sites from the network api.
+        /// </summary>
+        public ReactiveCommand<Unit, Unit> LoadSites { get; }
+
+        /// <summary>
+        /// The list of available sites.
+        /// </summary>
+        public ReactiveList<SiteViewModel> AvailableSites { get; } = new ReactiveList<SiteViewModel>();
+
+        public SearchViewModel(ApplicationViewModel application = null, INetworkApi networkApi = null) : base(application)
         {
-            
+            this.NetworkApi = networkApi ?? Api<INetworkApi>();
+
+            LoadSites = ReactiveCommand.CreateFromTask(LoadSitesImpl);
+        }
+
+        private async Task LoadSitesImpl()
+        {
+            var sites = await NetworkApi.Sites();
+            AvailableSites.Clear();
+            AvailableSites.AddRange(sites.Items.Select(site => new SiteViewModel(site)));
         }
     }
 }

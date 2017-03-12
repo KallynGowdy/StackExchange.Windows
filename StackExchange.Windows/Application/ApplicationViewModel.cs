@@ -13,6 +13,7 @@ using ReactiveUI;
 using Splat;
 using StackExchange.Windows.Api.Converters;
 using StackExchange.Windows.Authentication;
+using StackExchange.Windows.Search.SearchBox;
 
 namespace StackExchange.Windows.Application
 {
@@ -22,7 +23,16 @@ namespace StackExchange.Windows.Application
     public class ApplicationViewModel : ReactiveObject
     {
         private string currentSite = "stackoverflow";
+
+        /// <summary>
+        /// Gets the view model in charge of authentication.
+        /// </summary>
         public AuthenticationViewModel Authentication { get; }
+
+        /// <summary>
+        /// Gets the view model in charge of search for the site.
+        /// </summary>
+        public SearchViewModel Search { get; private set; }
 
         /// <summary>
         /// Gets the interaction that requests navigation to other pages.
@@ -69,6 +79,8 @@ namespace StackExchange.Windows.Application
                 {
                     BaseAddress = new Uri("https://api.stackexchange.com/2.2")
                 };
+
+                Search = new SearchViewModel(this);
             }).Subscribe();
         }
 
