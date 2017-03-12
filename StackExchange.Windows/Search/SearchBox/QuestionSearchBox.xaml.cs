@@ -20,7 +20,7 @@ using StackExchange.Windows.Application;
 
 namespace StackExchange.Windows.Search.SearchBox
 {
-    public sealed partial class QuestionSearchBox : UserControl, IViewFor<SearchViewModel>
+    public sealed partial class QuestionSearchBox : UserControl, IViewFor<ISearchViewModel>
     {
         public QuestionSearchBox()
         {
@@ -44,6 +44,6 @@ namespace StackExchange.Windows.Search.SearchBox
             set { ViewModel = (SearchViewModel)value; }
         }
 
-        public SearchViewModel ViewModel { get; set; } = Locator.Current.GetService<ApplicationViewModel>().Search;
+        public ISearchViewModel ViewModel { get; set; } = Locator.Current.GetService<ApplicationViewModel>().Search;
     }
 }

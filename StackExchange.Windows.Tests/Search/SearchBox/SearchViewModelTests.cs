@@ -19,7 +19,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         public SearchViewModelTests()
         {
             NetworkApi = new StubINetworkApi();
-            Subject = new SearchViewModel(NetworkApi);
+            Subject = new SearchViewModel(null, NetworkApi);
         }
 
         [Fact]
@@ -61,6 +61,31 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
                     Assert.Equal("Super User", s.Name);
                     Assert.Equal("superuser", s.ApiSiteParameter);
                 });
+        }
+
+        [Fact]
+        public async Task Test_LoadSites_Selects_The_First_Returned_Site()
+        {
+            NetworkApi.Sites(() => Task.FromResult(new Response<Site>()
+            {
+                Items = new[] {
+                    new Site()
+                    {
+                        ApiSiteParameter = "superuser",
+                        Name = "Super User"
+                    },
+                    new Site()
+                    {
+                        ApiSiteParameter = "stackoverflow",
+                        Name = "Stack Overflow"
+                    }
+                },
+                HasMore = false
+            }));
+
+            await Subject.LoadSites.Execute();
+
+            Assert.Equal("superuser", Subject.SelectedSite.ApiSiteParameter);
         }
     }
 }

@@ -22,8 +22,15 @@ namespace StackExchange.Windows
         }
 
         protected TService Api<TService>()
+            where TService : class
         {
             return RestService.For<TService>(Application.HttpClient);
+        }
+
+        protected TService Service<TService>(TService service = null)
+            where TService : class
+        {
+            return service ?? Locator.Current.GetService<TService>();
         }
     }
 }

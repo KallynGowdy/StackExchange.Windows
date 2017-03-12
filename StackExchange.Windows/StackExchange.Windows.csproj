@@ -119,6 +119,7 @@
     <Compile Include="Questions\QuestionListItem\QuestionListItem.xaml.cs">
       <DependentUpon>QuestionListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Search\SearchBox\ISearchViewModel.cs" />
     <Compile Include="Search\SearchBox\QuestionSearchBox.xaml.cs">
       <DependentUpon>QuestionSearchBox.xaml</DependentUpon>
     </Compile>

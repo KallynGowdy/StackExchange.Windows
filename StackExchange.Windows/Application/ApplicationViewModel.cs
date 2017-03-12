@@ -32,7 +32,7 @@ namespace StackExchange.Windows.Application
         /// <summary>
         /// Gets the view model in charge of search for the site.
         /// </summary>
-        public SearchViewModel Search { get; private set; }
+        public ISearchViewModel Search { get; private set; }
 
         /// <summary>
         /// Gets the interaction that requests navigation to other pages.

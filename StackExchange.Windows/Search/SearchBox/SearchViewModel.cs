@@ -16,7 +16,7 @@ namespace StackExchange.Windows.Search.SearchBox
     /// <summary>
     /// Defines a view model that represents the logic for the current search state.
     /// </summary>
-    public class SearchViewModel : BaseViewModel
+    public class SearchViewModel : BaseViewModel, ISearchViewModel
     {
         private string query = "";
         private ObservableAsPropertyHelper<string[]> tags;
@@ -53,10 +53,14 @@ namespace StackExchange.Windows.Search.SearchBox
         /// </summary>
         public ReactiveList<SiteViewModel> AvailableSites { get; } = new ReactiveList<SiteViewModel>();
 
+        /// <summary>
+        /// Gets or sets the currently selected site.
+        /// </summary>
+        public SiteViewModel SelectedSite { get; set; }
+
         public SearchViewModel(ApplicationViewModel application = null, INetworkApi networkApi = null) : base(application)
         {
             this.NetworkApi = networkApi ?? Api<INetworkApi>();
-
             LoadSites = ReactiveCommand.CreateFromTask(LoadSitesImpl);
         }
 
@@ -65,6 +69,7 @@ namespace StackExchange.Windows.Search.SearchBox
             var sites = await NetworkApi.Sites();
             AvailableSites.Clear();
             AvailableSites.AddRange(sites.Items.Select(site => new SiteViewModel(site)));
+            SelectedSite = AvailableSites.FirstOrDefault();
         }
     }
 }

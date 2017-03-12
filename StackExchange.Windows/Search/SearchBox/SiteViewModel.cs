@@ -11,6 +11,10 @@ namespace StackExchange.Windows.Search.SearchBox
             ApiSiteParameter = site.ApiSiteParameter;
         }
 
+        public SiteViewModel()
+        {
+        }
+
         public string Name { get; }
         public string ApiSiteParameter { get; }
     }
