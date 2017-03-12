@@ -32,7 +32,7 @@ namespace StackExchange.Windows.Questions
         /// <summary>
         /// Gets the command that can refresh the loaded questions on demand.
         /// </summary>
-        public CombinedReactiveCommand<Unit, Unit> Refresh { get; }
+        public ReactiveCommand<Unit, Unit> Refresh { get; }
 
         /// <summary>
         /// Gets the list of questions that have been loaded.
@@ -44,19 +44,19 @@ namespace StackExchange.Windows.Questions
         {
             QuestionsApi = questionsApi ?? Api<IQuestionsApi>();
             Search = Service(search);
-            LoadQuestions = ReactiveCommand.CreateFromTask(LoadQuestionsImpl, outputScheduler: RxApp.MainThreadScheduler);
+            LoadQuestions = ReactiveCommand.CreateFromTask(LoadQuestionsImpl);
             Clear = ReactiveCommand.Create(() =>
             {
                 Questions.Clear();
-            }, outputScheduler: RxApp.MainThreadScheduler);
-            Refresh = ReactiveCommand.CreateCombined(new[]
+            });
+            Refresh = ReactiveCommand.CreateFromTask(async () =>
             {
-                Clear,
-                LoadQuestions
-            }, outputScheduler: RxApp.MainThreadScheduler);
+                await Clear.Execute();
+                await LoadQuestions.Execute();
+            }, canExecute: Clear.CanExecute.CombineLatest(LoadQuestions.CanExecute, (canClearExecute, canLoadExecute) => canClearExecute && canLoadExecute));
         }
 
-        private async Task<Unit> LoadQuestionsImpl()
+        private async Task LoadQuestionsImpl()
         {
             if (Search.SelectedSite == null)
             {
@@ -72,8 +72,6 @@ namespace StackExchange.Windows.Questions
             var response = await QuestionsApi.Questions(Search.SelectedSite.ApiSiteParameter);
             var questions = response.Items.Select(q => new QuestionViewModel(q)).ToArray();
             Questions.AddRange(questions);
-
-            return Unit.Default;
         }
     }
 }

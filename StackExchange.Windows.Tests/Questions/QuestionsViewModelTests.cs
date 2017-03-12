@@ -21,7 +21,7 @@ namespace StackExchange.Windows.Tests.Questions
     {
         public QuestionsViewModel Subject { get; set; }
         public StubISearchViewModel Search { get; set; }
-        public ReactiveCommand<Unit, Unit> LoadSites { get; set; }
+        public ReactiveCommand<Unit, Unit> LoadSites { get; set; } = ReactiveCommand.Create(() => { });
         public StubIQuestionsApi QuestionsApi { get; set; }
         public SiteViewModel Site { get; set; }
 
@@ -34,6 +34,43 @@ namespace StackExchange.Windows.Tests.Questions
             Search.SelectedSite_Set(site => Site = site);
             Search.SelectedSite_Get(() => Site);
             Search.LoadSites_Get(() => LoadSites);
+        }
+
+        [Fact]
+        public async Task Test_Clear_Removes_Questions_From_The_Questions_List()
+        {
+            Subject.Questions.Add(new QuestionViewModel());
+
+            await Subject.Clear.Execute();
+
+            Assert.Empty(Subject.Questions);
+        }
+
+        [Fact]
+        public async Task Test_Refresh_Clears_And_Loads_Questions()
+        {
+            Site = new SiteViewModel(new Site());
+            Subject.Questions.Add(new QuestionViewModel());
+            QuestionsApi.Questions(
+                (site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()
+                {
+                    Items = new[]
+                    {
+                        new Question()
+                        {
+                            Title = "Test",
+                            Owner = new ShallowUser()
+                            {
+                                ProfileImage = "https://example.com"
+                            }
+                        },
+                    }
+                }));
+
+            await Subject.Refresh.Execute();
+
+            Assert.Collection(Subject.Questions,
+                q => Assert.Equal("Test", q.Title));
         }
 
         [Fact]
@@ -53,42 +90,54 @@ namespace StackExchange.Windows.Tests.Questions
         }
 
         [Fact]
-        public void Test_LoadQuestions_Waits_For_LoadSites_To_Finish_Executing_If_No_Site_Is_Selected_But_Is_Already_Executing()
+        public Task Test_LoadQuestions_Waits_For_LoadSites_To_Finish_Executing_If_No_Site_Is_Selected_But_Is_Already_Executing()
         {
-            new TestScheduler().With(scheduler =>
-            {
-                Site = null;
-                QuestionsApi.Questions(
-                    (site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()
+            // TODO: Clean up test implementation?
+            var loadSitesTask = new TaskCompletionSource<Unit>();
+            var testTask = new TaskCompletionSource<int>();
+            Site = null;
+            LoadSites = ReactiveCommand.CreateFromTask(() => loadSitesTask.Task);
+            QuestionsApi.Questions(
+                (site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()
+                {
+                    Items = new[]
                     {
-                        Items = new[]
+                        new Question()
                         {
-                            new Question(),
-                        }
-                    }));
-                LoadSites = ReactiveCommand.CreateFromObservable(() =>
-                    Observable.Return(Unit.Default, RxApp.MainThreadScheduler)
-                        .Delay(TimeSpan.FromMilliseconds(1000), RxApp.MainThreadScheduler)
-                        .Do(u => Site = new SiteViewModel()), outputScheduler: RxApp.MainThreadScheduler);
+                            Owner = new ShallowUser()
+                            {
+                                DisplayName = "Test",
+                                ProfileImage= "http://example.com"
+                            }
+                        },
+                    }
+                }));
 
-                LoadSites.Execute().Subscribe();
+            // Act
+            LoadSites.Execute().Subscribe();
 
-                scheduler.AdvanceToMs(1);
+            var loadingObservable = Subject.LoadQuestions.Execute();
+            loadingObservable.Subscribe(u =>
+            {
+                try
+                {
+                    // Assert
+                    Assert.NotEmpty(Subject.Questions);
+                    testTask.SetResult(0);
+                }
+                catch (Exception ex)
+                {
+                    testTask.SetException(ex);
+                }
+            }, ex => testTask.SetException(ex));
 
-                var loadingObservable = Subject.LoadQuestions.Execute();
-                loadingObservable.Subscribe();
+            // Precondition
+            Assert.Empty(Subject.Questions);
 
-                Assert.Null(Site);
-                Assert.Empty(Subject.Questions);
+            Site = new SiteViewModel();
+            loadSitesTask.SetResult(Unit.Default);
 
-                scheduler.AdvanceToMs(1001);
-
-                Assert.NotNull(Site);
-
-                scheduler.AdvanceToMs(2000);
-
-                Assert.NotEmpty(Subject.Questions);
-            });
+            return testTask.Task;
         }
 
         [Fact]

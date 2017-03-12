@@ -101,6 +101,7 @@
     <Compile Include="Authentication\AuthenticationViewModel.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="BindingConverters\BooleanToBrushBindingTypeConverter.cs" />
+    <Compile Include="BindingConverters\UriToImageSourceBindingTypeConverter.cs" />
     <Compile Include="Controls\RefreshableListView.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Login\LoginPage.xaml.cs">

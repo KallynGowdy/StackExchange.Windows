@@ -17,13 +17,13 @@ namespace StackExchange.Windows.User.UserCard
 
         public string PostedOn { get; }
 
-        public ImageSource Image { get; }
+        public Uri ImageUrl { get; }
 
         public UserCardViewModel(Post post)
         {
             Owner = WebUtility.HtmlDecode(post.Owner.DisplayName);
             PostedOn = post.FormattedDate;
-            Image = new BitmapImage(new Uri(post.Owner.ProfileImage));
+            ImageUrl = new Uri(post.Owner.ProfileImage);
         }
 
     }

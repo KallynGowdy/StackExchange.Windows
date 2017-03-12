@@ -13,6 +13,7 @@ using ReactiveUI;
 using Splat;
 using StackExchange.Windows.Api.Converters;
 using StackExchange.Windows.Authentication;
+using StackExchange.Windows.BindingConverters;
 using StackExchange.Windows.Search.SearchBox;
 
 namespace StackExchange.Windows.Application
@@ -88,6 +89,8 @@ namespace StackExchange.Windows.Application
         {
             Locator.CurrentMutable.RegisterConstant(this, typeof(ApplicationViewModel));
             Locator.CurrentMutable.RegisterConstant(Authentication, typeof(AuthenticationViewModel));
+
+            Locator.CurrentMutable.Register(UriToImageSourceBindingTypeConverter.Create, typeof(IBindingTypeConverter));
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
             {

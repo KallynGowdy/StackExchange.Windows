@@ -47,7 +47,7 @@ namespace StackExchange.Windows.User.UserCard
             {
                 this.WhenActivated(d =>
                 {
-                    d(this.Bind(ViewModel, vm => vm.Image, view => view.OwnerImage.Source));
+                    d(this.Bind(ViewModel, vm => vm.ImageUrl, view => view.OwnerImage.Source));
                     d(this.Bind(ViewModel, vm => vm.Owner, view => view.Owner.Text));
                     d(this.Bind(ViewModel, vm => vm.PostedOn, view => view.PostedOn.Text));
                 });
