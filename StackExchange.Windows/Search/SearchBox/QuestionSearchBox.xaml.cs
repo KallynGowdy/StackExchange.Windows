@@ -28,6 +28,7 @@ namespace StackExchange.Windows.Search.SearchBox
             this.WhenActivated(d =>
             {
                 d(this.OneWayBind(ViewModel, vm => vm.AvailableSites, view => view.Site.ItemsSource));
+                d(this.Bind(ViewModel, vm => vm.SelectedSite, view => view.Site.SelectedItem));
 
                 d(ViewModel.LoadSites.Execute().Subscribe());
             });
@@ -44,6 +45,6 @@ namespace StackExchange.Windows.Search.SearchBox
             set { ViewModel = (SearchViewModel)value; }
         }
 
-        public ISearchViewModel ViewModel { get; set; } = Locator.Current.GetService<ApplicationViewModel>().Search;
+        public ISearchViewModel ViewModel { get; set; } = Locator.Current.GetService<ISearchViewModel>();
     }
 }

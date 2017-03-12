@@ -67,22 +67,24 @@ namespace StackExchange.Windows.Application
         public ApplicationViewModel()
         {
             Authentication = new AuthenticationViewModel(this);
+            Authentication.Login.Do(u => OnLogin()).Subscribe();
+        }
 
-            Authentication.Login.Do(u =>
+        public void OnLogin()
+        {
+            var handler = new HttpClientHandler()
             {
-                var handler = new HttpClientHandler()
-                {
-                    AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-                };
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+            };
 
-                // TODO: Add message handler to add access token
-                HttpClient = new HttpClient(handler)
-                {
-                    BaseAddress = new Uri("https://api.stackexchange.com/2.2")
-                };
+            // TODO: Add message handler to add access token
+            HttpClient = new HttpClient(handler)
+            {
+                BaseAddress = new Uri("https://api.stackexchange.com/2.2")
+            };
 
-                Search = new SearchViewModel(this);
-            }).Subscribe();
+            Search = new SearchViewModel(this);
+            Locator.CurrentMutable.RegisterConstant(Search, typeof(ISearchViewModel));
         }
 
         public void Start()

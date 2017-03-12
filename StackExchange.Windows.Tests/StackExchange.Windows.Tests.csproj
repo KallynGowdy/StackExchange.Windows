@@ -94,6 +94,7 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ApplicationViewModelTests.cs" />
     <Compile Include="Authentication\AuthenticationViewModelTests.cs" />
     <Compile Include="Models\QuestionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

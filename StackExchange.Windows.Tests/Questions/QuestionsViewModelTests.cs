@@ -157,5 +157,28 @@ namespace StackExchange.Windows.Tests.Questions
             await Subject.LoadQuestions.Execute();
         }
 
+        [Fact]
+        public void Test_Refreshes_Questions_When_Site_Is_Changed_After_Activation()
+        {
+            QuestionsApi.Questions((site, order, sort, page, pagesize, filter) =>
+            {
+                Assert.Equal("othersite", site);
+                return Task.FromResult(new Response<Question>());
+            });
+            var api = new StubINetworkApi();
+            var search = new SearchViewModel(networkApi: api);
+            Subject = new QuestionsViewModel(search: search, questionsApi: QuestionsApi);
+            Subject.Questions.Add(new QuestionViewModel());
+
+            using (Subject.Activator.Activate())
+            {
+                search.SelectedSite = new SiteViewModel(new Site()
+                {
+                    ApiSiteParameter = "othersite"
+                });
+
+                Assert.Empty(Subject.Questions);
+            }
+        }
     }
 }

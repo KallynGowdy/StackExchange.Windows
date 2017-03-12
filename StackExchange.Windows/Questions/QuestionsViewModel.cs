@@ -14,8 +14,9 @@ using StackExchange.Windows.Search.SearchBox;
 
 namespace StackExchange.Windows.Questions
 {
-    public class QuestionsViewModel : BaseViewModel
+    public class QuestionsViewModel : BaseViewModel, ISupportsActivation
     {
+        private ReactiveList<QuestionViewModel> questions = new ReactiveList<QuestionViewModel>();
         private IQuestionsApi QuestionsApi { get; }
         private ISearchViewModel Search { get; }
 
@@ -37,7 +38,11 @@ namespace StackExchange.Windows.Questions
         /// <summary>
         /// Gets the list of questions that have been loaded.
         /// </summary>
-        public ReactiveList<QuestionViewModel> Questions { get; } = new ReactiveList<QuestionViewModel>();
+        public ReactiveList<QuestionViewModel> Questions
+        {
+            get { return questions; }
+            private set { this.RaiseAndSetIfChanged(ref questions, value); }
+        }
 
         public QuestionsViewModel(ApplicationViewModel application = null, ISearchViewModel search = null, IQuestionsApi questionsApi = null)
             : base(application)
@@ -54,6 +59,14 @@ namespace StackExchange.Windows.Questions
                 await Clear.Execute();
                 await LoadQuestions.Execute();
             }, canExecute: Clear.CanExecute.CombineLatest(LoadQuestions.CanExecute, (canClearExecute, canLoadExecute) => canClearExecute && canLoadExecute));
+
+            this.WhenActivated(d =>
+            {
+                d(Search.WhenAnyValue(s => s.SelectedSite)
+                    .Skip(1)
+                    .Select(svm => Unit.Default)
+                    .InvokeCommand(this, vm => vm.Refresh));
+            });
         }
 
         private async Task LoadQuestionsImpl()
@@ -71,7 +84,9 @@ namespace StackExchange.Windows.Questions
             }
             var response = await QuestionsApi.Questions(Search.SelectedSite.ApiSiteParameter);
             var questions = response.Items.Select(q => new QuestionViewModel(q)).ToArray();
-            Questions.AddRange(questions);
+            Questions = new ReactiveList<QuestionViewModel>(questions);
         }
+
+        public ViewModelActivator Activator { get; } = new ViewModelActivator();
     }
 }

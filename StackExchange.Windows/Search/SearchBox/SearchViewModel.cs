@@ -21,6 +21,7 @@ namespace StackExchange.Windows.Search.SearchBox
         private string query = "";
         private ObservableAsPropertyHelper<string[]> tags;
         private ObservableAsPropertyHelper<string> sort;
+        private SiteViewModel selectedSite;
 
         /// <summary>
         /// Gets or sets the query that is currently contained in the search box.
@@ -56,11 +57,15 @@ namespace StackExchange.Windows.Search.SearchBox
         /// <summary>
         /// Gets or sets the currently selected site.
         /// </summary>
-        public SiteViewModel SelectedSite { get; set; }
+        public SiteViewModel SelectedSite
+        {
+            get { return selectedSite; }
+            set { this.RaiseAndSetIfChanged(ref selectedSite, value); }
+        }
 
         public SearchViewModel(ApplicationViewModel application = null, INetworkApi networkApi = null) : base(application)
         {
-            this.NetworkApi = networkApi ?? Api<INetworkApi>();
+            this.NetworkApi = networkApi ?? Service<INetworkApi>() ?? Api<INetworkApi>();
             LoadSites = ReactiveCommand.CreateFromTask(LoadSitesImpl);
         }
 
