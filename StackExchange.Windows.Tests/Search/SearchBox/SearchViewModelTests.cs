@@ -8,9 +8,9 @@ using Xunit;
 
 namespace StackExchange.Windows.Tests.Search.SearchBox
 {
-    public class SearchBoxViewModelTests
+    public class SearchViewModelTests
     {
-        public SearchBoxViewModel Subject { get; set; } = new SearchBoxViewModel();
+        public SearchViewModel Subject { get; set; } = new SearchViewModel();
 
         [Fact]
         public void Test_Starts_With_Empty_Query()

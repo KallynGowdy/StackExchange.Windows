@@ -122,7 +122,7 @@
     <Compile Include="Search\SearchBox\QuestionSearchBox.xaml.cs">
       <DependentUpon>QuestionSearchBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Search\SearchBox\SearchBoxViewModel.cs" />
+    <Compile Include="Search\SearchBox\SearchViewModel.cs" />
     <Compile Include="Search\SearchBox\SemanticQuery.cs" />
     <Compile Include="User\UserCard\UserCard.xaml.cs">
       <DependentUpon>UserCard.xaml</DependentUpon>

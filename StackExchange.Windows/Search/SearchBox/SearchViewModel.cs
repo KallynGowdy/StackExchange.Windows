@@ -8,9 +8,9 @@ using ReactiveUI;
 namespace StackExchange.Windows.Search.SearchBox
 {
     /// <summary>
-    /// Defines a view model that represents the logic for a search box.
+    /// Defines a view model that represents the logic for the current search state.
     /// </summary>
-    public class SearchBoxViewModel : ReactiveObject
+    public class SearchViewModel : ReactiveObject
     {
         private string query = "";
         private ObservableAsPropertyHelper<string[]> tags;
@@ -35,7 +35,7 @@ namespace StackExchange.Windows.Search.SearchBox
         /// </summary>
         public string Sort => sort.Value;
 
-        public SearchBoxViewModel()
+        public SearchViewModel()
         {
             
         }
