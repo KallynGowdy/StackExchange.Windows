@@ -12,6 +12,7 @@
     xmlns:questionListItem="using:StackExchange.Windows.Questions.QuestionListItem"
     xmlns:controls="using:StackExchange.Windows.Controls"
     xmlns:searchBox="using:StackExchange.Windows.Search.SearchBox"
+    xmlns:siteSelector="using:StackExchange.Windows.Common.SiteSelector"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -32,7 +33,11 @@
             <AppBarButton x:Name="Refresh" Icon="RepeatAll" Label="Refresh"/>
 
             <CommandBar.Content>
-                <searchBox:QuestionSearchBox/>
+                <StackPanel x:Name="CommandBarContent"
+                            Orientation="Horizontal">
+                    <searchBox:QuestionSearchBox/>
+                    <siteSelector:SiteSelector/>
+                </StackPanel>
             </CommandBar.Content>
         </CommandBar>
     </Page.BottomAppBar>

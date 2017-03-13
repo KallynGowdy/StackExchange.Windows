@@ -5,7 +5,6 @@
     xmlns:local="using:StackExchange.Windows.Search.SearchBox"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:searchBoxSiteItem="using:StackExchange.Windows.Search.SearchBoxSiteItem"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -25,16 +24,5 @@
                  MinWidth="150"
                  PlaceholderText="Search...">
         </TextBox>
-
-        <ComboBox x:Name="Site" 
-                  Margin="0,0,8,0"
-                  BorderThickness="0"
-                  Background="{StaticResource AppBarItemBackgroundThemeBrush}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="local:SiteViewModel">
-                    <searchBoxSiteItem:SearchBoxSiteItem ViewModel="{x:Bind}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
     </StackPanel>
 </UserControl>

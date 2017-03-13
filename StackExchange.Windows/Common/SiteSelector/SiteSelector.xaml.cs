@@ -14,19 +14,23 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ReactiveUI;
 using Splat;
-using StackExchange.Windows.Application;
+using StackExchange.Windows.Search.SearchBox;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace StackExchange.Windows.Search.SearchBox
+namespace StackExchange.Windows.Common.SiteSelector
 {
-    public sealed partial class QuestionSearchBox : UserControl, IViewFor<ISearchViewModel>
+    public sealed partial class SiteSelector : UserControl, IViewFor<ISearchViewModel>
     {
-        public QuestionSearchBox()
+        public SiteSelector()
         {
             this.InitializeComponent();
             this.WhenActivated(d =>
             {
+                d(this.OneWayBind(ViewModel, vm => vm.AvailableSites, view => view.Site.ItemsSource));
+                d(this.Bind(ViewModel, vm => vm.SelectedSite, view => view.Site.SelectedItem));
+
+                d(ViewModel.LoadSites.Execute().Subscribe());
             });
         }
 

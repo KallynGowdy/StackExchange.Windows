@@ -18,17 +18,17 @@ using StackExchange.Windows.Search.SearchBox;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace StackExchange.Windows.Search.SearchBoxSiteItem
+namespace StackExchange.Windows.Search.SiteSelectorItem
 {
-    public sealed partial class SearchBoxSiteItem : UserControl, IViewFor<SiteViewModel>
+    public sealed partial class SiteSelectorItem : UserControl, IViewFor<SiteViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
             nameof(ViewModel),
             typeof(SiteViewModel),
-            typeof(SearchBoxSiteItem),
+            typeof(SiteSelectorItem),
             new PropertyMetadata(null));
 
-        public SearchBoxSiteItem()
+        public SiteSelectorItem()
         {
             this.InitializeComponent();
             if (!DesignMode.DesignModeEnabled)
