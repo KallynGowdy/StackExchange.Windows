@@ -27,6 +27,8 @@ namespace StackExchange.Windows.Search.SearchBox
             this.InitializeComponent();
             this.WhenActivated(d =>
             {
+                d(this.Bind(ViewModel, vm => vm.Query, view => view.InputBox.Text));
+                d(this.Bind(ViewModel, vm => vm.SuggestedQuestions, view => view.InputBox.ItemsSource));
             });
         }
 

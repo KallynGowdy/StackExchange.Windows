@@ -25,22 +25,6 @@
             </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
-    <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton x:Name="LastPage" Icon="Back" Label="Previous" />
-            <AppBarButton x:Name="NextPage" Icon="Forward" Label="Next" />
-            <AppBarSeparator/>
-            <AppBarButton x:Name="Refresh" Icon="RepeatAll" Label="Refresh"/>
-
-            <CommandBar.Content>
-                <StackPanel x:Name="CommandBarContent"
-                            Orientation="Horizontal">
-                    <searchBox:QuestionSearchBox/>
-                    <siteSelector:SiteSelector/>
-                </StackPanel>
-            </CommandBar.Content>
-        </CommandBar>
-    </Page.BottomAppBar>
 
     <Grid x:Name="MainGrid"
           Padding="8"
@@ -49,9 +33,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="900"/>
+            <ColumnDefinition Width="3*" MaxWidth="900"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="Title" 
@@ -81,5 +67,25 @@
                       HorizontalAlignment="Center"
                       Width="40"
                       Height="40"/>
+
+        <CommandBar x:Name="PageCommandBar"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="-8">
+            <AppBarButton x:Name="LastPage" Icon="Back" Label="Previous" />
+            <AppBarButton x:Name="NextPage" Icon="Forward" Label="Next" />
+            <AppBarSeparator/>
+            <AppBarButton x:Name="Refresh" Icon="RepeatAll" Label="Refresh"/>
+
+            <CommandBar.Content>
+                <StackPanel x:Name="CommandBarContent"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Stretch">
+                    <searchBox:QuestionSearchBox HorizontalAlignment="Stretch"/>
+                    <siteSelector:SiteSelector/>
+                </StackPanel>
+            </CommandBar.Content>
+        </CommandBar>
     </Grid>
 </Page>

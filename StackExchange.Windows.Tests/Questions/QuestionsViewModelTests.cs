@@ -166,7 +166,8 @@ namespace StackExchange.Windows.Tests.Questions
                 return Task.FromResult(new Response<Question>());
             });
             var api = new StubINetworkApi();
-            var search = new SearchViewModel(networkApi: api);
+            var searchApi = new StubISearchApi();
+            var search = new SearchViewModel(networkApi: api, searchApi: searchApi);
             Subject = new QuestionsViewModel(search: search, questionsApi: QuestionsApi);
             Subject.Questions.Add(new QuestionViewModel());
 

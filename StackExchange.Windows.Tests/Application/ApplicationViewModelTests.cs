@@ -41,6 +41,7 @@ namespace StackExchange.Windows.Tests.Application
         public void Test_OnLogin_Registers_SearchViewModel()
         {
             Locator.CurrentMutable.Register(() => new StubINetworkApi(), typeof(INetworkApi));
+            Locator.CurrentMutable.Register(() => new StubISearchApi(), typeof(ISearchApi));
             Subject.OnLogin();
             Assert.NotNull(Locator.Current.GetService<ISearchViewModel>());
         }

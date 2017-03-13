@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Reactive.Testing;
+using ReactiveUI.Testing;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
 using StackExchange.Windows.Search.SearchBox;
@@ -15,11 +17,13 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
     {
         public SearchViewModel Subject { get; set; }
         public StubINetworkApi NetworkApi { get; set; }
+        public StubISearchApi SearchApi { get; set; }
 
         public SearchViewModelTests()
         {
             NetworkApi = new StubINetworkApi();
-            Subject = new SearchViewModel(null, NetworkApi);
+            SearchApi = new StubISearchApi();
+            Subject = new SearchViewModel(null, NetworkApi, SearchApi);
         }
 
         [Fact]
@@ -141,6 +145,132 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
                     Assert.Equal("Stack Overflow", account.SiteName);
                     Assert.Equal(100, account.Reputation);
                 });
+        }
+
+        [Fact]
+        public async Task Test_Search_Passes_The_Current_Query_To_The_Api()
+        {
+            SearchApi.SearchAdvanced((q, site) =>
+            {
+                Assert.Equal("query", q);
+                return Task.FromResult(new Response<Question>());
+            });
+            Subject.SelectedSite = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "stackoverflow"
+            });
+
+            Subject.Query = "query";
+
+            await Subject.Search.Execute();
+        }
+
+        [Fact]
+        public async Task Test_Search_Fills_SuggestedQuestions_From_The_Returned_Search_Questions()
+        {
+            SearchApi.SearchAdvanced((q, site) => Task.FromResult(new Response<Question>()
+            {
+                Items = new[]
+                {
+                    new Question()
+                    {
+                        QuestionId = 10,
+                        Title = "Test",
+                        Body = "Test",
+                        Owner = new ShallowUser()
+                        {
+                            DisplayName = "user",
+                            ProfileImage = "https://image.example.com"
+                        }
+                    },
+                }
+            }));
+            Subject.SelectedSite = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "stackoverflow"
+            });
+
+            Subject.Query = "query";
+
+            await Subject.Search.Execute();
+
+            Assert.Collection(Subject.SuggestedQuestions,
+                q => Assert.Equal("Test", q.Title));
+        }
+
+        [Fact]
+        public void Test_Automatically_Searches_When_Activated_After_Throttling_For_Half_A_Second()
+        {
+            SearchApi.SearchAdvanced((q, site) => Task.FromResult(new Response<Question>()
+            {
+                Items = new[]
+                {
+                    new Question()
+                    {
+                        QuestionId = 10,
+                        Title = "Test",
+                        Body = "Test",
+                        Owner = new ShallowUser()
+                        {
+                            DisplayName = "user",
+                            ProfileImage = "https://image.example.com"
+                        }
+                    },
+                }
+            }));
+            Subject.SelectedSite = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "stackoverflow"
+            });
+
+            new TestScheduler().With(scheduler =>
+            {
+                using (Subject.Activator.Activate())
+                {
+                    scheduler.AdvanceToMs(1);
+
+                    Subject.Query = "test";
+
+                    Assert.Empty(Subject.SuggestedQuestions);
+
+                    scheduler.AdvanceToMs(501);
+
+                    Assert.Collection(Subject.SuggestedQuestions,
+                        q => Assert.Equal("Test", q.Title));
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("\n")]
+        [InlineData(null)]
+        public async Task Test_Search_Cannot_Execute_When_Query_Is_Null_Or_Whitespace(string query)
+        {
+            SearchApi.SearchAdvanced((q, site) => Task.FromResult(new Response<Question>()));
+            Subject.SelectedSite = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "stackoverflow"
+            });
+
+            Subject.Query = query;
+
+            Assert.False(await Subject.Search.CanExecute.FirstAsync());
+        }
+
+        [Theory]
+        [InlineData("search")]
+        public async Task Test_Search_Can_Execute_When_Query_Contains_Letters(string query)
+        {
+            SearchApi.SearchAdvanced((q, site) => Task.FromResult(new Response<Question>()));
+            Subject.SelectedSite = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "stackoverflow"
+            });
+
+            Subject.Query = query;
+
+            Assert.True(await Subject.Search.CanExecute.FirstAsync());
         }
     }
 }

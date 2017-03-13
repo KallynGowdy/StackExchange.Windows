@@ -5,24 +5,94 @@
     xmlns:local="using:StackExchange.Windows.Search.SearchBox"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:questions="using:StackExchange.Windows.Questions"
+    xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
-    <VisualStateManager.VisualStateGroups>
-        <VisualStateGroup x:Name="Collapsed">
-            
-        </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
+    d:DesignWidth="400"
+    MaxHeight="100">
+    <UserControl.Resources>
+        <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
+            <Button x:Name="Tag"
+                    Margin="0,0,2,0"
+                    Padding="2"
+                    IsEnabled="False"
+                    FontSize="10"
+                    Content="{x:Bind}"/>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <AutoSuggestBox x:Name="InputBox"
+                    Margin="8"
+                    MinWidth="500"
+                    MaxHeight="100"
+                    VerticalAlignment="Top"
+                    PlaceholderText="Search...">
+        <AutoSuggestBox.ItemTemplate>
+            <DataTemplate x:DataType="questions:QuestionViewModel">
+                <Grid x:Name="QuestionItemGrid"
+                      HorizontalAlignment="Stretch"
+                      Width="472"
+                      Padding="0,8,0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-    <StackPanel x:Name="SearchControlsPanel"
-                Orientation="Horizontal">
+                    <StackPanel x:Name="ScorePanel"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.RowSpan="2"
+                                Margin="0,0,8,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                MinWidth="24">
+                        <TextBlock x:Name="Score"
+                                   HorizontalAlignment="Center"
+                                   FontSize="16"
+                                   Text="{x:Bind Score}"/>
+                        <TextBlock x:Name="ScoreLabel"
+                                   HorizontalAlignment="Center"
+                                   FontSize="12"
+                                   Text="Score"/>
+                    </StackPanel>
 
-        <TextBox x:Name="InputBox"
-                 RelativePanel.AlignTopWithPanel="True"
-                 Margin="8"
-                 VerticalAlignment="Center"
-                 MinWidth="150"
-                 PlaceholderText="Search...">
-        </TextBox>
-    </StackPanel>
+                    <TextBlock x:Name="QuestionTitle"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               Grid.ColumnSpan="2"
+                               Text="{x:Bind Title}"
+                               TextWrapping="WrapWholeWords"/>
+
+                    <ItemsControl x:Name="Tags"
+                                  Grid.Row="1"
+                                  Grid.Column="1"
+                                  Margin="0,2,2,0"
+                                  ItemTemplate="{StaticResource TagTemplate}"
+                                  ItemsSource="{x:Bind Tags, Mode=OneWay}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    
+                    <TextBlock x:Name="Time"
+                               Grid.Row="1"
+                               Grid.Column="2"
+                               Text="{x:Bind User.PostedOn}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               Style="{StaticResource BodyTextBlockStyle}"/>
+                </Grid>
+            </DataTemplate>
+        </AutoSuggestBox.ItemTemplate>
+    </AutoSuggestBox>
+
 </UserControl>

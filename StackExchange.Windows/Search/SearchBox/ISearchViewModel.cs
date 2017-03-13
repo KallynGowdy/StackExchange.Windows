@@ -1,5 +1,6 @@
 using System.Reactive;
 using ReactiveUI;
+using StackExchange.Windows.Questions;
 
 namespace StackExchange.Windows.Search.SearchBox
 {
@@ -22,5 +23,16 @@ namespace StackExchange.Windows.Search.SearchBox
         /// Gets the command that can load the list of sites from the API.
         /// </summary>
         ReactiveCommand<Unit, Unit> LoadSites { get; }
+
+        /// <summary>
+        /// Gets the suggested list of questions found from the <see cref="Query"/>.
+        /// </summary>
+        ReactiveList<QuestionViewModel> SuggestedQuestions { get; }
+
+        /// <summary>
+        /// Gets or sets the current search query.
+        /// </summary>
+        string Query { get; set; }
+
     }
 }

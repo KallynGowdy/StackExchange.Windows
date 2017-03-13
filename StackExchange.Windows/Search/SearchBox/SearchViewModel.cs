@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.ViewManagement;
@@ -11,6 +12,7 @@ using Splat;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
 using StackExchange.Windows.Application;
+using StackExchange.Windows.Questions;
 using StackExchange.Windows.User;
 
 namespace StackExchange.Windows.Search.SearchBox
@@ -18,12 +20,13 @@ namespace StackExchange.Windows.Search.SearchBox
     /// <summary>
     /// Defines a view model that represents the logic for the current search state.
     /// </summary>
-    public class SearchViewModel : BaseViewModel, ISearchViewModel
+    public class SearchViewModel : BaseViewModel, ISearchViewModel, ISupportsActivation
     {
         private string query = "";
-        private ObservableAsPropertyHelper<string[]> tags;
-        private ObservableAsPropertyHelper<string> sort;
         private SiteViewModel selectedSite;
+        private ObservableAsPropertyHelper<ReactiveList<QuestionViewModel>> suggestedQuestions;
+        private INetworkApi NetworkApi { get; }
+        private ISearchApi SearchApi { get; }
 
         /// <summary>
         /// Gets or sets the query that is currently contained in the search box.
@@ -33,18 +36,6 @@ namespace StackExchange.Windows.Search.SearchBox
             get { return query; }
             set { this.RaiseAndSetIfChanged(ref query, value); }
         }
-
-        /// <summary>
-        /// Gets the array of tags that have been parsed from the query.
-        /// </summary>
-        public string[] Tags => tags.Value;
-
-        /// <summary>
-        /// Gets the sort order that should be used.
-        /// </summary>
-        public string Sort => sort.Value;
-
-        public INetworkApi NetworkApi { get; }
 
         /// <summary>
         /// Loads the list of available sites from the network api.
@@ -57,6 +48,11 @@ namespace StackExchange.Windows.Search.SearchBox
         public ReactiveCommand<Unit, Unit> LoadAssociatedAccounts { get; }
 
         /// <summary>
+        /// Triggers a search using the current query.
+        /// </summary>
+        public ReactiveCommand<Unit, ReactiveList<QuestionViewModel>> Search { get; }
+
+        /// <summary>
         /// The list of available sites.
         /// </summary>
         public ReactiveList<SiteViewModel> AvailableSites { get; } = new ReactiveList<SiteViewModel>();
@@ -65,6 +61,8 @@ namespace StackExchange.Windows.Search.SearchBox
         /// The list of associated user accounts for the current user.
         /// </summary>
         public ReactiveList<NetworkUserViewModel> AssociatedAccounts { get; } = new ReactiveList<NetworkUserViewModel>();
+
+        public ReactiveList<QuestionViewModel> SuggestedQuestions => suggestedQuestions.Value;
 
         /// <summary>
         /// Gets or sets the currently selected site.
@@ -75,11 +73,30 @@ namespace StackExchange.Windows.Search.SearchBox
             set { this.RaiseAndSetIfChanged(ref selectedSite, value); }
         }
 
-        public SearchViewModel(ApplicationViewModel application = null, INetworkApi networkApi = null) : base(application)
+        public SearchViewModel(ApplicationViewModel application = null, INetworkApi networkApi = null, ISearchApi searchApi = null) : base(application)
         {
             this.NetworkApi = networkApi ?? Service<INetworkApi>() ?? Api<INetworkApi>();
+            this.SearchApi = searchApi ?? Service<ISearchApi>() ?? Api<ISearchApi>();
             LoadSites = ReactiveCommand.CreateFromTask(LoadSitesImpl);
             LoadAssociatedAccounts = ReactiveCommand.CreateFromTask(LoadAssociatedAccountsImpl);
+
+            var canSearch = this.WhenAnyValue(vm => vm.Query).Select(q => !string.IsNullOrWhiteSpace(q));
+            Search = ReactiveCommand.CreateFromTask(SearchImpl, canSearch, outputScheduler: RxApp.MainThreadScheduler);
+            suggestedQuestions = Search.ToProperty(this, vm => vm.SuggestedQuestions, initialValue: new ReactiveList<QuestionViewModel>());
+
+            this.WhenActivated(d =>
+            {
+                d(this.WhenAnyValue(vm => vm.Query)
+                    .Throttle(TimeSpan.FromMilliseconds(500), RxApp.TaskpoolScheduler)
+                    .Select(q => Unit.Default)
+                    .InvokeCommand(this, vm => vm.Search));
+            });
+        }
+
+        private async Task<ReactiveList<QuestionViewModel>> SearchImpl()
+        {
+            var result = await SearchApi.SearchAdvanced(Query, SelectedSite.ApiSiteParameter);
+            return new ReactiveList<QuestionViewModel>(result.Items.Select(q => new QuestionViewModel(q)));
         }
 
         private async Task LoadAssociatedAccountsImpl()
@@ -98,5 +115,7 @@ namespace StackExchange.Windows.Search.SearchBox
             AvailableSites.AddRange(sites.Items.Select(site => new SiteViewModel(site)));
             SelectedSite = AvailableSites.FirstOrDefault();
         }
+
+        public ViewModelActivator Activator { get; } = new ViewModelActivator();
     }
 }

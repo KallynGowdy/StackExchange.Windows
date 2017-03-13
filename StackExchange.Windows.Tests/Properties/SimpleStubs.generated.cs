@@ -8,6 +8,7 @@ using Refit;
 using StackExchange.Windows.Api.Models;
 using System.Reactive;
 using ReactiveUI;
+using StackExchange.Windows.Questions;
 
 namespace StackExchange.Windows.Api
 {
@@ -66,6 +67,28 @@ namespace StackExchange.Windows.Api
     }
 }
 
+namespace StackExchange.Windows.Api
+{
+    [CompilerGenerated]
+    public class StubISearchApi : ISearchApi
+    {
+        private readonly StubContainer<StubISearchApi> _stubs = new StubContainer<StubISearchApi>();
+
+        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Question>> global::StackExchange.Windows.Api.ISearchApi.SearchAdvanced(string q, string site)
+        {
+            return _stubs.GetMethodStub<SearchAdvanced_String_String_Delegate>("SearchAdvanced").Invoke(q, site);
+        }
+
+        public delegate global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Question>> SearchAdvanced_String_String_Delegate(string q, string site);
+
+        public StubISearchApi SearchAdvanced(SearchAdvanced_String_String_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+    }
+}
+
 namespace StackExchange.Windows.Search.SearchBox
 {
     [CompilerGenerated]
@@ -102,6 +125,27 @@ namespace StackExchange.Windows.Search.SearchBox
             }
         }
 
+        global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Questions.QuestionViewModel> global::StackExchange.Windows.Search.SearchBox.ISearchViewModel.SuggestedQuestions
+        {
+            get
+            {
+                return _stubs.GetMethodStub<SuggestedQuestions_Get_Delegate>("get_SuggestedQuestions").Invoke();
+            }
+        }
+
+        string global::StackExchange.Windows.Search.SearchBox.ISearchViewModel.Query
+        {
+            get
+            {
+                return _stubs.GetMethodStub<Query_Get_Delegate>("get_Query").Invoke();
+            }
+
+            set
+            {
+                _stubs.GetMethodStub<Query_Set_Delegate>("set_Query").Invoke(value);
+            }
+        }
+
         public delegate global::StackExchange.Windows.Search.SearchBox.SiteViewModel SelectedSite_Get_Delegate();
 
         public StubISearchViewModel SelectedSite_Get(SelectedSite_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
@@ -129,6 +173,30 @@ namespace StackExchange.Windows.Search.SearchBox
         public delegate global::ReactiveUI.ReactiveCommand<global::System.Reactive.Unit, global::System.Reactive.Unit> LoadSites_Get_Delegate();
 
         public StubISearchViewModel LoadSites_Get(LoadSites_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Questions.QuestionViewModel> SuggestedQuestions_Get_Delegate();
+
+        public StubISearchViewModel SuggestedQuestions_Get(SuggestedQuestions_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate string Query_Get_Delegate();
+
+        public StubISearchViewModel Query_Get(Query_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate void Query_Set_Delegate(string value);
+
+        public StubISearchViewModel Query_Set(Query_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
