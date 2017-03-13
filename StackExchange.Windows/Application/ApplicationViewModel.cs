@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ReactiveUI;
 using Splat;
+using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Converters;
 using StackExchange.Windows.Authentication;
 using StackExchange.Windows.BindingConverters;
@@ -72,7 +73,7 @@ namespace StackExchange.Windows.Application
 
         public void OnLogin()
         {
-            var handler = new HttpClientHandler()
+            var handler = new AuthenticatedHttpClientHandler("eZclcV**uSVviAazkVJ6ug((", () => Authentication.Token)
             {
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
             };
@@ -80,7 +81,7 @@ namespace StackExchange.Windows.Application
             // TODO: Add message handler to add access token
             HttpClient = new HttpClient(handler)
             {
-                BaseAddress = new Uri("https://api.stackexchange.com/2.2")
+                BaseAddress = new Uri("https://api.stackexchange.com/2.2"),
             };
 
             Search = new SearchViewModel(this);

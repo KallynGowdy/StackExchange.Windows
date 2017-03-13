@@ -18,5 +18,13 @@ namespace StackExchange.Windows.Api
         /// <returns></returns>
         [Get("/sites")]
         Task<Response<Site>> Sites();
+
+        /// <summary>
+        /// Retrieves a list of user's associated accounts.
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [Get("/users/{ids}/associated")]
+        Task<Response<NetworkUser>> UserAssociatedAccounts(string ids);
     }
 }

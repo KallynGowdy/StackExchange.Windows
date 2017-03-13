@@ -34,11 +34,6 @@ namespace StackExchange.Windows.Search.SearchBox
             });
         }
 
-        private void SearchBox_OnGotFocus(object sender, RoutedEventArgs e)
-        {
-            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
-        }
-
         object IViewFor.ViewModel
         {
             get { return ViewModel; }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using StackExchange.Windows.Api.Models;
 
 namespace StackExchange.Windows.Search.SearchBox
@@ -9,6 +10,10 @@ namespace StackExchange.Windows.Search.SearchBox
         {
             Name = site.Name;
             ApiSiteParameter = site.ApiSiteParameter;
+            Audience = !string.IsNullOrEmpty(site.Audience) ? $"For {site.Audience}" : "";
+            LogoUrl = !string.IsNullOrEmpty(site.LogoUrl) ? new Uri(site.LogoUrl) : null;
+            IconUrl = !string.IsNullOrEmpty(site.IconUrl) ? new Uri(site.IconUrl) : null;
+            HighResolutionIconUrl = !string.IsNullOrEmpty(site.HighResolutionIconUrl) ? new Uri(site.HighResolutionIconUrl) : null;
         }
 
         public SiteViewModel()
@@ -17,5 +22,10 @@ namespace StackExchange.Windows.Search.SearchBox
 
         public string Name { get; }
         public string ApiSiteParameter { get; }
+        public string Audience { get; }
+        public Uri LogoUrl { get; }
+        public Uri IconUrl { get; }
+        public Uri HighResolutionIconUrl { get; }
+        public Uri HighResIconUrlOrFallback => HighResolutionIconUrl ?? IconUrl;
     }
 }

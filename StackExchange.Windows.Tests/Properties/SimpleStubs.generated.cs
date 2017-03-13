@@ -28,6 +28,19 @@ namespace StackExchange.Windows.Api
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
         }
+
+        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.NetworkUser>> global::StackExchange.Windows.Api.INetworkApi.UserAssociatedAccounts(string ids)
+        {
+            return _stubs.GetMethodStub<UserAssociatedAccounts_String_Delegate>("UserAssociatedAccounts").Invoke(ids);
+        }
+
+        public delegate global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.NetworkUser>> UserAssociatedAccounts_String_Delegate(string ids);
+
+        public StubINetworkApi UserAssociatedAccounts(UserAssociatedAccounts_String_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
     }
 }
 

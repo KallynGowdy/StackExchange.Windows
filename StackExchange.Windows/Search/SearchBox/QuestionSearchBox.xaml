@@ -5,66 +5,36 @@
     xmlns:local="using:StackExchange.Windows.Search.SearchBox"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:searchBoxSiteItem="using:StackExchange.Windows.Search.SearchBoxSiteItem"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="Collapsed">
+            
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
 
-    <TextBox x:Name="InputBox"
-             RelativePanel.AlignTopWithPanel="True"
-             Margin="8"
-             VerticalAlignment="Center"
-             MinWidth="300"
-             PlaceholderText="Search..."
-             GotFocus="SearchBox_OnGotFocus">
-        <FlyoutBase.AttachedFlyout>
-            <Flyout Placement="Top">
-                <StackPanel x:Name="SearchCompletionBox"
-                                            VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Left"
-                                            Visibility="Visible">
-                    <Grid x:Name="ZeroInputSearchGrid">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+    <StackPanel x:Name="SearchControlsPanel"
+                Orientation="Horizontal">
 
-                        <TextBlock Grid.Column="0"
-                                   Grid.Row="0" 
-                                   Text="Site" 
-                                   Style="{StaticResource CaptionTextBlockStyle}"
-                                   FontWeight="Bold"/>
+        <TextBox x:Name="InputBox"
+                 RelativePanel.AlignTopWithPanel="True"
+                 Margin="8"
+                 VerticalAlignment="Center"
+                 MinWidth="150"
+                 PlaceholderText="Search...">
+        </TextBox>
 
-                        <ComboBox x:Name="Site" 
-                                  Grid.Column="0"
-                                  Grid.Row="1"
-                                  Margin="0,8,0,0"
-                                  DisplayMemberPath="Name">
-                        </ComboBox>
-
-                        <TextBlock Grid.Column="0"
-                                   Grid.Row="2" 
-                                   Text="Recent" 
-                                   Style="{StaticResource CaptionTextBlockStyle}"
-                                   FontWeight="Bold"/>
-                        <ListView Grid.Column="0"
-                                  Grid.Row="3">
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="x:String">
-                                    <TextBlock Text="{x:Bind}" FontSize="14"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <x:String>Most recent questions</x:String>
-                            <x:String>Voted questions with no answers</x:String>
-                        </ListView>
-                    </Grid>
-
-                    <!--TODO: Add search results list-->
-
-                </StackPanel>
-            </Flyout>
-        </FlyoutBase.AttachedFlyout>
-    </TextBox>
+        <ComboBox x:Name="Site" 
+                  Margin="0,0,8,0"
+                  BorderThickness="0"
+                  Background="{StaticResource AppBarItemBackgroundThemeBrush}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="local:SiteViewModel">
+                    <searchBoxSiteItem:SearchBoxSiteItem ViewModel="{x:Bind}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </StackPanel>
 </UserControl>

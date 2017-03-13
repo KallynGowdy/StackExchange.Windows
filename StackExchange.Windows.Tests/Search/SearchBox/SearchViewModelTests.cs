@@ -37,7 +37,11 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
                     new Site()
                     {
                         ApiSiteParameter = "stackoverflow",
-                        Name = "Stack Overflow"
+                        Name = "Stack Overflow",
+                        Audience = "programming",
+                        LogoUrl = "https://stackoverflow.com",
+                        IconUrl = "https://stackoverflow.com/icon",
+                        HighResolutionIconUrl = "https://stackoverflow.com/hi-res"
                     },
                     new Site()
                     {
@@ -55,11 +59,19 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
                 {
                     Assert.Equal("Stack Overflow", s.Name);
                     Assert.Equal("stackoverflow", s.ApiSiteParameter);
+                    Assert.Equal("For programming", s.Audience);
+                    Assert.Equal(new Uri("https://stackoverflow.com"), s.LogoUrl);
+                    Assert.Equal(new Uri("https://stackoverflow.com/icon"), s.IconUrl);
+                    Assert.Equal(new Uri("https://stackoverflow.com/hi-res"), s.HighResolutionIconUrl);
                 },
                 s =>
                 {
                     Assert.Equal("Super User", s.Name);
                     Assert.Equal("superuser", s.ApiSiteParameter);
+                    Assert.Equal("", s.Audience);
+                    Assert.Null(s.LogoUrl);
+                    Assert.Null(s.IconUrl);
+                    Assert.Null(s.HighResolutionIconUrl);
                 });
         }
 
@@ -86,6 +98,49 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
             await Subject.LoadSites.Execute();
 
             Assert.Equal("superuser", Subject.SelectedSite.ApiSiteParameter);
+        }
+
+        [Fact]
+        public async Task Test_LoadAssociatedAccounts_Loads_A_List_Of_Sites_That_The_User_Has_Accounts_For()
+        {
+            NetworkApi.UserAssociatedAccounts(ids => Task.FromResult(new Response<NetworkUser>()
+            {
+                Items = new[]
+                {
+                    new NetworkUser()
+                    {
+                        AccountId = 1,
+                        AnswerCount = 2,
+                        Reputation = 100,
+                        SiteName = "Stack Overflow",
+                        SiteUrl = "http://stackoverflow.com",
+                        UserId = 3
+                    },
+                    new NetworkUser()
+                    {
+                        AccountId = 1,
+                        AnswerCount = 2,
+                        Reputation = 200,
+                        SiteName = "Super User",
+                        SiteUrl = "http://superuser.com",
+                        UserId = 3
+                    },
+                }
+            }));
+
+            await Subject.LoadAssociatedAccounts.Execute();
+
+            Assert.Collection(Subject.AssociatedAccounts,
+                account =>
+                {
+                    Assert.Equal("Super User", account.SiteName);
+                    Assert.Equal(200, account.Reputation);
+                },
+                account =>
+                {
+                    Assert.Equal("Stack Overflow", account.SiteName);
+                    Assert.Equal(100, account.Reputation);
+                });
         }
     }
 }
