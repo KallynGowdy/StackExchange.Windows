@@ -1,4 +1,5 @@
 using System.Reactive;
+using System.Windows.Input;
 using ReactiveUI;
 using StackExchange.Windows.Questions;
 
@@ -30,9 +31,13 @@ namespace StackExchange.Windows.Common.SearchBox
         ReactiveList<QuestionViewModel> SuggestedQuestions { get; }
 
         /// <summary>
+        /// Gets the command that can display the given question.
+        /// </summary>
+        ReactiveCommand<QuestionViewModel, Unit> DisplayQuestion { get; }
+
+        /// <summary>
         /// Gets or sets the current search query.
         /// </summary>
         string Query { get; set; }
-
     }
 }

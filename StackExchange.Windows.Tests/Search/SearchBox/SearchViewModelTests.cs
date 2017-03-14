@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,8 +9,9 @@ using Microsoft.Reactive.Testing;
 using ReactiveUI.Testing;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
+using StackExchange.Windows.Application;
 using StackExchange.Windows.Common.SearchBox;
-using StackExchange.Windows.Search.SearchBox;
+using StackExchange.Windows.Questions;
 using Xunit;
 
 namespace StackExchange.Windows.Tests.Search.SearchBox
@@ -272,6 +274,23 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
             Subject.Query = query;
 
             Assert.True(await Subject.Search.CanExecute.FirstAsync());
+        }
+
+        [Fact]
+        public async Task Test_DisplayQuestion_Navigates_With_The_Given_QuestionViewModel()
+        {
+            var application = new ApplicationViewModel();
+            var question = new QuestionViewModel();
+            Subject = new SearchViewModel(application, NetworkApi, SearchApi);
+
+            using (application.Navigate.RegisterHandler(ctx =>
+            {
+                Assert.Same(question, ctx.Input.Parameter);
+                ctx.SetOutput(Unit.Default);
+            }))
+            {
+                await Subject.DisplayQuestion.Execute(question);
+            }
         }
     }
 }

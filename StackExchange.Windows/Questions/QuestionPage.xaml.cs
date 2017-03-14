@@ -21,34 +21,29 @@ namespace StackExchange.Windows.Questions
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class QuestionsPage : Page, IViewFor<QuestionsViewModel>
+    public sealed partial class QuestionPage : Page, IViewFor<QuestionViewModel>
     {
-        public QuestionsPage()
+        public QuestionPage()
         {
             this.InitializeComponent();
             this.WhenActivated(d =>
             {
-                d(this.OneWayBind(ViewModel, vm => vm.Questions, view => view.Questions.ItemsSource));
-                d(this.Bind(ViewModel, vm => vm.SelectedQuestion, view => view.Questions.SelectedItem));
-                d(ViewModel.LoadQuestions.IsExecuting.BindTo(this, view => view.LoadingRing.IsActive));
-                
-                d(this.BindCommand(ViewModel, vm => vm.Refresh, view => view.Refresh));
-
-                d(ViewModel.LoadQuestions.Execute().Subscribe());
+                d(this.Bind(ViewModel, vm => vm.Title, view => view.QuestionTitle.Text));
             });
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            ViewModel = (QuestionViewModel) e.Parameter;
         }
 
         object IViewFor.ViewModel
         {
             get { return ViewModel; }
-            set { ViewModel = (QuestionsViewModel)value; }
+            set { ViewModel = (QuestionViewModel) value; }
         }
 
-        public QuestionsViewModel ViewModel { get; set; } = new QuestionsViewModel();
-
-        //private void SearchBox_OnLostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    SearchCompletionBox.Visibility = Visibility.Collapsed;
-        //}
+        public QuestionViewModel ViewModel { get; set; }
     }
 }

@@ -1,4 +1,7 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using Windows.Foundation;
+using Windows.UI.Xaml.Controls;
 using ReactiveUI;
 using Splat;
 
@@ -15,6 +18,14 @@ namespace StackExchange.Windows.Common.SearchBox
             {
                 d(this.Bind(ViewModel, vm => vm.Query, view => view.InputBox.Text));
                 d(this.Bind(ViewModel, vm => vm.SuggestedQuestions, view => view.InputBox.ItemsSource));
+                Observable.FromEventPattern<
+                        TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs>,
+                        AutoSuggestBox,
+                        AutoSuggestBoxSuggestionChosenEventArgs>(h => this.InputBox.SuggestionChosen += h,
+                        h => this.InputBox.SuggestionChosen -= h)
+                    .Select(ep => ep.EventArgs.SelectedItem)
+                    .InvokeCommand(ViewModel, vm => vm.DisplayQuestion)
+                    .DisposeWith(d);
             });
         }
 

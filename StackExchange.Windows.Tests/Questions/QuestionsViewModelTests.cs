@@ -11,9 +11,9 @@ using ReactiveUI;
 using ReactiveUI.Testing;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
+using StackExchange.Windows.Application;
 using StackExchange.Windows.Common.SearchBox;
 using StackExchange.Windows.Questions;
-using StackExchange.Windows.Search.SearchBox;
 using Xunit;
 
 namespace StackExchange.Windows.Tests.Questions
@@ -180,6 +180,23 @@ namespace StackExchange.Windows.Tests.Questions
                 });
 
                 Assert.Empty(Subject.Questions);
+            }
+        }
+
+        [Fact]
+        public async Task Test_DisplayQuestion_Calls_Navigate_With_The_Given_QuestionViewModel()
+        {
+            var application = new ApplicationViewModel();
+            var question = new QuestionViewModel();
+            Subject = new QuestionsViewModel(application, Search, QuestionsApi);
+
+            using (application.Navigate.RegisterHandler(ctx =>
+            {
+                Assert.Same(question, ctx.Input.Parameter);
+                ctx.SetOutput(Unit.Default);
+            }))
+            {
+                await Subject.DisplayQuestion.Execute(question);
             }
         }
     }

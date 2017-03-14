@@ -97,6 +97,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Application\ApplicationViewModel.cs" />
+    <Compile Include="Application\NavigationParams.cs" />
     <Compile Include="Authentication\AuthenticationSettings.cs" />
     <Compile Include="Authentication\AuthenticationViewModel.cs" />
     <Compile Include="BaseViewModel.cs" />
@@ -213,9 +214,7 @@
       <Name>StackExchange.Windows.Api</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

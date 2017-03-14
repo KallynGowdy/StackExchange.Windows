@@ -52,7 +52,7 @@ namespace StackExchange.Windows
             {
                 if (!context.IsHandled)
                 {
-                    if (rootFrame.Navigate(context.Input))
+                    if (NavigateByParams(context.Input))
                     {
                         context.SetOutput(Unit.Default);
                     }
@@ -72,7 +72,7 @@ namespace StackExchange.Windows
             {
                 if (!context.IsHandled)
                 {
-                    rootFrame.Navigate(context.Input);
+                    NavigateByParams(context.Input);
                     rootFrame.BackStack.Clear();
                     context.SetOutput(Unit.Default);
                 }
@@ -111,6 +111,11 @@ namespace StackExchange.Windows
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+        }
+
+        private bool NavigateByParams(NavigationParams input)
+        {
+            return rootFrame.Navigate(input.PageType, input.Parameter);
         }
 
         /// <summary>

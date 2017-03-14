@@ -39,7 +39,7 @@ namespace StackExchange.Windows.Application
         /// <summary>
         /// Gets the interaction that requests navigation to other pages.
         /// </summary>
-        public Interaction<Type, Unit> Navigate { get; } = new Interaction<Type, Unit>();
+        public Interaction<NavigationParams, Unit> Navigate { get; } = new Interaction<NavigationParams, Unit>();
 
         /// <summary>
         /// Gets the interaction that requests navigation back in the navigation stack.
@@ -49,7 +49,7 @@ namespace StackExchange.Windows.Application
         /// <summary>
         /// Gets the interaction that requests navigation to the given page type and clears the page stack at the same time.
         /// </summary>
-        public Interaction<Type, Unit> NavigateAndClearStack { get; } = new Interaction<Type, Unit>();
+        public Interaction<NavigationParams, Unit> NavigateAndClearStack { get; } = new Interaction<NavigationParams, Unit>();
 
         /// <summary>
         /// Gets or sets the site that the user is currently viewing.
@@ -109,4 +109,3 @@ namespace StackExchange.Windows.Application
         }
     }
 }
-

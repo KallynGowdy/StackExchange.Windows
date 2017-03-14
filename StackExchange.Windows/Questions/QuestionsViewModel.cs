@@ -5,6 +5,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using ReactiveUI;
 using Refit;
 using StackExchange.Windows.Api;
@@ -17,6 +18,7 @@ namespace StackExchange.Windows.Questions
     public class QuestionsViewModel : BaseViewModel, ISupportsActivation
     {
         private ReactiveList<QuestionViewModel> questions = new ReactiveList<QuestionViewModel>();
+        private QuestionViewModel selectedQuestion;
         private IQuestionsApi QuestionsApi { get; }
         private ISearchViewModel Search { get; }
 
@@ -36,12 +38,26 @@ namespace StackExchange.Windows.Questions
         public ReactiveCommand<Unit, Unit> Refresh { get; }
 
         /// <summary>
+        /// Gets the command that can display the given question.
+        /// </summary>
+        public ReactiveCommand<QuestionViewModel, Unit> DisplayQuestion { get; }
+
+        /// <summary>
         /// Gets the list of questions that have been loaded.
         /// </summary>
         public ReactiveList<QuestionViewModel> Questions
         {
             get { return questions; }
             private set { this.RaiseAndSetIfChanged(ref questions, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected question.
+        /// </summary>
+        public QuestionViewModel SelectedQuestion
+        {
+            get { return selectedQuestion; }
+            set { this.RaiseAndSetIfChanged(ref selectedQuestion, value); }
         }
 
         public QuestionsViewModel(ApplicationViewModel application = null, ISearchViewModel search = null, IQuestionsApi questionsApi = null)
@@ -59,6 +75,10 @@ namespace StackExchange.Windows.Questions
                 await Clear.Execute();
                 await LoadQuestions.Execute();
             }, canExecute: Clear.CanExecute.CombineLatest(LoadQuestions.CanExecute, (canClearExecute, canLoadExecute) => canClearExecute && canLoadExecute));
+            DisplayQuestion = ReactiveCommand.CreateFromTask(async (QuestionViewModel question) =>
+            {
+                await Application.Navigate.Handle(new NavigationParams(typeof(QuestionPage), question));
+            });
 
             this.WhenActivated(d =>
             {
@@ -66,6 +86,11 @@ namespace StackExchange.Windows.Questions
                     .Skip(1)
                     .Select(svm => Unit.Default)
                     .InvokeCommand(this, vm => vm.Refresh));
+
+                d(this.WhenAnyValue(s => s.SelectedQuestion)
+                    .Skip(1)
+                    .Where(question => question != null)
+                    .InvokeCommand(this, vm => vm.DisplayQuestion));
             });
         }
 

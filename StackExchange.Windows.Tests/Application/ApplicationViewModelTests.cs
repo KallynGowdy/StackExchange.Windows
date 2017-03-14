@@ -8,7 +8,6 @@ using StackExchange.Windows.Api;
 using StackExchange.Windows.Application;
 using StackExchange.Windows.Authentication;
 using StackExchange.Windows.Common.SearchBox;
-using StackExchange.Windows.Search.SearchBox;
 using Xunit;
 
 namespace StackExchange.Windows.Tests.Application

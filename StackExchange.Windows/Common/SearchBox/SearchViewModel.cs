@@ -46,6 +46,8 @@ namespace StackExchange.Windows.Common.SearchBox
         /// </summary>
         public ReactiveCommand<Unit, ReactiveList<QuestionViewModel>> Search { get; }
 
+        public ReactiveCommand<QuestionViewModel, Unit> DisplayQuestion { get; }
+
         /// <summary>
         /// The list of available sites.
         /// </summary>
@@ -73,7 +75,7 @@ namespace StackExchange.Windows.Common.SearchBox
             this.SearchApi = searchApi ?? Service<ISearchApi>() ?? Api<ISearchApi>();
             LoadSites = ReactiveCommand.CreateFromTask(LoadSitesImpl);
             LoadAssociatedAccounts = ReactiveCommand.CreateFromTask(LoadAssociatedAccountsImpl);
-
+            DisplayQuestion = ReactiveCommand.CreateFromTask<QuestionViewModel>(DisplayQuestionImpl);
             var canSearch = this.WhenAnyValue(vm => vm.Query).Select(q => !string.IsNullOrWhiteSpace(q));
             Search = ReactiveCommand.CreateFromTask(SearchImpl, canSearch, outputScheduler: RxApp.MainThreadScheduler);
             suggestedQuestions = Search.ToProperty(this, vm => vm.SuggestedQuestions, initialValue: new ReactiveList<QuestionViewModel>());
@@ -85,6 +87,12 @@ namespace StackExchange.Windows.Common.SearchBox
                     .Select(q => Unit.Default)
                     .InvokeCommand(this, vm => vm.Search));
             });
+        }
+
+        private async Task DisplayQuestionImpl(QuestionViewModel question)
+        {
+            await Application.Navigate.Handle(new NavigationParams(typeof(QuestionPage), question));
+            Query = "";
         }
 
         private async Task<ReactiveList<QuestionViewModel>> SearchImpl()

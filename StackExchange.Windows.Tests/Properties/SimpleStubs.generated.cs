@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Refit;
 using StackExchange.Windows.Api.Models;
 using System.Reactive;
+using System.Windows.Input;
 using ReactiveUI;
 using StackExchange.Windows.Questions;
 
@@ -133,6 +134,14 @@ namespace StackExchange.Windows.Common.SearchBox
             }
         }
 
+        global::ReactiveUI.ReactiveCommand<global::StackExchange.Windows.Questions.QuestionViewModel, global::System.Reactive.Unit> global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.DisplayQuestion
+        {
+            get
+            {
+                return _stubs.GetMethodStub<DisplayQuestion_Get_Delegate>("get_DisplayQuestion").Invoke();
+            }
+        }
+
         string global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.Query
         {
             get
@@ -181,6 +190,14 @@ namespace StackExchange.Windows.Common.SearchBox
         public delegate global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Questions.QuestionViewModel> SuggestedQuestions_Get_Delegate();
 
         public StubISearchViewModel SuggestedQuestions_Get(SuggestedQuestions_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate global::ReactiveUI.ReactiveCommand<global::StackExchange.Windows.Questions.QuestionViewModel, global::System.Reactive.Unit> DisplayQuestion_Get_Delegate();
+
+        public StubISearchViewModel DisplayQuestion_Get(DisplayQuestion_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
