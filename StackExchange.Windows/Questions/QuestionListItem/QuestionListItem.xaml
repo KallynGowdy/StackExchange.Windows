@@ -11,9 +11,9 @@
     <UserControl.Resources>
         <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
             <Button x:Name="Tag"
-                        Margin="0,0,8,0"
-                        IsEnabled="False"
-                        Content="{x:Bind}"/>
+                    Margin="0,0,8,0"
+                    IsEnabled="False"
+                    Content="{x:Bind}"/>
         </DataTemplate>
     </UserControl.Resources>
 

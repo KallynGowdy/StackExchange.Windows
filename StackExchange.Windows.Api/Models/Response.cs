@@ -19,6 +19,6 @@ namespace StackExchange.Windows.Api
         /// <summary>
         /// The array of items returned by the request.
         /// </summary>
-        public T[] Items { get; set; }
+        public T[] Items { get; set; } = new T[0];
     }
 }

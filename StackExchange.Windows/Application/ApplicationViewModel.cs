@@ -11,8 +11,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ReactiveUI;
 using Splat;
+using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Converters;
 using StackExchange.Windows.Authentication;
+using StackExchange.Windows.BindingConverters;
+using StackExchange.Windows.Search.SearchBox;
 
 namespace StackExchange.Windows.Application
 {
@@ -22,7 +25,16 @@ namespace StackExchange.Windows.Application
     public class ApplicationViewModel : ReactiveObject
     {
         private string currentSite = "stackoverflow";
+
+        /// <summary>
+        /// Gets the view model in charge of authentication.
+        /// </summary>
         public AuthenticationViewModel Authentication { get; }
+
+        /// <summary>
+        /// Gets the view model in charge of search for the site.
+        /// </summary>
+        public ISearchViewModel Search { get; private set; }
 
         /// <summary>
         /// Gets the interaction that requests navigation to other pages.
@@ -56,26 +68,32 @@ namespace StackExchange.Windows.Application
         public ApplicationViewModel()
         {
             Authentication = new AuthenticationViewModel(this);
+            Authentication.Login.Do(u => OnLogin()).Subscribe();
+        }
 
-            Authentication.Login.Do(u =>
+        public void OnLogin()
+        {
+            var handler = new AuthenticatedHttpClientHandler("eZclcV**uSVviAazkVJ6ug((", () => Authentication.Token)
             {
-                var handler = new HttpClientHandler()
-                {
-                    AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-                };
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+            };
 
-                // TODO: Add message handler to add access token
-                HttpClient = new HttpClient(handler)
-                {
-                    BaseAddress = new Uri("https://api.stackexchange.com/2.2")
-                };
-            }).Subscribe();
+            // TODO: Add message handler to add access token
+            HttpClient = new HttpClient(handler)
+            {
+                BaseAddress = new Uri("https://api.stackexchange.com/2.2"),
+            };
+
+            Search = new SearchViewModel(this);
+            Locator.CurrentMutable.RegisterConstant(Search, typeof(ISearchViewModel));
         }
 
         public void Start()
         {
             Locator.CurrentMutable.RegisterConstant(this, typeof(ApplicationViewModel));
             Locator.CurrentMutable.RegisterConstant(Authentication, typeof(AuthenticationViewModel));
+
+            Locator.CurrentMutable.Register(UriToImageSourceBindingTypeConverter.Create, typeof(IBindingTypeConverter));
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
             {

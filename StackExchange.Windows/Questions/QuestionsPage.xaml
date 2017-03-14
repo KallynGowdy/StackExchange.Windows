@@ -11,6 +11,8 @@
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     xmlns:questionListItem="using:StackExchange.Windows.Questions.QuestionListItem"
     xmlns:controls="using:StackExchange.Windows.Controls"
+    xmlns:searchBox="using:StackExchange.Windows.Search.SearchBox"
+    xmlns:siteSelector="using:StackExchange.Windows.Common.SiteSelector"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -31,9 +33,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="900"/>
+            <ColumnDefinition Width="3*" MaxWidth="900"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="Title" 
@@ -55,5 +59,33 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+
+        <ProgressRing x:Name="LoadingRing"
+                      Grid.Row="1"
+                      Grid.Column="0"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Width="40"
+                      Height="40"/>
+
+        <CommandBar x:Name="PageCommandBar"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="-8">
+            <AppBarButton x:Name="LastPage" Icon="Back" Label="Previous" />
+            <AppBarButton x:Name="NextPage" Icon="Forward" Label="Next" />
+            <AppBarSeparator/>
+            <AppBarButton x:Name="Refresh" Icon="RepeatAll" Label="Refresh"/>
+
+            <CommandBar.Content>
+                <StackPanel x:Name="CommandBarContent"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Stretch">
+                    <searchBox:QuestionSearchBox HorizontalAlignment="Stretch"/>
+                    <siteSelector:SiteSelector/>
+                </StackPanel>
+            </CommandBar.Content>
+        </CommandBar>
     </Grid>
 </Page>

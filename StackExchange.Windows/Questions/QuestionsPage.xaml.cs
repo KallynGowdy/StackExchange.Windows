@@ -29,6 +29,9 @@ namespace StackExchange.Windows.Questions
             this.WhenActivated(d =>
             {
                 d(this.OneWayBind(ViewModel, vm => vm.Questions, view => view.Questions.ItemsSource));
+                d(ViewModel.LoadQuestions.IsExecuting.BindTo(this, view => view.LoadingRing.IsActive));
+                d(this.BindCommand(ViewModel, vm => vm.Refresh, view => view.Refresh));
+
                 d(ViewModel.LoadQuestions.Execute().Subscribe());
             });
         }
@@ -36,9 +39,14 @@ namespace StackExchange.Windows.Questions
         object IViewFor.ViewModel
         {
             get { return ViewModel; }
-            set { ViewModel = (QuestionsViewModel) value; }
+            set { ViewModel = (QuestionsViewModel)value; }
         }
 
         public QuestionsViewModel ViewModel { get; set; } = new QuestionsViewModel();
+
+        //private void SearchBox_OnLostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    SearchCompletionBox.Visibility = Visibility.Collapsed;
+        //}
     }
 }

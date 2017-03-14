@@ -45,5 +45,9 @@ namespace StackExchange.Windows.Questions
             views = question.ViewCount;
             IsAnswered = question.IsAnswered;
         }
+
+        public QuestionViewModel()
+        {
+        }
     }
 }
