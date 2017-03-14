@@ -130,6 +130,9 @@
     <Compile Include="Search\SearchBox\QuestionSearchBox.xaml.cs">
       <DependentUpon>QuestionSearchBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Search\SearchBox\QuestionSearchBoxItem\QuestionSearchBoxItem.xaml.cs">
+      <DependentUpon>QuestionSearchBoxItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Search\SearchBox\SearchViewModel.cs" />
     <Compile Include="Search\SearchBox\SemanticQuery.cs" />
     <Compile Include="Search\SearchBox\SiteViewModel.cs" />
@@ -185,6 +188,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Search\SearchBox\QuestionSearchBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Search\SearchBox\QuestionSearchBoxItem\QuestionSearchBoxItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

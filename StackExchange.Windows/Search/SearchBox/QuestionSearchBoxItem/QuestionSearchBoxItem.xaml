@@ -1,0 +1,83 @@
+﻿<UserControl
+    x:Class="StackExchange.Windows.Search.SearchBox.QuestionSearchBoxItem.QuestionSearchBoxItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StackExchange.Windows.Search.SearchBox.QuestionSearchBoxItem"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
+            <Button x:Name="Tag"
+                    Margin="0,0,2,0"
+                    Padding="2"
+                    IsEnabled="False"
+                    FontSize="10"
+                    Content="{x:Bind}"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid x:Name="QuestionItemGrid"
+          HorizontalAlignment="Stretch"
+          Width="472"
+          Padding="0,8,0,8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel x:Name="ScorePanel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.RowSpan="2"
+                    Margin="0,0,8,0"
+                    Padding="8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    MinWidth="24">
+            <TextBlock x:Name="Score"
+                       HorizontalAlignment="Center"
+                       FontSize="16"/>
+        </StackPanel>
+
+        <TextBlock x:Name="QuestionTitle"
+                   Grid.Row="0"
+                   Grid.Column="1"
+                   Grid.ColumnSpan="2"
+                   TextWrapping="WrapWholeWords"/>
+
+        <ItemsControl x:Name="Tags"
+                      Grid.Row="1"
+                      Grid.Column="1"
+                      Margin="0,2,2,0"
+                      ItemTemplate="{StaticResource TagTemplate}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <StackPanel x:Name="QuestionInfoPanel"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+            <TextBlock x:Name="Owner"
+                       Margin="0,0,2,0"
+                       FontSize="12"
+                       Style="{StaticResource BodyTextBlockStyle}"/>
+            <TextBlock x:Name="Time"
+                       FontSize="12"
+                       Style="{StaticResource BodyTextBlockStyle}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
