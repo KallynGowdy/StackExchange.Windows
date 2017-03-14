@@ -1,26 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using Windows.ApplicationModel;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using ReactiveUI;
 using StackExchange.Windows.BindingConverters;
 using StackExchange.Windows.Questions;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace StackExchange.Windows.Search.SearchBox.QuestionSearchBoxItem
+namespace StackExchange.Windows.Common.SearchBox.QuestionSearchBoxItem
 {
     public sealed partial class QuestionSearchBoxItem : UserControl, IViewFor<QuestionViewModel>
     {

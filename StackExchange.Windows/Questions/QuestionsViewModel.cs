@@ -10,7 +10,7 @@ using Refit;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
 using StackExchange.Windows.Application;
-using StackExchange.Windows.Search.SearchBox;
+using StackExchange.Windows.Common.SearchBox;
 
 namespace StackExchange.Windows.Questions
 {

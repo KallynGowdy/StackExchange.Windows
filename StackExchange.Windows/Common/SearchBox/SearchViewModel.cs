@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.ViewManagement;
 using ReactiveUI;
-using Refit;
-using Splat;
 using StackExchange.Windows.Api;
-using StackExchange.Windows.Api.Models;
 using StackExchange.Windows.Application;
 using StackExchange.Windows.Questions;
 using StackExchange.Windows.User;
 
-namespace StackExchange.Windows.Search.SearchBox
+namespace StackExchange.Windows.Common.SearchBox
 {
     /// <summary>
     /// Defines a view model that represents the logic for the current search state.

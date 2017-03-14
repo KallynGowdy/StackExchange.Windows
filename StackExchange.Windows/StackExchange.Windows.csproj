@@ -115,6 +115,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Questions\QuestionPage.xaml.cs">
+      <DependentUpon>QuestionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Questions\QuestionsPage.xaml.cs">
       <DependentUpon>QuestionsPage.xaml</DependentUpon>
     </Compile>
@@ -126,16 +129,16 @@
     <Compile Include="Common\SiteSelectorItem\SiteSelectorItem.xaml.cs">
       <DependentUpon>SiteSelectorItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Search\SearchBox\ISearchViewModel.cs" />
-    <Compile Include="Search\SearchBox\QuestionSearchBox.xaml.cs">
+    <Compile Include="Common\SearchBox\ISearchViewModel.cs" />
+    <Compile Include="Common\SearchBox\QuestionSearchBox.xaml.cs">
       <DependentUpon>QuestionSearchBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Search\SearchBox\QuestionSearchBoxItem\QuestionSearchBoxItem.xaml.cs">
+    <Compile Include="Common\SearchBox\QuestionSearchBoxItem\QuestionSearchBoxItem.xaml.cs">
       <DependentUpon>QuestionSearchBoxItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Search\SearchBox\SearchViewModel.cs" />
-    <Compile Include="Search\SearchBox\SemanticQuery.cs" />
-    <Compile Include="Search\SearchBox\SiteViewModel.cs" />
+    <Compile Include="Common\SearchBox\SearchViewModel.cs" />
+    <Compile Include="Common\SearchBox\SemanticQuery.cs" />
+    <Compile Include="Common\SearchBox\SiteViewModel.cs" />
     <Compile Include="User\NetworkUserViewModel.cs" />
     <Compile Include="User\UserCard\UserCard.xaml.cs">
       <DependentUpon>UserCard.xaml</DependentUpon>
@@ -175,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Questions\QuestionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Questions\QuestionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -187,11 +194,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Search\SearchBox\QuestionSearchBox.xaml">
+    <Page Include="Common\SearchBox\QuestionSearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Search\SearchBox\QuestionSearchBoxItem\QuestionSearchBoxItem.xaml">
+    <Page Include="Common\SearchBox\QuestionSearchBoxItem\QuestionSearchBoxItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -206,7 +213,9 @@
       <Name>StackExchange.Windows.Api</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

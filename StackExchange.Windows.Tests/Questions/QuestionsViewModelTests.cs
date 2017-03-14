@@ -11,6 +11,7 @@ using ReactiveUI;
 using ReactiveUI.Testing;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
+using StackExchange.Windows.Common.SearchBox;
 using StackExchange.Windows.Questions;
 using StackExchange.Windows.Search.SearchBox;
 using Xunit;

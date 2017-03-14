@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StackExchange.Windows.Search.SearchBox
+namespace StackExchange.Windows.Common.SearchBox
 {
     /// <summary>
     /// Defines a class that represents a query with semantic information.

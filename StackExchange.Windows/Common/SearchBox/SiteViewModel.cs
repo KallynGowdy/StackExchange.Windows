@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using StackExchange.Windows.Api.Models;
 
-namespace StackExchange.Windows.Search.SearchBox
+namespace StackExchange.Windows.Common.SearchBox
 {
     public class SiteViewModel
     {

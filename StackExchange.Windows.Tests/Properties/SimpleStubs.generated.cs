@@ -89,14 +89,14 @@ namespace StackExchange.Windows.Api
     }
 }
 
-namespace StackExchange.Windows.Search.SearchBox
+namespace StackExchange.Windows.Common.SearchBox
 {
     [CompilerGenerated]
     public class StubISearchViewModel : ISearchViewModel
     {
         private readonly StubContainer<StubISearchViewModel> _stubs = new StubContainer<StubISearchViewModel>();
 
-        global::StackExchange.Windows.Search.SearchBox.SiteViewModel global::StackExchange.Windows.Search.SearchBox.ISearchViewModel.SelectedSite
+        global::StackExchange.Windows.Common.SearchBox.SiteViewModel global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.SelectedSite
         {
             get
             {
@@ -109,7 +109,7 @@ namespace StackExchange.Windows.Search.SearchBox
             }
         }
 
-        global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Search.SearchBox.SiteViewModel> global::StackExchange.Windows.Search.SearchBox.ISearchViewModel.AvailableSites
+        global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Common.SearchBox.SiteViewModel> global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.AvailableSites
         {
             get
             {
@@ -117,7 +117,7 @@ namespace StackExchange.Windows.Search.SearchBox
             }
         }
 
-        global::ReactiveUI.ReactiveCommand<global::System.Reactive.Unit, global::System.Reactive.Unit> global::StackExchange.Windows.Search.SearchBox.ISearchViewModel.LoadSites
+        global::ReactiveUI.ReactiveCommand<global::System.Reactive.Unit, global::System.Reactive.Unit> global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.LoadSites
         {
             get
             {
@@ -125,7 +125,7 @@ namespace StackExchange.Windows.Search.SearchBox
             }
         }
 
-        global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Questions.QuestionViewModel> global::StackExchange.Windows.Search.SearchBox.ISearchViewModel.SuggestedQuestions
+        global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Questions.QuestionViewModel> global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.SuggestedQuestions
         {
             get
             {
@@ -133,7 +133,7 @@ namespace StackExchange.Windows.Search.SearchBox
             }
         }
 
-        string global::StackExchange.Windows.Search.SearchBox.ISearchViewModel.Query
+        string global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.Query
         {
             get
             {
@@ -146,7 +146,7 @@ namespace StackExchange.Windows.Search.SearchBox
             }
         }
 
-        public delegate global::StackExchange.Windows.Search.SearchBox.SiteViewModel SelectedSite_Get_Delegate();
+        public delegate global::StackExchange.Windows.Common.SearchBox.SiteViewModel SelectedSite_Get_Delegate();
 
         public StubISearchViewModel SelectedSite_Get(SelectedSite_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
@@ -154,7 +154,7 @@ namespace StackExchange.Windows.Search.SearchBox
             return this;
         }
 
-        public delegate void SelectedSite_Set_Delegate(global::StackExchange.Windows.Search.SearchBox.SiteViewModel value);
+        public delegate void SelectedSite_Set_Delegate(global::StackExchange.Windows.Common.SearchBox.SiteViewModel value);
 
         public StubISearchViewModel SelectedSite_Set(SelectedSite_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
@@ -162,7 +162,7 @@ namespace StackExchange.Windows.Search.SearchBox
             return this;
         }
 
-        public delegate global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Search.SearchBox.SiteViewModel> AvailableSites_Get_Delegate();
+        public delegate global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Common.SearchBox.SiteViewModel> AvailableSites_Get_Delegate();
 
         public StubISearchViewModel AvailableSites_Get(AvailableSites_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
         {

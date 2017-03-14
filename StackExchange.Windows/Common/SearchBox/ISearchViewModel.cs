@@ -2,7 +2,7 @@ using System.Reactive;
 using ReactiveUI;
 using StackExchange.Windows.Questions;
 
-namespace StackExchange.Windows.Search.SearchBox
+namespace StackExchange.Windows.Common.SearchBox
 {
     /// <summary>
     /// Defines an interface for a view model that represents the current search state of the application.

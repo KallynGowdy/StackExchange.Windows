@@ -11,8 +11,8 @@
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     xmlns:questionListItem="using:StackExchange.Windows.Questions.QuestionListItem"
     xmlns:controls="using:StackExchange.Windows.Controls"
-    xmlns:searchBox="using:StackExchange.Windows.Search.SearchBox"
     xmlns:siteSelector="using:StackExchange.Windows.Common.SiteSelector"
+    xmlns:searchBox="using:StackExchange.Windows.Common.SearchBox"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>

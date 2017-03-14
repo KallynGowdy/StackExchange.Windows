@@ -15,7 +15,7 @@ using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Converters;
 using StackExchange.Windows.Authentication;
 using StackExchange.Windows.BindingConverters;
-using StackExchange.Windows.Search.SearchBox;
+using StackExchange.Windows.Common.SearchBox;
 
 namespace StackExchange.Windows.Application
 {
