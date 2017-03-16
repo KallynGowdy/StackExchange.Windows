@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Navigation;
 using ReactiveUI;
 using StackExchange.Windows.Application;
 using StackExchange.Windows.Login;
+using Windows.UI.Core;
 
 namespace StackExchange.Windows
 {
@@ -111,6 +112,14 @@ namespace StackExchange.Windows
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+        }
+
+        private void App_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            rootFrame.GoBack();
         }
 
         private bool NavigateByParams(NavigationParams input)

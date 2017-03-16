@@ -22,6 +22,7 @@ namespace StackExchange.Windows.Questions
         public string[] Tags { get; }
         public string Body { get; }
         public UserCardViewModel Asker { get; }
+        public string Score { get;  }
 
         public QuestionPageViewModel(Question question, ApplicationViewModel application = null, IQuestionsApi questionsApi = null)
             : base(application)
@@ -31,6 +32,7 @@ namespace StackExchange.Windows.Questions
             QuestionsApi = questionsApi ?? Api<IQuestionsApi>();
             Title = question.DecodedTitle;
             Tags = question.Tags;
+            Score = question.Score.ToString();
             Body = htmlHelper.WrapPostBody(question.Body);
             Asker = new UserCardViewModel(question);
         }

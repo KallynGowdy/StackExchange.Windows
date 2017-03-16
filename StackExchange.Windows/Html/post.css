@@ -1,11 +1,14 @@
 ﻿body {
     font-family: "Segoe UI", Calibri, Candara, Segoe, Optima, Arial, sans-serif;
+    overflow: hidden;
+    -ms-content-zooming: none;
 }
 
 pre {
     font-family: Consolas, Courier, monospace;
     background: #eee;
     padding: 8px;
+    max-width: 900px;
 }
 
 :not(pre) > code {

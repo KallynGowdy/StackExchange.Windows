@@ -9,24 +9,65 @@
     xmlns:siteSelector="using:StackExchange.Windows.Common.SiteSelector"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="PageGrid"
+          Padding="8"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="900" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="QuestionTitle"
                    Grid.Column="0"
-                   Grid.Row="0"/>
+                   Grid.Row="0"
+                   Style="{StaticResource TitleTextBlockStyle}"/>
 
-        <WebView x:Name="QuestionBody"
-                 Grid.Column="0"
-                 Grid.Row="1"/>
-        
+        <Line Grid.Row="1"
+              Grid.Column="0"
+              HorizontalAlignment="Stretch"
+              Margin="50, 10, 50, 10" 
+              Stroke="Black" 
+              Stretch="Fill"
+              StrokeThickness="4" />
+
+        <ScrollViewer x:Name="MainContent" 
+                      Grid.Column="0"
+                      Grid.Row="2"
+                      VerticalScrollMode="Enabled">
+            <Grid x:Name="MainContentGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="QuestionScore"
+                           Grid.Column="0"
+                           Grid.Row="0"
+                           FontSize="24"
+                           Margin="8,24,8,0"/>
+
+                <WebView x:Name="QuestionBody"
+                         Grid.Column="1"
+                         Grid.Row="0"
+                         Margin="0,0,0,8"
+                         VerticalAlignment="Stretch"/>
+            </Grid>
+        </ScrollViewer>
+
         <CommandBar x:Name="CommandBar"
                     Grid.Column="0"
-                    Grid.Row="2">
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    Margin="-8">
             <CommandBar.Content>
                 <StackPanel x:Name="CommandBarContent"
                             Orientation="Horizontal">

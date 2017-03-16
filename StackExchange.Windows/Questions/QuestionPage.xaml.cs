@@ -31,6 +31,7 @@ namespace StackExchange.Windows.Questions
             this.WhenActivated(d =>
             {
                 d(this.Bind(ViewModel, vm => vm.Title, view => view.QuestionTitle.Text));
+                d(this.Bind(ViewModel, vm => vm.Score, view => view.QuestionScore.Text));
 
                 d(ViewModel.WhenAnyValue(vm => vm.Body)
                     .ObserveOn(RxApp.MainThreadScheduler)
