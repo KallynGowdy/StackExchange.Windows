@@ -187,7 +187,8 @@ namespace StackExchange.Windows.Tests.Questions
         public async Task Test_DisplayQuestion_Calls_Navigate_With_The_Given_QuestionViewModel()
         {
             var application = new ApplicationViewModel();
-            var question = new QuestionItemViewModel();
+            var question = new Question();
+            var questionViewModel = new QuestionItemViewModel(question);
             Subject = new QuestionsViewModel(application, Search, QuestionsApi);
 
             using (application.Navigate.RegisterHandler(ctx =>
@@ -196,7 +197,7 @@ namespace StackExchange.Windows.Tests.Questions
                 ctx.SetOutput(Unit.Default);
             }))
             {
-                await Subject.DisplayQuestion.Execute(question);
+                await Subject.DisplayQuestion.Execute(questionViewModel);
             }
         }
     }

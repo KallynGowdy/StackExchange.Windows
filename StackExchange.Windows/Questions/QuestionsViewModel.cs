@@ -77,7 +77,7 @@ namespace StackExchange.Windows.Questions
             }, canExecute: Clear.CanExecute.CombineLatest(LoadQuestions.CanExecute, (canClearExecute, canLoadExecute) => canClearExecute && canLoadExecute));
             DisplayQuestion = ReactiveCommand.CreateFromTask(async (QuestionItemViewModel question) =>
             {
-                await Application.Navigate.Handle(new NavigationParams(typeof(QuestionPage), question));
+                await Application.Navigate.Handle(new NavigationParams(typeof(QuestionPage), question.Question));
             });
 
             this.WhenActivated(d =>

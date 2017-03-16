@@ -14,17 +14,17 @@ namespace StackExchange.Windows.User.UserCard
     public class UserCardViewModel : ReactiveObject
     {
         public string Owner { get; }
-
         public string PostedOn { get; }
-
         public Uri ImageUrl { get; }
 
         public UserCardViewModel(Post post)
         {
-            Owner = WebUtility.HtmlDecode(post.Owner.DisplayName);
+            if (post.Owner != null)
+            {
+                Owner = post.Owner.DecodedDisplayName;
+                ImageUrl = new Uri(post.Owner.ProfileImage);
+            }
             PostedOn = post.FormattedDate;
-            ImageUrl = new Uri(post.Owner.ProfileImage);
         }
-
     }
 }

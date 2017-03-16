@@ -11,6 +11,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -19,9 +20,13 @@
                    Grid.Column="0"
                    Grid.Row="0"/>
 
+        <WebView x:Name="QuestionBody"
+                 Grid.Column="0"
+                 Grid.Row="1"/>
+        
         <CommandBar x:Name="CommandBar"
                     Grid.Column="0"
-                    Grid.Row="1">
+                    Grid.Row="2">
             <CommandBar.Content>
                 <StackPanel x:Name="CommandBarContent"
                             Orientation="Horizontal">

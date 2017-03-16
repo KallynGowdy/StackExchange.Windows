@@ -19,6 +19,6 @@ namespace StackExchange.Windows.Api
         /// <param name="site"></param>
         /// <returns></returns>
         [Get("/search/advanced")]
-        Task<Response<Question>> SearchAdvanced(string q, string site);
+        Task<Response<Question>> SearchAdvanced(string q, string site, string filter = "withbody");
     }
 }

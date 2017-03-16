@@ -16,17 +16,18 @@ namespace StackExchange.Windows.Questions
     /// </summary>
     public class QuestionItemViewModel
     {
-        private int score;
-        private int answers;
-        private int views;
+        private readonly int score;
+        private readonly int answers;
+        private readonly int views;
 
         public string Title { get; }
         public string[] Tags { get; }
-        public UserCardViewModel User { get; }
         public string Score => score.ToString();
         public string Answers => answers.ToString();
         public string Views => views.ToString();
+        public UserCardViewModel User { get; }
         public bool IsAnswered { get; }
+        public Question Question { get; }
 
         /// <summary>
         /// Returns this object.
@@ -34,10 +35,10 @@ namespace StackExchange.Windows.Questions
         /// </summary>
         public QuestionItemViewModel Self => this;
 
-
         public QuestionItemViewModel(Question question)
         {
-            Title = WebUtility.HtmlDecode(question.Title);
+            Question = question;
+            Title = question.DecodedTitle;
             Tags = question.Tags;
             User = new UserCardViewModel(question);
             score = question.Score;

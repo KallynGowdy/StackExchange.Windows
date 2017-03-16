@@ -17,5 +17,15 @@ namespace StackExchange.Windows.Api
             int page = 1,
             int pagesize = 10,
             string filter = "withbody");
+
+        [Get("/questions/{questionIds}/answers")]
+        Task<Response<Answer>> QuestionAnswers(
+            string questionIds,
+            string site,
+            string order = "desc",
+            string sort = "activity",
+            int page = 1,
+            int pagesize = 10,
+            string filter = "withbody");
     }
 }

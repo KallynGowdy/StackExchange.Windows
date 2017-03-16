@@ -91,7 +91,7 @@ namespace StackExchange.Windows.Common.SearchBox
 
         private async Task DisplayQuestionImpl(QuestionItemViewModel question)
         {
-            await Application.Navigate.Handle(new NavigationParams(typeof(QuestionPage), question));
+            await Application.Navigate.Handle(new NavigationParams(typeof(QuestionPage), question.Question));
             Query = "";
         }
 
