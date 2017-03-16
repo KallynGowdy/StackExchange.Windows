@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="Controls\RefreshableListView.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Html\HtmlHelper.cs" />
     <Compile Include="Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -154,6 +155,40 @@
     <None Include="StackExchange.Windows_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Html\lib\prettify.js" />
+    <Content Include="Html\lib\themes\atelier-cave-dark.css" />
+    <Content Include="Html\lib\themes\atelier-cave-light.css" />
+    <Content Include="Html\lib\themes\atelier-dune-dark.css" />
+    <Content Include="Html\lib\themes\atelier-dune-light.css" />
+    <Content Include="Html\lib\themes\atelier-estuary-dark.css" />
+    <Content Include="Html\lib\themes\atelier-estuary-light.css" />
+    <Content Include="Html\lib\themes\atelier-forest-dark.css" />
+    <Content Include="Html\lib\themes\atelier-forest-light.css" />
+    <Content Include="Html\lib\themes\atelier-heath-dark.css" />
+    <Content Include="Html\lib\themes\atelier-heath-light.css" />
+    <Content Include="Html\lib\themes\atelier-lakeside-dark.css" />
+    <Content Include="Html\lib\themes\atelier-lakeside-light.css" />
+    <Content Include="Html\lib\themes\atelier-plateau-dark.css" />
+    <Content Include="Html\lib\themes\atelier-plateau-light.css" />
+    <Content Include="Html\lib\themes\atelier-savanna-dark.css" />
+    <Content Include="Html\lib\themes\atelier-savanna-light.css" />
+    <Content Include="Html\lib\themes\atelier-seaside-dark.css" />
+    <Content Include="Html\lib\themes\atelier-seaside-light.css" />
+    <Content Include="Html\lib\themes\atelier-sulphurpool-dark.css" />
+    <Content Include="Html\lib\themes\atelier-sulphurpool-light.css" />
+    <Content Include="Html\lib\themes\github-v2.css" />
+    <Content Include="Html\lib\themes\github.css" />
+    <Content Include="Html\lib\themes\hemisu-dark.css" />
+    <Content Include="Html\lib\themes\hemisu-light.css" />
+    <Content Include="Html\lib\themes\tomorrow-night-blue.css" />
+    <Content Include="Html\lib\themes\tomorrow-night-bright.css" />
+    <Content Include="Html\lib\themes\tomorrow-night-eighties.css" />
+    <Content Include="Html\lib\themes\tomorrow-night.css" />
+    <Content Include="Html\lib\themes\tomorrow.css" />
+    <Content Include="Html\lib\themes\tranquil-heart.css" />
+    <Content Include="Html\lib\themes\vibrant-ink.css" />
+    <Content Include="Html\mark_prettyprint.js" />
+    <Content Include="Html\post.css" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

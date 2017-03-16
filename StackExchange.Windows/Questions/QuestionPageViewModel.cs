@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
 using StackExchange.Windows.Application;
+using StackExchange.Windows.Html;
 using StackExchange.Windows.User.UserCard;
 
 namespace StackExchange.Windows.Questions
@@ -25,10 +26,12 @@ namespace StackExchange.Windows.Questions
         public QuestionPageViewModel(Question question, ApplicationViewModel application = null, IQuestionsApi questionsApi = null)
             : base(application)
         {
+            var htmlHelper = new HtmlHelper();
+
             QuestionsApi = questionsApi ?? Api<IQuestionsApi>();
             Title = question.DecodedTitle;
             Tags = question.Tags;
-            Body = question.Body;
+            Body = htmlHelper.WrapPostBody(question.Body);
             Asker = new UserCardViewModel(question);
         }
     }
