@@ -119,11 +119,12 @@
     <Compile Include="Questions\QuestionPage.xaml.cs">
       <DependentUpon>QuestionPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Questions\QuestionPageViewModel.cs" />
     <Compile Include="Questions\QuestionsPage.xaml.cs">
       <DependentUpon>QuestionsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Questions\QuestionsViewModel.cs" />
-    <Compile Include="Questions\QuestionViewModel.cs" />
+    <Compile Include="Questions\QuestionItemViewModel.cs" />
     <Compile Include="Questions\QuestionListItem\QuestionListItem.xaml.cs">
       <DependentUpon>QuestionListItem.xaml</DependentUpon>
     </Compile>

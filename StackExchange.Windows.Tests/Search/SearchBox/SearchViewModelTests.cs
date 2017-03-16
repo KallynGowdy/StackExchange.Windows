@@ -280,7 +280,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         public async Task Test_DisplayQuestion_Navigates_With_The_Given_QuestionViewModel()
         {
             var application = new ApplicationViewModel();
-            var question = new QuestionViewModel();
+            var question = new QuestionItemViewModel();
             Subject = new SearchViewModel(application, NetworkApi, SearchApi);
 
             using (application.Navigate.RegisterHandler(ctx =>

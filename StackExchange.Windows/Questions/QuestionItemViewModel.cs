@@ -14,7 +14,7 @@ namespace StackExchange.Windows.Questions
     /// <summary>
     /// Defines a view model for <see cref="Question"/> models.
     /// </summary>
-    public class QuestionViewModel
+    public class QuestionItemViewModel
     {
         private int score;
         private int answers;
@@ -32,10 +32,10 @@ namespace StackExchange.Windows.Questions
         /// Returns this object.
         /// Workaround for XAML ListView item bindings to the entire object.
         /// </summary>
-        public QuestionViewModel Self => this;
+        public QuestionItemViewModel Self => this;
 
 
-        public QuestionViewModel(Question question)
+        public QuestionItemViewModel(Question question)
         {
             Title = WebUtility.HtmlDecode(question.Title);
             Tags = question.Tags;
@@ -46,7 +46,7 @@ namespace StackExchange.Windows.Questions
             IsAnswered = question.IsAnswered;
         }
 
-        public QuestionViewModel()
+        public QuestionItemViewModel()
         {
         }
     }

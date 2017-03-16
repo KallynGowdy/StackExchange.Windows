@@ -126,7 +126,7 @@ namespace StackExchange.Windows.Common.SearchBox
             }
         }
 
-        global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Questions.QuestionViewModel> global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.SuggestedQuestions
+        global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Questions.QuestionItemViewModel> global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.SuggestedQuestions
         {
             get
             {
@@ -134,7 +134,7 @@ namespace StackExchange.Windows.Common.SearchBox
             }
         }
 
-        global::ReactiveUI.ReactiveCommand<global::StackExchange.Windows.Questions.QuestionViewModel, global::System.Reactive.Unit> global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.DisplayQuestion
+        global::ReactiveUI.ReactiveCommand<global::StackExchange.Windows.Questions.QuestionItemViewModel, global::System.Reactive.Unit> global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.DisplayQuestion
         {
             get
             {
@@ -187,7 +187,7 @@ namespace StackExchange.Windows.Common.SearchBox
             return this;
         }
 
-        public delegate global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Questions.QuestionViewModel> SuggestedQuestions_Get_Delegate();
+        public delegate global::ReactiveUI.ReactiveList<global::StackExchange.Windows.Questions.QuestionItemViewModel> SuggestedQuestions_Get_Delegate();
 
         public StubISearchViewModel SuggestedQuestions_Get(SuggestedQuestions_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
@@ -195,7 +195,7 @@ namespace StackExchange.Windows.Common.SearchBox
             return this;
         }
 
-        public delegate global::ReactiveUI.ReactiveCommand<global::StackExchange.Windows.Questions.QuestionViewModel, global::System.Reactive.Unit> DisplayQuestion_Get_Delegate();
+        public delegate global::ReactiveUI.ReactiveCommand<global::StackExchange.Windows.Questions.QuestionItemViewModel, global::System.Reactive.Unit> DisplayQuestion_Get_Delegate();
 
         public StubISearchViewModel DisplayQuestion_Get(DisplayQuestion_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
         {

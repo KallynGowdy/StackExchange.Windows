@@ -17,7 +17,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Name="QuestionTemplate" x:DataType="local:QuestionViewModel">
+            <DataTemplate x:Name="QuestionTemplate" x:DataType="local:QuestionItemViewModel">
                 <!-- 
                 Bind Question to Self because if we just use {x:Bind} then the Question will be set to null, activated (WhenActivated called), and then set to the correct question.
                 -->

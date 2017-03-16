@@ -12,19 +12,19 @@ using StackExchange.Windows.BindingConverters;
 
 namespace StackExchange.Windows.Questions.QuestionListItem
 {
-    public sealed partial class QuestionListItem : UserControl, IViewFor<QuestionViewModel>
+    public sealed partial class QuestionListItem : UserControl, IViewFor<QuestionItemViewModel>
     {
         public static readonly DependencyProperty QuestionProperty = DependencyProperty.Register(
             nameof(Question),
-            typeof(QuestionViewModel),
+            typeof(QuestionItemViewModel),
             typeof(QuestionListItem),
             new PropertyMetadata(null));
 
-        public QuestionViewModel Question
+        public QuestionItemViewModel Question
         {
             get
             {
-                return (QuestionViewModel)GetValue(QuestionProperty);
+                return (QuestionItemViewModel)GetValue(QuestionProperty);
             }
             set
             {
@@ -53,10 +53,10 @@ namespace StackExchange.Windows.Questions.QuestionListItem
         object IViewFor.ViewModel
         {
             get { return ViewModel; }
-            set { ViewModel = (QuestionViewModel) value; }
+            set { ViewModel = (QuestionItemViewModel) value; }
         }
 
-        public QuestionViewModel ViewModel
+        public QuestionItemViewModel ViewModel
         {
             get { return Question; }
             set { Question = value; }

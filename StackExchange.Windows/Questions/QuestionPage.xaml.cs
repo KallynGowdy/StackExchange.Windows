@@ -21,7 +21,7 @@ namespace StackExchange.Windows.Questions
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class QuestionPage : Page, IViewFor<QuestionViewModel>
+    public sealed partial class QuestionPage : Page, IViewFor<QuestionItemViewModel>
     {
         public QuestionPage()
         {
@@ -35,15 +35,15 @@ namespace StackExchange.Windows.Questions
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            ViewModel = (QuestionViewModel) e.Parameter;
+            ViewModel = (QuestionItemViewModel) e.Parameter;
         }
 
         object IViewFor.ViewModel
         {
             get { return ViewModel; }
-            set { ViewModel = (QuestionViewModel) value; }
+            set { ViewModel = (QuestionItemViewModel) value; }
         }
 
-        public QuestionViewModel ViewModel { get; set; }
+        public QuestionItemViewModel ViewModel { get; set; }
     }
 }

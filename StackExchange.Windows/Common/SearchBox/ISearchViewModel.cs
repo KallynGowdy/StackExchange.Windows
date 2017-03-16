@@ -28,12 +28,12 @@ namespace StackExchange.Windows.Common.SearchBox
         /// <summary>
         /// Gets the suggested list of questions found from the <see cref="Query"/>.
         /// </summary>
-        ReactiveList<QuestionViewModel> SuggestedQuestions { get; }
+        ReactiveList<QuestionItemViewModel> SuggestedQuestions { get; }
 
         /// <summary>
         /// Gets the command that can display the given question.
         /// </summary>
-        ReactiveCommand<QuestionViewModel, Unit> DisplayQuestion { get; }
+        ReactiveCommand<QuestionItemViewModel, Unit> DisplayQuestion { get; }
 
         /// <summary>
         /// Gets or sets the current search query.

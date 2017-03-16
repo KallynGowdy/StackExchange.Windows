@@ -10,7 +10,7 @@ using StackExchange.Windows.Questions;
 
 namespace StackExchange.Windows.Common.SearchBox.QuestionSearchBoxItem
 {
-    public sealed partial class QuestionSearchBoxItem : UserControl, IViewFor<QuestionViewModel>
+    public sealed partial class QuestionSearchBoxItem : UserControl, IViewFor<QuestionItemViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
             nameof(ViewModel),
@@ -39,12 +39,12 @@ namespace StackExchange.Windows.Common.SearchBox.QuestionSearchBoxItem
         object IViewFor.ViewModel
         {
             get { return ViewModel; }
-            set { ViewModel = (QuestionViewModel)value; }
+            set { ViewModel = (QuestionItemViewModel)value; }
         }
 
-        public QuestionViewModel ViewModel
+        public QuestionItemViewModel ViewModel
         {
-            get { return (QuestionViewModel)GetValue(ViewModelProperty); }
+            get { return (QuestionItemViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
     }

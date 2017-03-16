@@ -17,8 +17,8 @@ namespace StackExchange.Windows.Questions
 {
     public class QuestionsViewModel : BaseViewModel, ISupportsActivation
     {
-        private ReactiveList<QuestionViewModel> questions = new ReactiveList<QuestionViewModel>();
-        private QuestionViewModel selectedQuestion;
+        private ReactiveList<QuestionItemViewModel> questions = new ReactiveList<QuestionItemViewModel>();
+        private QuestionItemViewModel selectedQuestion;
         private IQuestionsApi QuestionsApi { get; }
         private ISearchViewModel Search { get; }
 
@@ -40,12 +40,12 @@ namespace StackExchange.Windows.Questions
         /// <summary>
         /// Gets the command that can display the given question.
         /// </summary>
-        public ReactiveCommand<QuestionViewModel, Unit> DisplayQuestion { get; }
+        public ReactiveCommand<QuestionItemViewModel, Unit> DisplayQuestion { get; }
 
         /// <summary>
         /// Gets the list of questions that have been loaded.
         /// </summary>
-        public ReactiveList<QuestionViewModel> Questions
+        public ReactiveList<QuestionItemViewModel> Questions
         {
             get { return questions; }
             private set { this.RaiseAndSetIfChanged(ref questions, value); }
@@ -54,7 +54,7 @@ namespace StackExchange.Windows.Questions
         /// <summary>
         /// Gets or sets the selected question.
         /// </summary>
-        public QuestionViewModel SelectedQuestion
+        public QuestionItemViewModel SelectedQuestion
         {
             get { return selectedQuestion; }
             set { this.RaiseAndSetIfChanged(ref selectedQuestion, value); }
@@ -75,7 +75,7 @@ namespace StackExchange.Windows.Questions
                 await Clear.Execute();
                 await LoadQuestions.Execute();
             }, canExecute: Clear.CanExecute.CombineLatest(LoadQuestions.CanExecute, (canClearExecute, canLoadExecute) => canClearExecute && canLoadExecute));
-            DisplayQuestion = ReactiveCommand.CreateFromTask(async (QuestionViewModel question) =>
+            DisplayQuestion = ReactiveCommand.CreateFromTask(async (QuestionItemViewModel question) =>
             {
                 await Application.Navigate.Handle(new NavigationParams(typeof(QuestionPage), question));
             });
@@ -108,8 +108,8 @@ namespace StackExchange.Windows.Questions
                 }
             }
             var response = await QuestionsApi.Questions(Search.SelectedSite.ApiSiteParameter);
-            var questions = response.Items.Select(q => new QuestionViewModel(q)).ToArray();
-            Questions = new ReactiveList<QuestionViewModel>(questions);
+            var questions = response.Items.Select(q => new QuestionItemViewModel(q)).ToArray();
+            Questions = new ReactiveList<QuestionItemViewModel>(questions);
         }
 
         public ViewModelActivator Activator { get; } = new ViewModelActivator();

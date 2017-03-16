@@ -40,7 +40,7 @@ namespace StackExchange.Windows.Tests.Questions
         [Fact]
         public async Task Test_Clear_Removes_Questions_From_The_Questions_List()
         {
-            Subject.Questions.Add(new QuestionViewModel());
+            Subject.Questions.Add(new QuestionItemViewModel());
 
             await Subject.Clear.Execute();
 
@@ -51,7 +51,7 @@ namespace StackExchange.Windows.Tests.Questions
         public async Task Test_Refresh_Clears_And_Loads_Questions()
         {
             Site = new SiteViewModel(new Site());
-            Subject.Questions.Add(new QuestionViewModel());
+            Subject.Questions.Add(new QuestionItemViewModel());
             QuestionsApi.Questions(
                 (site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()
                 {
@@ -170,7 +170,7 @@ namespace StackExchange.Windows.Tests.Questions
             var searchApi = new StubISearchApi();
             var search = new SearchViewModel(networkApi: api, searchApi: searchApi);
             Subject = new QuestionsViewModel(search: search, questionsApi: QuestionsApi);
-            Subject.Questions.Add(new QuestionViewModel());
+            Subject.Questions.Add(new QuestionItemViewModel());
 
             using (Subject.Activator.Activate())
             {
@@ -187,7 +187,7 @@ namespace StackExchange.Windows.Tests.Questions
         public async Task Test_DisplayQuestion_Calls_Navigate_With_The_Given_QuestionViewModel()
         {
             var application = new ApplicationViewModel();
-            var question = new QuestionViewModel();
+            var question = new QuestionItemViewModel();
             Subject = new QuestionsViewModel(application, Search, QuestionsApi);
 
             using (application.Navigate.RegisterHandler(ctx =>

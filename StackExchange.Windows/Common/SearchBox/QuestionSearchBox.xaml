@@ -19,7 +19,7 @@
                     VerticalAlignment="Top"
                     PlaceholderText="Search...">
         <AutoSuggestBox.ItemTemplate>
-            <DataTemplate x:DataType="questions:QuestionViewModel">
+            <DataTemplate x:DataType="questions:QuestionItemViewModel">
                 <questionSearchBoxItem:QuestionSearchBoxItem ViewModel="{x:Bind}"/>
             </DataTemplate>
         </AutoSuggestBox.ItemTemplate>
