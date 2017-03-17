@@ -32,6 +32,7 @@ namespace StackExchange.Windows.Questions
             {
                 d(this.Bind(ViewModel, vm => vm.Title, view => view.QuestionTitle.Text));
                 d(this.Bind(ViewModel, vm => vm.Score, view => view.QuestionScore.Text));
+                d(this.OneWayBind(ViewModel, vm => vm.Asker, view => view.Asker.User));
 
                 d(ViewModel.WhenAnyValue(vm => vm.Body)
                     .ObserveOn(RxApp.MainThreadScheduler)
@@ -57,6 +58,7 @@ namespace StackExchange.Windows.Questions
         private async void QuestionBody_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {
             await sender.ResizeHeightToContentAsync();
+            MainContent.UpdateLayout();
         }
     }
 }

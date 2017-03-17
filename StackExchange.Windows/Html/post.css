@@ -1,6 +1,7 @@
 ﻿body {
     font-family: "Segoe UI", Calibri, Candara, Segoe, Optima, Arial, sans-serif;
     -ms-content-zooming: none;
+    margin: 0;
 }
 
 pre {

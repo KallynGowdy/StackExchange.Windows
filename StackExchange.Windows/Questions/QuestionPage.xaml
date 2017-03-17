@@ -7,10 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:searchBox="using:StackExchange.Windows.Common.SearchBox"
     xmlns:siteSelector="using:StackExchange.Windows.Common.SiteSelector"
+    xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     mc:Ignorable="d">
 
     <Grid x:Name="PageGrid"
-          Padding="8"
+          Padding="16"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -23,36 +24,62 @@
         <ScrollViewer x:Name="ScrollableContent"
                       Grid.Column="0"
                       Grid.Row="0">
-            <StackPanel x:Name="MainContent"
-                        Orientation="Vertical">
+            <Grid x:Name="MainContent">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" MaxWidth="900"/>
+                </Grid.ColumnDefinitions>
+
                 <TextBlock x:Name="QuestionTitle"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
                            Style="{StaticResource TitleTextBlockStyle}"/>
 
-                <Line HorizontalAlignment="Stretch"
-                      Margin="50, 10, 50, 10" 
-                      Stroke="Black" 
+                <Line x:Name="Separator" 
+                      Grid.Row="1"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      X1="0"
+                      X2="1"
+                      HorizontalAlignment="Stretch"
+                      Margin="0, 10, 0, 10" 
+                      Stroke="LightGray"
                       Stretch="Fill"
-                      StrokeThickness="4" />
+                      StrokeThickness="1"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="QuestionScore"
-                               FontSize="24"
-                               Margin="8,24,8,0"/>
+                <TextBlock x:Name="QuestionScore"
+                           Grid.Row="2"
+                           Grid.Column="0"
+                           FontSize="24"
+                           Margin="16,24,16,0"/>
 
-                    <WebView x:Name="QuestionBody"
-                             VerticalAlignment="Stretch"
-                             HorizontalAlignment="Stretch"
-                             Width="900"
-                             Margin="0,0,0,8"
-                             DOMContentLoaded="QuestionBody_OnDOMContentLoaded"/>
-                </StackPanel>
-            </StackPanel>
+                <WebView x:Name="QuestionBody"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Width="900"
+                         Margin="0,0,0,8"
+                         DOMContentLoaded="QuestionBody_OnDOMContentLoaded"/>
+                
+                <userCard:UserCard x:Name="Asker"
+                                   Grid.Row="3"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Right"/>
+            </Grid>
         </ScrollViewer>
 
         <CommandBar x:Name="CommandBar"
                     Grid.Column="0"
                     Grid.Row="1"
-                    Margin="-8">
+                    Margin="-16,0,-16,-16">
             <CommandBar.Content>
                 <StackPanel x:Name="CommandBarContent"
                             Orientation="Horizontal">
