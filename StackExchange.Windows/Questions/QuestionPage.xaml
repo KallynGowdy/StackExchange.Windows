@@ -44,8 +44,7 @@
                              HorizontalAlignment="Stretch"
                              Width="900"
                              Margin="0,0,0,8"
-                             DOMContentLoaded="QuestionBody_OnDOMContentLoaded"
-                             ScriptNotify="QuestionBody_OnScriptNotify"/>
+                             DOMContentLoaded="QuestionBody_OnDOMContentLoaded"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

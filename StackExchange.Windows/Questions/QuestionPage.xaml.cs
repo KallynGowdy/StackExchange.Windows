@@ -56,12 +56,7 @@ namespace StackExchange.Windows.Questions
 
         private async void QuestionBody_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {
-            await sender.InvokeScriptAsync("getHeight", null);
-        }
-
-        private void QuestionBody_OnScriptNotify(object sender, NotifyEventArgs e)
-        {
-            QuestionBody.Height = Convert.ToDouble(e.Value);
+            await sender.ResizeHeightToContentAsync();
         }
     }
 }

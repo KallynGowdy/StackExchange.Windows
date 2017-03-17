@@ -2,8 +2,7 @@
     PR.prettyPrint();
 };
 window.getHeight = function() {
-    var height = document.body.scrollHeight;
-    window.external.notify(height.toString());
+    return document.body.scrollHeight.toString();
 };
 (function () {
     var preTags = document.getElementsByTagName('pre');
