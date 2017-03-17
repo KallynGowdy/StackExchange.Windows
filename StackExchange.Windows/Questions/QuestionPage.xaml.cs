@@ -53,5 +53,15 @@ namespace StackExchange.Windows.Questions
         }
 
         public QuestionPageViewModel ViewModel { get; set; }
+
+        private async void QuestionBody_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
+        {
+            await sender.InvokeScriptAsync("getHeight", null);
+        }
+
+        private void QuestionBody_OnScriptNotify(object sender, NotifyEventArgs e)
+        {
+            QuestionBody.Height = Convert.ToDouble(e.Value);
+        }
     }
 }
