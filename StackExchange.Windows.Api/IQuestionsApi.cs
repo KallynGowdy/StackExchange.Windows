@@ -23,7 +23,7 @@ namespace StackExchange.Windows.Api
             string questionIds,
             string site,
             string order = "desc",
-            string sort = "activity",
+            string sort = "votes",
             int page = 1,
             int pagesize = 10,
             string filter = "withbody");

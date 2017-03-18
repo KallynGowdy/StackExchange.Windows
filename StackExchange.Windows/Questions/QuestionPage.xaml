@@ -30,6 +30,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" MaxWidth="964"/>
@@ -56,6 +57,17 @@
                 <postDetail:PostDetail Grid.Row="2"
                                        Grid.Column="0"
                                        x:Name="Question" />
+
+
+                <ItemsControl x:Name="Answers"
+                      Grid.Row="3"
+                      Grid.Column="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="postDetail:PostViewModel">
+                            <postDetail:PostDetail ViewModel="{x:Bind}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </ScrollViewer>
 

@@ -24,8 +24,6 @@ namespace StackExchange.Windows.Application
     /// </summary>
     public class ApplicationViewModel : ReactiveObject
     {
-        private string currentSite = "stackoverflow";
-
         /// <summary>
         /// Gets the view model in charge of authentication.
         /// </summary>
@@ -52,21 +50,18 @@ namespace StackExchange.Windows.Application
         public Interaction<NavigationParams, Unit> NavigateAndClearStack { get; } = new Interaction<NavigationParams, Unit>();
 
         /// <summary>
-        /// Gets or sets the site that the user is currently viewing.
+        /// Gets the site that the user is currently viewing.
         /// </summary>
-        public string CurrentSite
-        {
-            get { return currentSite; }
-            set { this.RaiseAndSetIfChanged(ref currentSite, value); }
-        }
+        public string CurrentSite => Search.SelectedSite.ApiSiteParameter;
 
         /// <summary>
         /// Gets the current HTTP client for the application.
         /// </summary>
         public HttpClient HttpClient { get; private set; }
 
-        public ApplicationViewModel()
+        public ApplicationViewModel(ISearchViewModel search = null)
         {
+            Search = search;
             Authentication = new AuthenticationViewModel(this);
             Authentication.Login.Do(u => OnLogin()).Subscribe();
         }
