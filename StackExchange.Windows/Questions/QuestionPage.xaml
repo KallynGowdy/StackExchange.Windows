@@ -9,7 +9,13 @@
     xmlns:siteSelector="using:StackExchange.Windows.Common.SiteSelector"
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     mc:Ignorable="d">
-
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="../Resources/Light/Buttons.xaml" x:Key="Light"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid x:Name="PageGrid"
           Padding="16"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -32,7 +38,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="64"/>
                     <ColumnDefinition Width="*" MaxWidth="900"/>
                 </Grid.ColumnDefinitions>
 
@@ -54,11 +60,25 @@
                       Stretch="Fill"
                       StrokeThickness="1"/>
 
-                <TextBlock x:Name="QuestionScore"
-                           Grid.Row="2"
-                           Grid.Column="0"
-                           FontSize="24"
-                           Margin="16,24,16,0"/>
+                <StackPanel Grid.Row="2"
+                            Grid.Column="0"
+                            Orientation="Vertical">
+                    <Button HorizontalAlignment="Center"
+                            Style="{StaticResource UpvoteButton}">
+                        <FontIcon Glyph="&#xE971;"/>
+                    </Button>
+
+                    <TextBlock x:Name="QuestionScore"
+                               FontSize="24"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="0,8,0,10"/>
+
+                    <Button HorizontalAlignment="Center"
+                            Style="{StaticResource DownvoteButton}">
+                        <FontIcon Glyph="&#xE972;"/>
+                    </Button>
+                </StackPanel>
 
                 <WebView x:Name="QuestionBody"
                          Grid.Row="2"
@@ -68,7 +88,7 @@
                          Width="900"
                          Margin="0,0,0,8"
                          DOMContentLoaded="QuestionBody_OnDOMContentLoaded"/>
-                
+
                 <userCard:UserCard x:Name="Asker"
                                    Grid.Row="3"
                                    Grid.Column="1"
