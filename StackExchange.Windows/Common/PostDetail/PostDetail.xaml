@@ -1,0 +1,64 @@
+﻿<UserControl
+    x:Class="StackExchange.Windows.Common.PostDetail.PostDetail"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StackExchange.Windows.Common.PostDetail"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userCard="using:StackExchange.Windows.User.UserCard"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="../../Resources/Light/Buttons.xaml" x:Key="Light"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="64"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel x:Name="ScorePanel" 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Orientation="Vertical">
+            <Button HorizontalAlignment="Center"
+                    Style="{StaticResource UpvoteButton}">
+                <FontIcon Glyph="&#xE971;"/>
+            </Button>
+
+            <TextBlock x:Name="Score"
+                               FontSize="24"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="0,8,0,10"/>
+
+            <Button HorizontalAlignment="Center"
+                    Style="{StaticResource DownvoteButton}">
+                <FontIcon Glyph="&#xE972;"/>
+            </Button>
+        </StackPanel>
+
+        <WebView x:Name="Body"
+                 Grid.Row="0"
+                 Grid.Column="1"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 Width="900"
+                 Margin="0,0,0,8"
+                 DOMContentLoaded="Body_OnDOMContentLoaded"/>
+
+        <userCard:UserCard x:Name="Poster"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           HorizontalAlignment="Right"/>
+    </Grid>
+</UserControl>

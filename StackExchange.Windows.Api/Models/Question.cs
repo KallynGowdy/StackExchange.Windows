@@ -12,7 +12,6 @@ namespace StackExchange.Windows.Api.Models
         public string Link { get; set; } = "";
         public string Title { get; set; } = "";
         public string[] Tags { get; set; } = new string[0];
-        public int Score { get; set; }
         public int AnswerCount { get; set; }
         public int ViewCount { get; set; }
         public bool IsAnswered { get; set; }

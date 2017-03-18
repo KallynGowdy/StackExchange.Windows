@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
 using StackExchange.Windows.Application;
+using StackExchange.Windows.Common.PostDetail;
 using StackExchange.Windows.Html;
 using StackExchange.Windows.User.UserCard;
 
@@ -20,21 +21,15 @@ namespace StackExchange.Windows.Questions
 
         public string Title { get; }
         public string[] Tags { get; }
-        public string Body { get; }
-        public UserCardViewModel Asker { get; }
-        public string Score { get;  }
+        public PostViewModel Question { get; }
 
         public QuestionPageViewModel(Question question, ApplicationViewModel application = null, IQuestionsApi questionsApi = null)
             : base(application)
         {
-            var htmlHelper = new HtmlHelper();
-
             QuestionsApi = questionsApi ?? Api<IQuestionsApi>();
             Title = question.DecodedTitle;
             Tags = question.Tags;
-            Score = question.Score.ToString();
-            Body = htmlHelper.WrapPostBody(question.Body);
-            Asker = new UserCardViewModel(question);
+            Question = new PostViewModel(question);
         }
     }
 }

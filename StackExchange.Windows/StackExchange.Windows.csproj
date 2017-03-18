@@ -103,6 +103,10 @@
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="BindingConverters\BooleanToBrushBindingTypeConverter.cs" />
     <Compile Include="BindingConverters\UriToImageSourceBindingTypeConverter.cs" />
+    <Compile Include="Common\PostDetail\PostDetail.xaml.cs">
+      <DependentUpon>PostDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\PostDetail\PostViewModel.cs" />
     <Compile Include="Common\SiteSelector\SiteSelector.xaml.cs">
       <DependentUpon>SiteSelector.xaml</DependentUpon>
     </Compile>
@@ -203,6 +207,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Common\PostDetail\PostDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\SiteSelector\SiteSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
