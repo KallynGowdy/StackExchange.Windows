@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -61,6 +62,16 @@ namespace StackExchange.Windows.Common.PostDetail
         private async void Body_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {
             await sender.ResizeHeightToContentAsync();
+        }
+
+        private async void Body_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        {
+            // Redirect all navigation to a real web browser
+            if (args.Uri != null)
+            {
+                args.Cancel = true;
+                await Launcher.LaunchUriAsync(args.Uri);
+            }
         }
     }
 }

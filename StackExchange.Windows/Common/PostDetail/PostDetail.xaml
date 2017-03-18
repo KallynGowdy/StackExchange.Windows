@@ -54,7 +54,8 @@
                  VerticalAlignment="Top"
                  Width="900"
                  Margin="0,0,0,8"
-                 DOMContentLoaded="Body_OnDOMContentLoaded"/>
+                 DOMContentLoaded="Body_OnDOMContentLoaded"
+                 NavigationStarting="Body_OnNavigationStarting"/>
         
         <userCard:UserCard x:Name="Poster"
                            Grid.Row="1"
