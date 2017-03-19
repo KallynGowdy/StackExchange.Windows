@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Humanizer;
 using ReactiveUI;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
@@ -20,6 +22,7 @@ namespace StackExchange.Windows.Questions
     public class QuestionPageViewModel : BaseViewModel
     {
         private readonly ObservableAsPropertyHelper<PostViewModel[]> answers;
+        private readonly ObservableAsPropertyHelper<string> answersTitle;
         public string Id { get; }
         public IQuestionsApi QuestionsApi { get; }
 
@@ -28,6 +31,7 @@ namespace StackExchange.Windows.Questions
         public PostViewModel Question { get; }
         public ReactiveCommand<Unit, PostViewModel[]> LoadAnswers { get; }
 
+        public string AnswersTitle => answersTitle.Value;
         public PostViewModel[] Answers => answers.Value;
 
         public QuestionPageViewModel(Question question, ApplicationViewModel application = null, IQuestionsApi questionsApi = null)
@@ -37,6 +41,9 @@ namespace StackExchange.Windows.Questions
             LoadAnswers = ReactiveCommand.CreateFromTask(LoadAnswersImpl, outputScheduler: RxApp.MainThreadScheduler);
 
             answers = LoadAnswers.ToProperty(this, vm => vm.Answers, initialValue: new PostViewModel[0]);
+            answersTitle = this.WhenAnyValue(vm => vm.Answers)
+                .Select(answers => "Answer".ToQuantity(answers.Length))
+                .ToProperty(this, vm => vm.AnswersTitle, initialValue: "");
             Title = question.DecodedTitle;
             Tags = question.Tags;
             Id = question.QuestionId.ToString();
