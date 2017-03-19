@@ -33,7 +33,6 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" MaxWidth="964"/>
@@ -44,45 +43,24 @@
                            Grid.Column="0"
                            Style="{StaticResource SubheaderTextBlockStyle}"/>
 
-                <Line x:Name="QuestionTitleSeparator" 
-                      Grid.Row="1"
-                      Grid.Column="0"
-                      X1="0"
-                      X2="1"
-                      HorizontalAlignment="Stretch"
-                      Margin="0,8,0,16" 
-                      Stroke="LightGray"
-                      Stretch="Fill"
-                      StrokeThickness="1"/>
-
-                <postDetail:PostDetail Grid.Row="2"
+                <postDetail:PostDetail Grid.Row="1"
                                        Grid.Column="0"
                                        x:Name="Question" />
 
 
                 <TextBlock x:Name="AnswersTitle"
-                           Grid.Row="3"
+                           Grid.Row="2"
                            Grid.Column="0"
                            Text="Answers"
                            Style="{StaticResource TitleTextBlockStyle}"/>
 
-                <Line x:Name="AnswersSeparator"
-                      Grid.Row="4"
-                      Grid.Column="0"
-                      X1="0"
-                      X2="1"
-                      HorizontalAlignment="Stretch"
-                      Margin="0,8,0,16" 
-                      Stroke="LightGray"
-                      Stretch="Fill"
-                      StrokeThickness="1"/>
-
                 <ItemsControl x:Name="Answers"
-                              Grid.Row="5"
+                              Grid.Row="3"
                               Grid.Column="0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="postDetail:PostViewModel">
-                            <postDetail:PostDetail ViewModel="{x:Bind}"/>
+                            <postDetail:PostDetail ViewModel="{x:Bind}"
+                                                   Margin="0,8,0,0"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

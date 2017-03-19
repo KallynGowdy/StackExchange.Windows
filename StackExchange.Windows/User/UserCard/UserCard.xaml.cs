@@ -50,6 +50,7 @@ namespace StackExchange.Windows.User.UserCard
                     d(this.OneWayBind(ViewModel, vm => vm.ImageUrl, view => view.OwnerImage.Source));
                     d(this.Bind(ViewModel, vm => vm.Owner, view => view.Owner.Text));
                     d(this.Bind(ViewModel, vm => vm.PostedOn, view => view.PostedOn.Text));
+                    d(this.Bind(ViewModel, vm => vm.Reputation, view => view.Reputation.Text));
                 });
             }
         }

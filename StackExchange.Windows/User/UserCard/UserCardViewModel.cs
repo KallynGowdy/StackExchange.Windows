@@ -16,6 +16,7 @@ namespace StackExchange.Windows.User.UserCard
         public string Owner { get; }
         public string PostedOn { get; }
         public Uri ImageUrl { get; }
+        public string Reputation { get; }
 
         public UserCardViewModel(Post post)
         {
@@ -23,6 +24,7 @@ namespace StackExchange.Windows.User.UserCard
             {
                 Owner = post.Owner.DecodedDisplayName;
                 ImageUrl = new Uri(post.Owner.ProfileImage);
+                Reputation = post.Owner.Reputation.ToString();
             }
             PostedOn = post.FormattedDate;
         }
