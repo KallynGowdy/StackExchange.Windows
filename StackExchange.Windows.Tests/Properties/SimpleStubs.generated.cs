@@ -19,14 +19,14 @@ namespace StackExchange.Windows.Api
     {
         private readonly StubContainer<StubINetworkApi> _stubs = new StubContainer<StubINetworkApi>();
 
-        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Site>> global::StackExchange.Windows.Api.INetworkApi.Sites()
+        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Site>> global::StackExchange.Windows.Api.INetworkApi.Sites(int page, int pagesize)
         {
-            return _stubs.GetMethodStub<Sites_Delegate>("Sites").Invoke();
+            return _stubs.GetMethodStub<Sites_Int32_Int32_Delegate>("Sites").Invoke(page, pagesize);
         }
 
-        public delegate global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Site>> Sites_Delegate();
+        public delegate global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Site>> Sites_Int32_Int32_Delegate(int page, int pagesize);
 
-        public StubINetworkApi Sites(Sites_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubINetworkApi Sites(Sites_Int32_Int32_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;

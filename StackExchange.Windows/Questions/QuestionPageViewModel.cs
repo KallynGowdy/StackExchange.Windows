@@ -21,8 +21,8 @@ namespace StackExchange.Windows.Questions
     /// </summary>
     public class QuestionPageViewModel : BaseViewModel
     {
-        private PostViewModel[] answers;
-        private string answersTitle;
+        private PostViewModel[] answers = new PostViewModel[0];
+        private string answersTitle = "";
         public string Id { get; }
         public IQuestionsApi QuestionsApi { get; }
 

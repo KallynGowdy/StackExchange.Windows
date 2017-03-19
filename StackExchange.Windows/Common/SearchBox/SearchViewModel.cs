@@ -112,10 +112,13 @@ namespace StackExchange.Windows.Common.SearchBox
 
         private async Task LoadSitesImpl()
         {
-            var sites = await NetworkApi.Sites();
-            AvailableSites.Clear();
-            AvailableSites.AddRange(sites.Items.Select(site => new SiteViewModel(site)));
-            SelectedSite = AvailableSites.FirstOrDefault();
+            if (!AvailableSites.Any())
+            {
+                var sites = await NetworkApi.Sites();
+                AvailableSites.Clear();
+                AvailableSites.AddRange(sites.Items.Select(site => new SiteViewModel(site)));
+                SelectedSite = AvailableSites.FirstOrDefault();
+            }
         }
 
         public ViewModelActivator Activator { get; } = new ViewModelActivator();

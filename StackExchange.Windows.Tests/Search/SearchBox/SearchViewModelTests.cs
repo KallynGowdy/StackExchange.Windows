@@ -38,7 +38,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [Fact]
         public async Task Test_LoadSites_Loads_A_List_Of_Sites_From_The_Api()
         {
-            NetworkApi.Sites(() => Task.FromResult(new Response<Site>()
+            NetworkApi.Sites((page, pagesize) => Task.FromResult(new Response<Site>()
             {
                 Items = new[] {
                     new Site()
@@ -85,7 +85,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [Fact]
         public async Task Test_LoadSites_Selects_The_First_Returned_Site()
         {
-            NetworkApi.Sites(() => Task.FromResult(new Response<Site>()
+            NetworkApi.Sites((page, pagesize) => Task.FromResult(new Response<Site>()
             {
                 Items = new[] {
                     new Site()
@@ -292,6 +292,19 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
             {
                 await Subject.DisplayQuestion.Execute(questionViewModel);
             }
+        }
+
+        [Fact]
+        public async Task Test_LoadSites_Does_Not_Reload_If_There_Are_Already_Available_Sites()
+        {
+            var site = new SiteViewModel();
+            Subject = new SearchViewModel(null, NetworkApi, SearchApi);
+            Subject.AvailableSites.Add(site);
+
+            await Subject.LoadSites.Execute();
+
+            Assert.Collection(Subject.AvailableSites,
+                s => Assert.Same(site, s));
         }
     }
 }

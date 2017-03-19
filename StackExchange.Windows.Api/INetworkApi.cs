@@ -17,7 +17,7 @@ namespace StackExchange.Windows.Api
         /// </summary>
         /// <returns></returns>
         [Get("/sites")]
-        Task<Response<Site>> Sites();
+        Task<Response<Site>> Sites(int page = 1, int pagesize = 100);
 
         /// <summary>
         /// Retrieves a list of user's associated accounts.
