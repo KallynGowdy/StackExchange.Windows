@@ -144,6 +144,7 @@ namespace StackExchange.Windows.Tests.Questions
         [Fact]
         public async Task Test_LoadQuestions_Loads_From_Currently_Selected_Site()
         {
+            var called = false;
             Site = new SiteViewModel(new Site()
             {
                 ApiSiteParameter = "stackoverflow"
@@ -152,10 +153,13 @@ namespace StackExchange.Windows.Tests.Questions
             QuestionsApi.Questions((site, order, sort, page, pagesize, filter) =>
             {
                 Assert.Equal("stackoverflow", site);
+                called = true;
                 return Task.FromResult(new Response<Question>());
             });
 
             await Subject.LoadQuestions.Execute();
+
+            Assert.True(called);
         }
 
         [Fact]
@@ -199,6 +203,79 @@ namespace StackExchange.Windows.Tests.Questions
             {
                 await Subject.DisplayQuestion.Execute(questionViewModel);
             }
+        }
+
+        [Fact]
+        public async Task Test_LoadQuestions_Does_Not_Reload_When_Questions_Already_Exist()
+        {
+            Site = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "stackoverflow"
+            });
+
+            Subject.LoadedSite = "stackoverflow";
+
+            var question = new QuestionItemViewModel();
+            Subject.Questions.Add(question);
+
+            await Subject.LoadQuestions.Execute();
+
+            Assert.Collection(Subject.Questions,
+                q => Assert.Same(question, q));
+        }
+
+        [Fact]
+        public async Task Test_LoadQuestions_Does_Reload_If_The_Site_Is_Different_Than_The_Current_Questions()
+        {
+            Site = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "stackoverflow"
+            });
+
+            QuestionsApi.Questions((site, order, sort, page, pagesize, filter) =>
+            {
+                if (site == "stackoverflow")
+                {
+                    return Task.FromResult(new Response<Question>()
+                    {
+                        Items = new[]
+                        {
+                            new Question()
+                            {
+                                Title = "First"
+                            },
+                        }
+                    });
+                }
+                else
+                {
+                    return Task.FromResult(new Response<Question>()
+                    {
+                        Items = new[]
+                        {
+                            new Question()
+                            {
+                                Title = "Second"
+                            },
+                        }
+                    });
+                }
+            });
+
+            await Subject.LoadQuestions.Execute();
+
+            Assert.Collection(Subject.Questions,
+                q => Assert.Equal("First", q.Title));
+
+            Site = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "other"
+            });
+
+            await Subject.LoadQuestions.Execute();
+
+            Assert.Collection(Subject.Questions,
+                q => Assert.Equal("Second", q.Title));
         }
     }
 }

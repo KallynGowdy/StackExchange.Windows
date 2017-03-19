@@ -21,6 +21,7 @@ namespace StackExchange.Windows.Questions
         private QuestionItemViewModel selectedQuestion;
         private IQuestionsApi QuestionsApi { get; }
         private ISearchViewModel Search { get; }
+        public string LoadedSite { get; set; } = "";
 
         /// <summary>
         /// Gets the command that can load questions from the site.
@@ -107,9 +108,13 @@ namespace StackExchange.Windows.Questions
                     await Search.LoadSites.FirstAsync();
                 }
             }
-            var response = await QuestionsApi.Questions(Search.SelectedSite.ApiSiteParameter);
-            var questions = response.Items.Select(q => new QuestionItemViewModel(q)).ToArray();
-            Questions = new ReactiveList<QuestionItemViewModel>(questions);
+            if (!Questions.Any() || Search.SelectedSite.ApiSiteParameter != LoadedSite)
+            {
+                LoadedSite = Search.SelectedSite.ApiSiteParameter;
+                var response = await QuestionsApi.Questions(LoadedSite);
+                var questions = response.Items.Select(q => new QuestionItemViewModel(q)).ToArray();
+                Questions = new ReactiveList<QuestionItemViewModel>(questions);
+            }
         }
 
         public ViewModelActivator Activator { get; } = new ViewModelActivator();

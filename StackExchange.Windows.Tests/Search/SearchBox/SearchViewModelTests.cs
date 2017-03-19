@@ -306,5 +306,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
             Assert.Collection(Subject.AvailableSites,
                 s => Assert.Same(site, s));
         }
+
+        
     }
 }

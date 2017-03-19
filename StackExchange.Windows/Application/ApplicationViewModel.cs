@@ -17,6 +17,7 @@ using StackExchange.Windows.Api.Converters;
 using StackExchange.Windows.Authentication;
 using StackExchange.Windows.BindingConverters;
 using StackExchange.Windows.Common.SearchBox;
+using StackExchange.Windows.Questions;
 
 namespace StackExchange.Windows.Application
 {
@@ -71,7 +72,7 @@ namespace StackExchange.Windows.Application
         {
             var handler = new AuthenticatedHttpClientHandler("eZclcV**uSVviAazkVJ6ug((", () => Authentication.Token)
             {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
             };
 
             // TODO: Add message handler to add access token
@@ -89,6 +90,7 @@ namespace StackExchange.Windows.Application
             Locator.CurrentMutable.RegisterConstant(this, typeof(IApplicationViewModel));
             Locator.CurrentMutable.RegisterConstant(Authentication, typeof(IAuthenticationViewModel));
 
+            Locator.CurrentMutable.RegisterLazySingleton(() => new QuestionsViewModel(), typeof(QuestionsViewModel));
             Locator.CurrentMutable.Register(UriToImageSourceBindingTypeConverter.Create, typeof(IBindingTypeConverter));
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
