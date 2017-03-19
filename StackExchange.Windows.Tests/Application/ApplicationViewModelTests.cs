@@ -26,7 +26,7 @@ namespace StackExchange.Windows.Tests.Application
         {
             Subject.Start();
 
-            Assert.NotNull(Locator.Current.GetService<AuthenticationViewModel>());
+            Assert.NotNull(Locator.Current.GetService<IAuthenticationViewModel>());
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace StackExchange.Windows.Tests.Application
         {
             Subject.Start();
 
-            Assert.Same(Subject, Locator.Current.GetService<ApplicationViewModel>());
+            Assert.Same(Subject, Locator.Current.GetService<IApplicationViewModel>());
         }
 
         [Fact]

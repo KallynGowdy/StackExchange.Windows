@@ -17,12 +17,24 @@ namespace StackExchange.Windows.Tests.Questions
     {
 
         public QuestionPageViewModel Subject { get; set; }
+        public StubIQuestionsApi QuestionsApi { get; set; }
+        public Question Question { get; set; }
+        public StubIApplicationViewModel Application { get; set; }
+
+        public QuestionPageViewModelTests()
+        {
+            Question = new Question();
+            QuestionsApi = new StubIQuestionsApi();
+            Application = new StubIApplicationViewModel();
+            Subject = new QuestionPageViewModel(Question, Application, QuestionsApi);
+
+            Application.CurrentSite_Get(() => "test_site");
+        }
+
 
         [Fact]
         public async Task Test_LoadAnswers_Makes_A_Request_To_The_API()
         {
-            // TODO: Revisit dependency structure so that 
-            //       test setup doesn't require so many extra stubs.
             var answers = new[]
             {
                 new Answer()
@@ -34,17 +46,8 @@ namespace StackExchange.Windows.Tests.Questions
                     Score = -1
                 }
             };
-            var search = new StubISearchViewModel();
-            var application = new ApplicationViewModel(search);
-            var question = new Question();
-            var questionsApi = new StubIQuestionsApi();
-            Subject = new QuestionPageViewModel(question, application, questionsApi);
 
-            search.SelectedSite_Get(() => new SiteViewModel(new Site()
-            {
-                ApiSiteParameter = "stackoverflow"
-            }));
-            questionsApi.QuestionAnswers((ids, site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Answer>()
+            QuestionsApi.QuestionAnswers((ids, site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Answer>()
             {
                 Items = answers
             }));
@@ -54,6 +57,29 @@ namespace StackExchange.Windows.Tests.Questions
             Assert.Collection(Subject.Answers,
                 a => Assert.Equal("5", a.Score),
                 a => Assert.Equal("-1", a.Score));
+        }
+
+        [Theory]
+        [InlineData(0, "0 Answers")]
+        [InlineData(1, "1 Answer")]
+        [InlineData(2, "2 Answers")]
+        public async Task Test_AnswersTitle_Pluralizes_The_Label_With_The_Number_Of_Answers_That_Are_Present(int numAnswers, string expected)
+        {
+            var answers = Enumerable.Range(0, numAnswers)
+                .Select(i => new Answer()
+                {
+                    Score = i
+                })
+                .ToArray();
+
+            QuestionsApi.QuestionAnswers((ids, site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Answer>()
+            {
+                Items = answers
+            }));
+
+            await Subject.LoadAnswers.Execute();
+
+            Assert.Equal(expected, Subject.AnswersTitle);
         }
     }
 }

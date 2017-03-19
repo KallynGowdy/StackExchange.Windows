@@ -60,7 +60,7 @@ namespace StackExchange.Windows.Questions
             set { this.RaiseAndSetIfChanged(ref selectedQuestion, value); }
         }
 
-        public QuestionsViewModel(ApplicationViewModel application = null, ISearchViewModel search = null, IQuestionsApi questionsApi = null)
+        public QuestionsViewModel(IApplicationViewModel application = null, ISearchViewModel search = null, IQuestionsApi questionsApi = null)
             : base(application)
         {
             QuestionsApi = questionsApi ?? Api<IQuestionsApi>();

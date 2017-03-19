@@ -13,18 +13,18 @@ namespace StackExchange.Windows
 {
     public class BaseViewModel : ReactiveObject
     {
-        public ApplicationViewModel Application { get; }
-        public AuthenticationViewModel Authentication => Application.Authentication;
+        public IApplicationViewModel Application { get; }
+        public IAuthenticationViewModel Authentication => Application.Authentication;
 
-        public BaseViewModel(ApplicationViewModel application = null)
+        public BaseViewModel(IApplicationViewModel application = null)
         {
-            Application = application ?? Locator.Current.GetService<ApplicationViewModel>();
+            Application = application ?? Locator.Current.GetService<IApplicationViewModel>();
         }
 
         protected TService Api<TService>()
             where TService : class
         {
-            return RestService.For<TService>(Application.HttpClient);
+            return Application.Api<TService>();
         }
 
         protected TService Service<TService>(TService service = null)

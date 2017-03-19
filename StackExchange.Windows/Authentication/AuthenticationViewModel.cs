@@ -13,9 +13,8 @@ namespace StackExchange.Windows.Authentication
     /// <summary>
     /// Defines a view model that represents the current authentication state for the application.
     /// </summary>
-    public class AuthenticationViewModel : ReactiveObject
+    public class AuthenticationViewModel : ReactiveObject, IAuthenticationViewModel
     {
-        private readonly ApplicationViewModel application;
         private string token;
 
         /// <summary>
@@ -48,9 +47,8 @@ namespace StackExchange.Windows.Authentication
             private set { this.RaiseAndSetIfChanged(ref token, value); }
         }
 
-        public AuthenticationViewModel(ApplicationViewModel application)
+        public AuthenticationViewModel()
         {
-            this.application = application;
             Login = ReactiveCommand.CreateFromTask(LoginImpl);
         }
 
@@ -128,7 +126,7 @@ namespace StackExchange.Windows.Authentication
             return response;
         }
 
-        public bool IsSuccessUrl(Uri arg) => Settings.RedirectUri.EndsWith(arg.AbsolutePath);
+        public bool IsSuccessUrl(Uri url) => Settings.RedirectUri.EndsWith(url.AbsolutePath);
 
         private class TokenResponse
         {

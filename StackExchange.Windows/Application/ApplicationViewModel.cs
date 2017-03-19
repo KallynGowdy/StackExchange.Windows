@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ReactiveUI;
+using Refit;
 using Splat;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Converters;
@@ -22,12 +23,12 @@ namespace StackExchange.Windows.Application
     /// <summary>
     /// Defines a view model that represents the entire application.
     /// </summary>
-    public class ApplicationViewModel : ReactiveObject
+    public class ApplicationViewModel : ReactiveObject, IApplicationViewModel
     {
         /// <summary>
         /// Gets the view model in charge of authentication.
         /// </summary>
-        public AuthenticationViewModel Authentication { get; }
+        public IAuthenticationViewModel Authentication { get; }
 
         /// <summary>
         /// Gets the view model in charge of search for the site.
@@ -62,7 +63,7 @@ namespace StackExchange.Windows.Application
         public ApplicationViewModel(ISearchViewModel search = null)
         {
             Search = search;
-            Authentication = new AuthenticationViewModel(this);
+            Authentication = new AuthenticationViewModel();
             Authentication.Login.Do(u => OnLogin()).Subscribe();
         }
 
@@ -85,8 +86,8 @@ namespace StackExchange.Windows.Application
 
         public void Start()
         {
-            Locator.CurrentMutable.RegisterConstant(this, typeof(ApplicationViewModel));
-            Locator.CurrentMutable.RegisterConstant(Authentication, typeof(AuthenticationViewModel));
+            Locator.CurrentMutable.RegisterConstant(this, typeof(IApplicationViewModel));
+            Locator.CurrentMutable.RegisterConstant(Authentication, typeof(IAuthenticationViewModel));
 
             Locator.CurrentMutable.Register(UriToImageSourceBindingTypeConverter.Create, typeof(IBindingTypeConverter));
 
@@ -101,6 +102,11 @@ namespace StackExchange.Windows.Application
                     new UnixDateConverter()
                 }
             };
+        }
+
+        public TService Api<TService>()
+        {
+            return RestService.For<TService>(HttpClient);
         }
     }
 }

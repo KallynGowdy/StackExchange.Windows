@@ -69,7 +69,7 @@ namespace StackExchange.Windows.Common.SearchBox
             set { this.RaiseAndSetIfChanged(ref selectedSite, value); }
         }
 
-        public SearchViewModel(ApplicationViewModel application = null, INetworkApi networkApi = null, ISearchApi searchApi = null) : base(application)
+        public SearchViewModel(IApplicationViewModel application = null, INetworkApi networkApi = null, ISearchApi searchApi = null) : base(application)
         {
             this.NetworkApi = networkApi ?? Service<INetworkApi>() ?? Api<INetworkApi>();
             this.SearchApi = searchApi ?? Service<ISearchApi>() ?? Api<ISearchApi>();
