@@ -58,6 +58,19 @@ namespace StackExchange.Windows.Api
             return this;
         }
 
+        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Question>> global::StackExchange.Windows.Api.INetworkApi.Question(string ids, string site, string filter)
+        {
+            return _stubs.GetMethodStub<Question_String_String_String_Delegate>("Question").Invoke(ids, site, filter);
+        }
+
+        public delegate global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Question>> Question_String_String_String_Delegate(string ids, string site, string filter);
+
+        public StubINetworkApi Question(Question_String_String_String_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
         global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Answer>> global::StackExchange.Windows.Api.INetworkApi.QuestionAnswers(string questionIds, string site, string order, string sort, int page, int pagesize, string filter)
         {
             return _stubs.GetMethodStub<QuestionAnswers_String_String_String_String_Int32_Int32_String_Delegate>("QuestionAnswers").Invoke(questionIds, site, order, sort, page, pagesize, filter);

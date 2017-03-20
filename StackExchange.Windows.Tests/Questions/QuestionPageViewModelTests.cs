@@ -25,14 +25,13 @@ namespace StackExchange.Windows.Tests.Questions
             Question = new Question();
             NetworkApi = new StubINetworkApi();
             Application = new StubIApplicationViewModel();
-            Subject = new QuestionPageViewModel(Question, Application, NetworkApi);
+            Subject = new QuestionPageViewModel(Question.QuestionId, Application, NetworkApi);
 
             Application.CurrentSite_Get(() => "test_site");
         }
 
-
         [Fact]
-        public async Task Test_LoadAnswers_Makes_A_Request_To_The_API()
+        public async Task Test_LoadAnswers_Makes_A_Request_To_The_Api()
         {
             var answers = new[]
             {
@@ -79,6 +78,37 @@ namespace StackExchange.Windows.Tests.Questions
             await Subject.LoadAnswers.Execute();
 
             Assert.Equal(expected, Subject.AnswersTitle);
+        }
+
+        [Fact]
+        public async Task Test_LoadQuestions_Makes_A_Request_To_The_Api()
+        {
+            var questions = new[]
+            {
+                new Question()
+                {
+                    Score = 5
+                },
+                new Question()
+                {
+                    Score = -1
+                }
+            };
+
+            NetworkApi.Question((ids, site, filter) => Task.FromResult(new Response<Question>()
+            {
+                Items = questions
+            }));
+
+            await Subject.LoadQuestions.Execute();
+
+            Assert.Equal("5", Subject.Question.Score);
+        }
+
+        [Fact]
+        public void Test_Question_Is_Not_Null_By_Default()
+        {
+            Assert.NotNull(Subject.Question);
         }
     }
 }

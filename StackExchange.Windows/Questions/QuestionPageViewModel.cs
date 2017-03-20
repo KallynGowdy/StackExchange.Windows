@@ -23,13 +23,18 @@ namespace StackExchange.Windows.Questions
     {
         private PostViewModel[] answers = new PostViewModel[0];
         private string answersTitle = "";
-        public string Id { get; }
+        private QuestionDetailViewModel question;
         public INetworkApi NetworkApi { get; }
 
-        public string Title { get; }
-        public string[] Tags { get; }
-        public PostViewModel Question { get; }
+        public QuestionDetailViewModel Question
+        {
+            get { return question; }
+            private set { this.RaiseAndSetIfChanged(ref question, value); }
+        }
+
         public ReactiveCommand<Unit, Unit> LoadAnswers { get; }
+        public ReactiveCommand<Unit, Unit> LoadQuestions { get; }
+        public CombinedReactiveCommand<Unit, Unit> Load { get; }
 
         public string AnswersTitle
         {
@@ -47,21 +52,26 @@ namespace StackExchange.Windows.Questions
             }
         }
 
-        public QuestionPageViewModel(Question question, IApplicationViewModel application = null, INetworkApi networkApi = null)
+        public QuestionPageViewModel(int questionId, IApplicationViewModel application = null, INetworkApi networkApi = null)
             : base(application)
         {
             NetworkApi = networkApi ?? Api<INetworkApi>();
             LoadAnswers = ReactiveCommand.CreateFromTask(LoadAnswersImpl, outputScheduler: RxApp.MainThreadScheduler);
+            LoadQuestions = ReactiveCommand.CreateFromTask(LoadQuestionsImpl, outputScheduler: RxApp.MainThreadScheduler);
+            Load = ReactiveCommand.CreateCombined(new[] { LoadQuestions, LoadAnswers });
 
-            Title = question.DecodedTitle;
-            Tags = question.Tags;
-            Id = question.QuestionId.ToString();
-            Question = new PostViewModel(question);
+            Question = new QuestionDetailViewModel(questionId);
+        }
+
+        private async Task LoadQuestionsImpl()
+        {
+            var result = await NetworkApi.QuestionWithDetail(Question.Id, Application.CurrentSite);
+            Question = new QuestionDetailViewModel(result.Items.First());
         }
 
         private async Task LoadAnswersImpl()
         {
-            var result = await NetworkApi.QuestionAnswers(Id, Application.CurrentSite);
+            var result = await NetworkApi.QuestionAnswersWithDetail(Question.Id, Application.CurrentSite);
             Answers = result.Items.Select(answer => new PostViewModel(answer)).ToArray();
         }
     }

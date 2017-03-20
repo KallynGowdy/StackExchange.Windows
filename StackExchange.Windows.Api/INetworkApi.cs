@@ -44,7 +44,17 @@ namespace StackExchange.Windows.Api
             string sort = "activity",
             int page = 1,
             int pagesize = 10,
-            string filter = "withbody");
+            string filter = "default");
+
+        /// <summary>
+        /// Retrieves the questions with the given semi-colon IDs.
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <param name="site"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        [Get("/questions/{ids}")]
+        Task<Response<Question>> Question(string ids, string site, string filter = "withbody");
 
         /// <summary>
         /// Retrieves a list of answers for the given semi-colon separated question IDs.
@@ -74,6 +84,6 @@ namespace StackExchange.Windows.Api
         /// <param name="site"></param>
         /// <returns></returns>
         [Get("/search/advanced")]
-        Task<Response<Question>> SearchAdvanced(string q, string site, string filter = "withbody");
+        Task<Response<Question>> SearchAdvanced(string q, string site, string filter = "default");
     }
 }

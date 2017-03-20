@@ -15,9 +15,10 @@ namespace StackExchange.Windows.Common.PostDetail
     /// </summary>
     public class PostViewModel : ReactiveObject
     {
-        public string Body { get; }
-        public UserCardViewModel Poster { get; }
-        public string Score { get; }
+
+        public UserCardViewModel Poster { get; } = new UserCardViewModel();
+        public string Body { get; } = "";
+        public string Score { get; } = "";
 
         public PostViewModel(Post post)
         {
@@ -27,5 +28,7 @@ namespace StackExchange.Windows.Common.PostDetail
             Body = htmlHelper.WrapPostBody(post.Body);
             Poster = new UserCardViewModel(post);
         }
+
+        public PostViewModel() { }
     }
 }

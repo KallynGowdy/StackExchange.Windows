@@ -30,19 +30,20 @@ namespace StackExchange.Windows.Questions
             this.InitializeComponent();
             this.WhenActivated(d =>
             {
-                d(this.Bind(ViewModel, vm => vm.Title, view => view.QuestionTitle.Text));
-                d(this.Bind(ViewModel, vm => vm.Question, view => view.Question.ViewModel));
+                d(this.Bind(ViewModel, vm => vm.Question.Title, view => view.QuestionTitle.Text));
                 d(this.Bind(ViewModel, vm => vm.AnswersTitle, view => view.AnswersTitle.Text));
+                d(this.OneWayBind(ViewModel, vm => vm.Question, view => view.Question.ViewModel));
                 d(this.OneWayBind(ViewModel, vm => vm.Answers, view => view.Answers.ItemsSource));
-
-                d(ViewModel.LoadAnswers.Execute().Subscribe());
+                
+                d(ViewModel.Load.IsExecuting.BindTo(this, view => view.Loading.IsActive));
+                d(ViewModel.Load.Execute().Subscribe());
             });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            ViewModel = new QuestionPageViewModel((Question)e.Parameter);
+            ViewModel = new QuestionPageViewModel(((Question)e.Parameter).QuestionId);
         }
 
         object IViewFor.ViewModel

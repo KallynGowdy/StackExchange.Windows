@@ -13,10 +13,10 @@ namespace StackExchange.Windows.User.UserCard
 {
     public class UserCardViewModel : ReactiveObject
     {
-        public string Owner { get; }
-        public string PostedOn { get; }
+        public string Owner { get; } = "";
+        public string PostedOn { get; } = "";
         public Uri ImageUrl { get; }
-        public string Reputation { get; }
+        public string Reputation { get; } = "";
 
         public UserCardViewModel(Post post)
         {
@@ -27,6 +27,10 @@ namespace StackExchange.Windows.User.UserCard
                 Reputation = post.Owner.Reputation.ToString();
             }
             PostedOn = post.FormattedDate;
+        }
+
+        public UserCardViewModel()
+        {
         }
     }
 }
