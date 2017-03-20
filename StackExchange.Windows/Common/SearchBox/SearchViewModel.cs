@@ -20,7 +20,6 @@ namespace StackExchange.Windows.Common.SearchBox
         private SiteViewModel selectedSite;
         private ObservableAsPropertyHelper<ReactiveList<QuestionItemViewModel>> suggestedQuestions;
         private INetworkApi NetworkApi { get; }
-        private ISearchApi SearchApi { get; }
 
         /// <summary>
         /// Gets or sets the query that is currently contained in the search box.
@@ -69,10 +68,9 @@ namespace StackExchange.Windows.Common.SearchBox
             set { this.RaiseAndSetIfChanged(ref selectedSite, value); }
         }
 
-        public SearchViewModel(IApplicationViewModel application = null, INetworkApi networkApi = null, ISearchApi searchApi = null) : base(application)
+        public SearchViewModel(IApplicationViewModel application = null, INetworkApi networkApi = null) : base(application)
         {
             this.NetworkApi = networkApi ?? Service<INetworkApi>() ?? Api<INetworkApi>();
-            this.SearchApi = searchApi ?? Service<ISearchApi>() ?? Api<ISearchApi>();
             LoadSites = ReactiveCommand.CreateFromTask(LoadSitesImpl);
             LoadAssociatedAccounts = ReactiveCommand.CreateFromTask(LoadAssociatedAccountsImpl);
             DisplayQuestion = ReactiveCommand.CreateFromTask<QuestionItemViewModel>(DisplayQuestionImpl);
@@ -97,7 +95,7 @@ namespace StackExchange.Windows.Common.SearchBox
 
         private async Task<ReactiveList<QuestionItemViewModel>> SearchImpl()
         {
-            var result = await SearchApi.SearchAdvanced(Query, SelectedSite.ApiSiteParameter);
+            var result = await NetworkApi.SearchAdvanced(Query, SelectedSite.ApiSiteParameter);
             return new ReactiveList<QuestionItemViewModel>(result.Items.Select(q => new QuestionItemViewModel(q)));
         }
 

@@ -23,14 +23,14 @@ namespace StackExchange.Windows.Tests.Questions
         public QuestionsViewModel Subject { get; set; }
         public StubISearchViewModel Search { get; set; }
         public ReactiveCommand<Unit, Unit> LoadSites { get; set; } = ReactiveCommand.Create(() => { });
-        public StubIQuestionsApi QuestionsApi { get; set; }
+        public StubINetworkApi NetworkApi { get; set; }
         public SiteViewModel Site { get; set; }
 
         public QuestionsViewModelTests()
         {
-            QuestionsApi = new StubIQuestionsApi();
+            NetworkApi = new StubINetworkApi();
             Search = new StubISearchViewModel();
-            Subject = new QuestionsViewModel(search: Search, questionsApi: QuestionsApi);
+            Subject = new QuestionsViewModel(search: Search, networkApi: NetworkApi);
 
             Search.SelectedSite_Set(site => Site = site);
             Search.SelectedSite_Get(() => Site);
@@ -52,7 +52,7 @@ namespace StackExchange.Windows.Tests.Questions
         {
             Site = new SiteViewModel(new Site());
             Subject.Questions.Add(new QuestionItemViewModel());
-            QuestionsApi.Questions(
+            NetworkApi.Questions(
                 (site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()
                 {
                     Items = new[]
@@ -78,7 +78,7 @@ namespace StackExchange.Windows.Tests.Questions
         public async Task Test_LoadQuestions_Executes_LoadSites_If_There_Is_No_Currently_Selected_Site()
         {
             Site = null;
-            QuestionsApi.Questions((site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()));
+            NetworkApi.Questions((site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()));
 
             LoadSites = ReactiveCommand.Create(() =>
             {
@@ -98,7 +98,7 @@ namespace StackExchange.Windows.Tests.Questions
             var testTask = new TaskCompletionSource<int>();
             Site = null;
             LoadSites = ReactiveCommand.CreateFromTask(() => loadSitesTask.Task);
-            QuestionsApi.Questions(
+            NetworkApi.Questions(
                 (site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()
                 {
                     Items = new[]
@@ -150,7 +150,7 @@ namespace StackExchange.Windows.Tests.Questions
                 ApiSiteParameter = "stackoverflow"
             });
 
-            QuestionsApi.Questions((site, order, sort, page, pagesize, filter) =>
+            NetworkApi.Questions((site, order, sort, page, pagesize, filter) =>
             {
                 Assert.Equal("stackoverflow", site);
                 called = true;
@@ -165,15 +165,14 @@ namespace StackExchange.Windows.Tests.Questions
         [Fact]
         public void Test_Refreshes_Questions_When_Site_Is_Changed_After_Activation()
         {
-            QuestionsApi.Questions((site, order, sort, page, pagesize, filter) =>
+            NetworkApi.Questions((site, order, sort, page, pagesize, filter) =>
             {
                 Assert.Equal("othersite", site);
                 return Task.FromResult(new Response<Question>());
             });
             var api = new StubINetworkApi();
-            var searchApi = new StubISearchApi();
-            var search = new SearchViewModel(networkApi: api, searchApi: searchApi);
-            Subject = new QuestionsViewModel(search: search, questionsApi: QuestionsApi);
+            var search = new SearchViewModel(networkApi: api);
+            Subject = new QuestionsViewModel(search: search, networkApi: NetworkApi);
             Subject.Questions.Add(new QuestionItemViewModel());
 
             using (Subject.Activator.Activate())
@@ -193,7 +192,7 @@ namespace StackExchange.Windows.Tests.Questions
             var application = new ApplicationViewModel();
             var question = new Question();
             var questionViewModel = new QuestionItemViewModel(question);
-            Subject = new QuestionsViewModel(application, Search, QuestionsApi);
+            Subject = new QuestionsViewModel(application, Search, NetworkApi);
 
             using (application.Navigate.RegisterHandler(ctx =>
             {
@@ -232,7 +231,7 @@ namespace StackExchange.Windows.Tests.Questions
                 ApiSiteParameter = "stackoverflow"
             });
 
-            QuestionsApi.Questions((site, order, sort, page, pagesize, filter) =>
+            NetworkApi.Questions((site, order, sort, page, pagesize, filter) =>
             {
                 if (site == "stackoverflow")
                 {

@@ -19,7 +19,7 @@ namespace StackExchange.Windows.Questions
     {
         private ReactiveList<QuestionItemViewModel> questions = new ReactiveList<QuestionItemViewModel>();
         private QuestionItemViewModel selectedQuestion;
-        private IQuestionsApi QuestionsApi { get; }
+        private INetworkApi NetworkApi { get; }
         private ISearchViewModel Search { get; }
         public string LoadedSite { get; set; } = "";
 
@@ -61,10 +61,10 @@ namespace StackExchange.Windows.Questions
             set { this.RaiseAndSetIfChanged(ref selectedQuestion, value); }
         }
 
-        public QuestionsViewModel(IApplicationViewModel application = null, ISearchViewModel search = null, IQuestionsApi questionsApi = null)
+        public QuestionsViewModel(IApplicationViewModel application = null, ISearchViewModel search = null, INetworkApi networkApi = null)
             : base(application)
         {
-            QuestionsApi = questionsApi ?? Api<IQuestionsApi>();
+            NetworkApi = networkApi ?? Api<INetworkApi>();
             Search = Service(search);
             LoadQuestions = ReactiveCommand.CreateFromTask(LoadQuestionsImpl);
             Clear = ReactiveCommand.Create(() =>
@@ -111,7 +111,7 @@ namespace StackExchange.Windows.Questions
             if (!Questions.Any() || Search.SelectedSite.ApiSiteParameter != LoadedSite)
             {
                 LoadedSite = Search.SelectedSite.ApiSiteParameter;
-                var response = await QuestionsApi.Questions(LoadedSite);
+                var response = await NetworkApi.Questions(LoadedSite);
                 var questions = response.Items.Select(q => new QuestionItemViewModel(q)).ToArray();
                 Questions = new ReactiveList<QuestionItemViewModel>(questions);
             }

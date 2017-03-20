@@ -24,7 +24,7 @@ namespace StackExchange.Windows.Questions
         private PostViewModel[] answers = new PostViewModel[0];
         private string answersTitle = "";
         public string Id { get; }
-        public IQuestionsApi QuestionsApi { get; }
+        public INetworkApi NetworkApi { get; }
 
         public string Title { get; }
         public string[] Tags { get; }
@@ -47,10 +47,10 @@ namespace StackExchange.Windows.Questions
             }
         }
 
-        public QuestionPageViewModel(Question question, IApplicationViewModel application = null, IQuestionsApi questionsApi = null)
+        public QuestionPageViewModel(Question question, IApplicationViewModel application = null, INetworkApi networkApi = null)
             : base(application)
         {
-            QuestionsApi = questionsApi ?? Api<IQuestionsApi>();
+            NetworkApi = networkApi ?? Api<INetworkApi>();
             LoadAnswers = ReactiveCommand.CreateFromTask(LoadAnswersImpl, outputScheduler: RxApp.MainThreadScheduler);
 
             Title = question.DecodedTitle;
@@ -61,7 +61,7 @@ namespace StackExchange.Windows.Questions
 
         private async Task LoadAnswersImpl()
         {
-            var result = await QuestionsApi.QuestionAnswers(Id, Application.CurrentSite);
+            var result = await NetworkApi.QuestionAnswers(Id, Application.CurrentSite);
             Answers = result.Items.Select(answer => new PostViewModel(answer)).ToArray();
         }
     }

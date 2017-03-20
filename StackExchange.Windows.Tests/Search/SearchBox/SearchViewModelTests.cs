@@ -20,13 +20,11 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
     {
         public SearchViewModel Subject { get; set; }
         public StubINetworkApi NetworkApi { get; set; }
-        public StubISearchApi SearchApi { get; set; }
 
         public SearchViewModelTests()
         {
             NetworkApi = new StubINetworkApi();
-            SearchApi = new StubISearchApi();
-            Subject = new SearchViewModel(null, NetworkApi, SearchApi);
+            Subject = new SearchViewModel(null, NetworkApi);
         }
 
         [Fact]
@@ -153,7 +151,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [Fact]
         public async Task Test_Search_Passes_The_Current_Query_To_The_Api()
         {
-            SearchApi.SearchAdvanced((q, site, filter) =>
+            NetworkApi.SearchAdvanced((q, site, filter) =>
             {
                 Assert.Equal("query", q);
                 return Task.FromResult(new Response<Question>());
@@ -171,7 +169,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [Fact]
         public async Task Test_Search_Fills_SuggestedQuestions_From_The_Returned_Search_Questions()
         {
-            SearchApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()
+            NetworkApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()
             {
                 Items = new[]
                 {
@@ -204,7 +202,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [Fact]
         public void Test_Automatically_Searches_When_Activated_After_Throttling_For_Half_A_Second()
         {
-            SearchApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()
+            NetworkApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()
             {
                 Items = new[]
                 {
@@ -250,7 +248,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [InlineData(null)]
         public async Task Test_Search_Cannot_Execute_When_Query_Is_Null_Or_Whitespace(string query)
         {
-            SearchApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()));
+            NetworkApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()));
             Subject.SelectedSite = new SiteViewModel(new Site()
             {
                 ApiSiteParameter = "stackoverflow"
@@ -265,7 +263,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [InlineData("search")]
         public async Task Test_Search_Can_Execute_When_Query_Contains_Letters(string query)
         {
-            SearchApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()));
+            NetworkApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()));
             Subject.SelectedSite = new SiteViewModel(new Site()
             {
                 ApiSiteParameter = "stackoverflow"
@@ -282,7 +280,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
             var application = new ApplicationViewModel();
             var question = new Question();
             var questionViewModel = new QuestionItemViewModel(question);
-            Subject = new SearchViewModel(application, NetworkApi, SearchApi);
+            Subject = new SearchViewModel(application, NetworkApi);
 
             using (application.Navigate.RegisterHandler(ctx =>
             {
@@ -298,7 +296,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         public async Task Test_LoadSites_Does_Not_Reload_If_There_Are_Already_Available_Sites()
         {
             var site = new SiteViewModel();
-            Subject = new SearchViewModel(null, NetworkApi, SearchApi);
+            Subject = new SearchViewModel(null, NetworkApi);
             Subject.AvailableSites.Add(site);
 
             await Subject.LoadSites.Execute();

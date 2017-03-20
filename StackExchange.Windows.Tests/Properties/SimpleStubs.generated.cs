@@ -44,59 +44,41 @@ namespace StackExchange.Windows.Api
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
         }
-    }
-}
 
-namespace StackExchange.Windows.Api
-{
-    [CompilerGenerated]
-    public class StubIQuestionsApi : IQuestionsApi
-    {
-        private readonly StubContainer<StubIQuestionsApi> _stubs = new StubContainer<StubIQuestionsApi>();
-
-        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Question>> global::StackExchange.Windows.Api.IQuestionsApi.Questions(string site, string order, string sort, int page, int pagesize, string filter)
+        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Question>> global::StackExchange.Windows.Api.INetworkApi.Questions(string site, string order, string sort, int page, int pagesize, string filter)
         {
             return _stubs.GetMethodStub<Questions_String_String_String_Int32_Int32_String_Delegate>("Questions").Invoke(site, order, sort, page, pagesize, filter);
         }
 
         public delegate global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Question>> Questions_String_String_String_Int32_Int32_String_Delegate(string site, string order, string sort, int page, int pagesize, string filter);
 
-        public StubIQuestionsApi Questions(Questions_String_String_String_Int32_Int32_String_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubINetworkApi Questions(Questions_String_String_String_Int32_Int32_String_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
         }
 
-        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Answer>> global::StackExchange.Windows.Api.IQuestionsApi.QuestionAnswers(string questionIds, string site, string order, string sort, int page, int pagesize, string filter)
+        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Answer>> global::StackExchange.Windows.Api.INetworkApi.QuestionAnswers(string questionIds, string site, string order, string sort, int page, int pagesize, string filter)
         {
             return _stubs.GetMethodStub<QuestionAnswers_String_String_String_String_Int32_Int32_String_Delegate>("QuestionAnswers").Invoke(questionIds, site, order, sort, page, pagesize, filter);
         }
 
         public delegate global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Answer>> QuestionAnswers_String_String_String_String_Int32_Int32_String_Delegate(string questionIds, string site, string order, string sort, int page, int pagesize, string filter);
 
-        public StubIQuestionsApi QuestionAnswers(QuestionAnswers_String_String_String_String_Int32_Int32_String_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubINetworkApi QuestionAnswers(QuestionAnswers_String_String_String_String_Int32_Int32_String_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
         }
-    }
-}
 
-namespace StackExchange.Windows.Api
-{
-    [CompilerGenerated]
-    public class StubISearchApi : ISearchApi
-    {
-        private readonly StubContainer<StubISearchApi> _stubs = new StubContainer<StubISearchApi>();
-
-        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Question>> global::StackExchange.Windows.Api.ISearchApi.SearchAdvanced(string q, string site, string filter)
+        global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Question>> global::StackExchange.Windows.Api.INetworkApi.SearchAdvanced(string q, string site, string filter)
         {
             return _stubs.GetMethodStub<SearchAdvanced_String_String_String_Delegate>("SearchAdvanced").Invoke(q, site, filter);
         }
 
         public delegate global::System.Threading.Tasks.Task<global::StackExchange.Windows.Api.Response<global::StackExchange.Windows.Api.Models.Question>> SearchAdvanced_String_String_String_Delegate(string q, string site, string filter);
 
-        public StubISearchApi SearchAdvanced(SearchAdvanced_String_String_String_Delegate del, int count = Times.Forever, bool overwrite = false)
+        public StubINetworkApi SearchAdvanced(SearchAdvanced_String_String_String_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;

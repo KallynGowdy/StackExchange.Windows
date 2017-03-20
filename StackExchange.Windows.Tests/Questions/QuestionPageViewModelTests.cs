@@ -15,18 +15,17 @@ namespace StackExchange.Windows.Tests.Questions
 {
     public class QuestionPageViewModelTests
     {
-
         public QuestionPageViewModel Subject { get; set; }
-        public StubIQuestionsApi QuestionsApi { get; set; }
+        public StubINetworkApi NetworkApi { get; set; }
         public Question Question { get; set; }
         public StubIApplicationViewModel Application { get; set; }
 
         public QuestionPageViewModelTests()
         {
             Question = new Question();
-            QuestionsApi = new StubIQuestionsApi();
+            NetworkApi = new StubINetworkApi();
             Application = new StubIApplicationViewModel();
-            Subject = new QuestionPageViewModel(Question, Application, QuestionsApi);
+            Subject = new QuestionPageViewModel(Question, Application, NetworkApi);
 
             Application.CurrentSite_Get(() => "test_site");
         }
@@ -47,7 +46,7 @@ namespace StackExchange.Windows.Tests.Questions
                 }
             };
 
-            QuestionsApi.QuestionAnswers((ids, site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Answer>()
+            NetworkApi.QuestionAnswers((ids, site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Answer>()
             {
                 Items = answers
             }));
@@ -72,7 +71,7 @@ namespace StackExchange.Windows.Tests.Questions
                 })
                 .ToArray();
 
-            QuestionsApi.QuestionAnswers((ids, site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Answer>()
+            NetworkApi.QuestionAnswers((ids, site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Answer>()
             {
                 Items = answers
             }));
