@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using Windows.UI.Text;
+using Windows.UI.Xaml.Documents;
 
 namespace StackExchange.Windows.Html
 {
@@ -38,7 +43,7 @@ namespace StackExchange.Windows.Html
             return Tag("body", content);
         }
 
-        public string Tag(string tag, params string[] content)
+        public static string Tag(string tag, params string[] content)
         {
             if (content.Length > 0)
             {
@@ -79,6 +84,127 @@ namespace StackExchange.Windows.Html
         public string Script(string src)
         {
             return $@"<script type=""text/javascript"" src=""{src}""></script>";
+        }
+
+        public static Block ConvertHtmlToBlocks(string html)
+        {
+            var xml = XDocument.Parse(Tag("p", html));
+            return ConvertToBlock(xml.Root);
+        }
+
+        private static bool FilterNodes(XNode element)
+        {
+            return element.NodeType == XmlNodeType.Element || element.NodeType == XmlNodeType.CDATA || element.NodeType == XmlNodeType.Text;
+        }
+
+        private static Block ConvertToBlock(XElement element)
+        {
+            if (element.Name.LocalName == "p")
+            {
+                return P(element);
+            }
+            else
+            {
+                var inline = ConvertToInline(element);
+                if (inline != null)
+                {
+                    return new Paragraph()
+                    {
+                        TextIndent = 0,
+                        Inlines = { inline }
+                    };
+                }
+            }
+            return null;
+        }
+
+        private static Inline ConvertToInline(XNode node)
+        {
+            if (node is XText text)
+            {
+                return new Run()
+                {
+                    Text = text.Value
+                };
+            }
+            else if (node is XElement element)
+            {
+                if (element.Name.LocalName == "strong")
+                {
+                    return Bold(element);
+                }
+                else if (element.Name.LocalName == "a")
+                {
+                    return Link(element);
+                }
+                else if (element.Name.LocalName == "code")
+                {
+                    return Code(element);
+                }
+                else
+                {
+                    return new Run()
+                    {
+                        Text = element.Value
+                    };
+                }
+            }
+            return null;
+        }
+
+        private static Block P(XElement element)
+        {
+            var p = new Paragraph()
+            {
+                TextIndent = 0
+            };
+            foreach (var inline in ConvertToInlines(element))
+            {
+                if (inline != null)
+                {
+                    p.Inlines.Add(inline);
+                }
+            }
+            return p;
+        }
+
+        private static IEnumerable<Inline> ConvertToInlines(XElement element)
+        {
+            return element.Nodes().Where(FilterNodes).Select(ConvertToInline);
+        }
+
+        private static Inline Bold(XElement element)
+        {
+            var bold = new Bold();
+            AddInlines(element, bold);
+            return bold;
+        }
+
+        private static Inline Link(XElement element)
+        {
+            var link = new Hyperlink();
+            var uri = element.Attribute("href");
+            link.NavigateUri = new Uri(uri.Value);
+            AddInlines(element, link);
+            return link;
+        }
+
+        private static Inline Code(XElement element)
+        {
+            var code = new Span { FontStyle = FontStyle.Italic };
+            AddInlines(element, code);
+            return code;
+        }
+
+        private static void AddInlines(XElement element, Span output)
+        {
+            foreach (var inline in ConvertToInlines(element))
+            {
+                if (inline != null)
+                {
+                    output.Inlines.Add(inline);
+                }
+            }
         }
     }
 }

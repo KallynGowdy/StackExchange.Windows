@@ -7,6 +7,7 @@ using ReactiveUI;
 using StackExchange.Windows.Html;
 using StackExchange.Windows.User.UserCard;
 using StackExchange.Windows.Api.Models;
+using StackExchange.Windows.Common.CommentDetail;
 
 namespace StackExchange.Windows.Common.PostDetail
 {
@@ -15,8 +16,8 @@ namespace StackExchange.Windows.Common.PostDetail
     /// </summary>
     public class PostViewModel : ReactiveObject
     {
-
         public UserCardViewModel Poster { get; } = new UserCardViewModel();
+        public CommentViewModel[] Comments { get; } = new CommentViewModel[0];
         public string Body { get; } = "";
         public string Score { get; } = "";
 
@@ -27,6 +28,7 @@ namespace StackExchange.Windows.Common.PostDetail
             Score = post.Score.ToString();
             Body = htmlHelper.WrapPostBody(post.Body);
             Poster = new UserCardViewModel(post);
+            Comments = post.Comments.Select(comment => new CommentViewModel(comment)).ToArray();
         }
 
         public PostViewModel() { }

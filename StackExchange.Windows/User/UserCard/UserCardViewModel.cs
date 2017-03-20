@@ -18,15 +18,15 @@ namespace StackExchange.Windows.User.UserCard
         public Uri ImageUrl { get; }
         public string Reputation { get; } = "";
 
-        public UserCardViewModel(Post post)
+        public UserCardViewModel(Content content)
         {
-            if (post.Owner != null)
+            if (content.Owner != null)
             {
-                Owner = post.Owner.DecodedDisplayName;
-                ImageUrl = new Uri(post.Owner.ProfileImage);
-                Reputation = post.Owner.Reputation.ToString();
+                Owner = content.Owner.DecodedDisplayName;
+                ImageUrl = new Uri(content.Owner.ProfileImage);
+                Reputation = content.Owner.Reputation.ToString();
             }
-            PostedOn = post.FormattedDate;
+            PostedOn = content.FormattedDate;
         }
 
         public UserCardViewModel()

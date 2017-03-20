@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
+    xmlns:commentDetail="using:StackExchange.Windows.Common.CommentDetail"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -19,6 +20,7 @@
 
     <Grid x:Name="RootGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -38,7 +40,7 @@
               Stroke="LightGray"
               Stretch="Fill"
               StrokeThickness="1"/>
-        
+
         <StackPanel x:Name="ScorePanel" 
                     Grid.Row="1"
                     Grid.Column="0"
@@ -69,10 +71,20 @@
                  Margin="0,0,0,8"
                  DOMContentLoaded="Body_OnDOMContentLoaded"
                  NavigationStarting="Body_OnNavigationStarting"/>
-        
+
         <userCard:UserCard x:Name="Poster"
                            Grid.Row="2"
                            Grid.Column="1"
                            HorizontalAlignment="Right"/>
+
+        <ItemsControl x:Name="Comments"
+                      Grid.Row="3"
+                      Grid.Column="1">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="commentDetail:CommentViewModel">
+                    <commentDetail:CommentDetail ViewModel="{x:Bind}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

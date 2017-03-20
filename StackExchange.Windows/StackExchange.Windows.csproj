@@ -105,6 +105,10 @@
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="BindingConverters\BooleanToBrushBindingTypeConverter.cs" />
     <Compile Include="BindingConverters\UriToImageSourceBindingTypeConverter.cs" />
+    <Compile Include="Common\CommentDetail\CommentDetail.xaml.cs">
+      <DependentUpon>CommentDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\CommentDetail\CommentViewModel.cs" />
     <Compile Include="Common\PostDetail\PostDetail.xaml.cs">
       <DependentUpon>PostDetail.xaml</DependentUpon>
     </Compile>
@@ -210,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Common\CommentDetail\CommentDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\PostDetail\PostDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

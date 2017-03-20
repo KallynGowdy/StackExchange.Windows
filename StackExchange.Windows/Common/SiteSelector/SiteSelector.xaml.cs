@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,13 +26,16 @@ namespace StackExchange.Windows.Common.SiteSelector
         public SiteSelector()
         {
             this.InitializeComponent();
-            this.WhenActivated(d =>
+            if (!DesignMode.DesignModeEnabled)
             {
-                d(this.OneWayBind(ViewModel, vm => vm.AvailableSites, view => view.Site.ItemsSource));
-                d(this.Bind(ViewModel, vm => vm.SelectedSite, view => view.Site.SelectedItem));
+                this.WhenActivated(d =>
+                {
+                    d(this.OneWayBind(ViewModel, vm => vm.AvailableSites, view => view.Site.ItemsSource));
+                    d(this.Bind(ViewModel, vm => vm.SelectedSite, view => view.Site.SelectedItem));
 
-                d(ViewModel.LoadSites.Execute().Subscribe());
-            });
+                    d(ViewModel.LoadSites.Execute().Subscribe());
+                });
+            }
         }
 
         object IViewFor.ViewModel

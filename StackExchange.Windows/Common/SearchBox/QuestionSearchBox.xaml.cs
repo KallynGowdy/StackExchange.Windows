@@ -1,5 +1,6 @@
 ﻿using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 using ReactiveUI;
@@ -14,19 +15,22 @@ namespace StackExchange.Windows.Common.SearchBox
         public QuestionSearchBox()
         {
             this.InitializeComponent();
-            this.WhenActivated(d =>
+            if (!DesignMode.DesignModeEnabled)
             {
-                d(this.Bind(ViewModel, vm => vm.Query, view => view.InputBox.Text));
-                d(this.Bind(ViewModel, vm => vm.SuggestedQuestions, view => view.InputBox.ItemsSource));
-                Observable.FromEventPattern<
-                        TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs>,
-                        AutoSuggestBox,
-                        AutoSuggestBoxSuggestionChosenEventArgs>(h => this.InputBox.SuggestionChosen += h,
-                        h => this.InputBox.SuggestionChosen -= h)
-                    .Select(ep => ep.EventArgs.SelectedItem)
-                    .InvokeCommand(ViewModel, vm => vm.DisplayQuestion)
-                    .DisposeWith(d);
-            });
+                this.WhenActivated(d =>
+                {
+                    d(this.Bind(ViewModel, vm => vm.Query, view => view.InputBox.Text));
+                    d(this.Bind(ViewModel, vm => vm.SuggestedQuestions, view => view.InputBox.ItemsSource));
+                    Observable.FromEventPattern<
+                            TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs>,
+                            AutoSuggestBox,
+                            AutoSuggestBoxSuggestionChosenEventArgs>(h => this.InputBox.SuggestionChosen += h,
+                            h => this.InputBox.SuggestionChosen -= h)
+                        .Select(ep => ep.EventArgs.SelectedItem)
+                        .InvokeCommand(ViewModel, vm => vm.DisplayQuestion)
+                        .DisposeWith(d);
+                });
+            }
         }
 
         object IViewFor.ViewModel

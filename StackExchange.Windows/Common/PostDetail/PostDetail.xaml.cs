@@ -38,6 +38,7 @@ namespace StackExchange.Windows.Common.PostDetail
                 {
                     d(this.Bind(ViewModel, vm => vm.Score, view => view.Score.Text));
                     d(this.OneWayBind(ViewModel, vm => vm.Poster, view => view.Poster.User));
+                    d(this.OneWayBind(ViewModel, vm => vm.Comments, view => view.Comments.ItemsSource));
 
                     d(this.WhenAnyValue(view => view.ViewModel.Body)
                         .ObserveOn(RxApp.MainThreadScheduler)
