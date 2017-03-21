@@ -10,7 +10,8 @@
     d:DesignWidth="400">
 
     <StackPanel Orientation="Vertical"
-                HorizontalAlignment="Stretch">
+                HorizontalAlignment="Stretch"
+                Padding="8">
         <RichTextBlock x:Name="Content" 
                        FontSize="12" 
                        TextWrapping="WrapWholeWords"

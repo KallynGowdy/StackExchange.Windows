@@ -47,7 +47,6 @@
                                        Grid.Column="0"
                                        x:Name="Question" />
 
-
                 <TextBlock x:Name="AnswersTitle"
                            Grid.Row="2"
                            Grid.Column="0"

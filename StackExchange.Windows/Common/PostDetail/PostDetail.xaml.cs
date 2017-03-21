@@ -36,15 +36,18 @@ namespace StackExchange.Windows.Common.PostDetail
             {
                 this.WhenActivated(d =>
                 {
-                    d(this.Bind(ViewModel, vm => vm.Score, view => view.Score.Text));
-                    d(this.OneWayBind(ViewModel, vm => vm.Poster, view => view.Poster.User));
-                    d(this.OneWayBind(ViewModel, vm => vm.Comments, view => view.Comments.ItemsSource));
-
-                    d(this.WhenAnyValue(view => view.ViewModel.Body)
+                    this.Bind(ViewModel, vm => vm.Score, view => view.Score.Text)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.Poster, view => view.Poster.ViewModel)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.Comments, view => view.Comments.ItemsSource)
+                        .DisposeWith(d);
+                    this.WhenAnyValue(view => view.ViewModel.Body)
                         .ObserveOn(RxApp.MainThreadScheduler)
                         .Where(body => !string.IsNullOrEmpty(body))
                         .Do(body => Body.NavigateToString(body))
-                        .Subscribe());
+                        .Subscribe()
+                        .DisposeWith(d);
                 });
             }
         }

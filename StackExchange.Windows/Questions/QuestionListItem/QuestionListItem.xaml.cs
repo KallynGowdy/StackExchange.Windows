@@ -37,16 +37,16 @@ namespace StackExchange.Windows.Questions.QuestionListItem
             this.InitializeComponent();
             if (!DesignMode.DesignModeEnabled)
             {
-                this.WhenActivated(d =>
+                (this).WhenActivated((System.Action<System.Action<System.IDisposable>>)((System.Action<System.IDisposable> d) =>
                 {
-                    d(this.Bind(ViewModel, vm => vm.Title, view => view.Title.Text));
-                    d(this.Bind(ViewModel, vm => vm.Score, view => view.Score.Text));
-                    d(this.Bind(ViewModel, vm => vm.Views, view => view.NumViews.Text));
-                    d(this.Bind(ViewModel, vm => vm.Answers, view => view.NumAnswers.Text));
-                    d(this.OneWayBind(ViewModel, vm => vm.IsAnswered, view => view.AnswersPanel.Background, vmToViewConverterOverride: BooleanToBrushBindingTypeConverter.Create(@true: Colors.Aquamarine, @false: Colors.Transparent)));
-                    d(this.Bind(ViewModel, vm => vm.User, view => view.UserCard.User));
-                    d(this.Bind(ViewModel, vm => vm.Tags, view => view.Tags.ItemsSource));
-                });
+                    d((this).Bind(ViewModel, vm => vm.Title, view => view.Title.Text));
+                    d((this).Bind(ViewModel, vm => vm.Score, view => view.Score.Text));
+                    d((this).Bind(ViewModel, vm => vm.Views, view => view.NumViews.Text));
+                    d((this).Bind(ViewModel, vm => vm.Answers, view => view.NumAnswers.Text));
+                    d((this).OneWayBind(ViewModel, vm => vm.IsAnswered, view => view.AnswersPanel.Background, vmToViewConverterOverride: BooleanToBrushBindingTypeConverter.Create(@true: Colors.Aquamarine, @false: Colors.Transparent)));
+                    d((this).Bind(ViewModel, vm => vm.User, (System.Linq.Expressions.Expression<System.Func<QuestionListItem, User.UserCard.UserCardViewModel>>)(view => (User.UserCard.UserCardViewModel)view.UserCard.ViewModel)));
+                    d((this).Bind(ViewModel, vm => vm.Tags, view => view.Tags.ItemsSource));
+                }));
             }
         }
 

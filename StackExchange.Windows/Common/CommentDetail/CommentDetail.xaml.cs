@@ -37,7 +37,6 @@ namespace StackExchange.Windows.Common.CommentDetail
                 this.WhenActivated(d =>
                 {
                     this.WhenAnyValue(view => view.ViewModel.Body)
-                        .Select(HtmlHelper.ConvertHtmlToBlocks)
                         .Do(block =>
                         {
                             Content.Blocks.Clear();

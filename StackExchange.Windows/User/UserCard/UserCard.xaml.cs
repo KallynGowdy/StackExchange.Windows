@@ -22,23 +22,11 @@ namespace StackExchange.Windows.User.UserCard
 {
     public sealed partial class UserCard : UserControl, IViewFor<UserCardViewModel>
     {
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(
-            nameof(User),
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+            nameof(ViewModel),
             typeof(UserCardViewModel),
             typeof(UserCard),
             new PropertyMetadata(null));
-
-        public UserCardViewModel User
-        {
-            get
-            {
-                return (UserCardViewModel)GetValue(UserProperty);
-            }
-            set
-            {
-                SetValue(UserProperty, value);
-            }
-        }
 
         public UserCard()
         {
@@ -63,8 +51,14 @@ namespace StackExchange.Windows.User.UserCard
 
         public UserCardViewModel ViewModel
         {
-            get { return User; }
-            set { User = value; }
+            get
+            {
+                return (UserCardViewModel)GetValue(ViewModelProperty);
+            }
+            set
+            {
+                SetValue(ViewModelProperty, value);
+            }
         }
     }
 }

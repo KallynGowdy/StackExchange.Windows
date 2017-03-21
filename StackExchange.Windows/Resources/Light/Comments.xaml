@@ -3,10 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:StackExchange.Windows.Resources.Light">
     <Style x:Name="InlineCodeComment" TargetType="TextBlock">
-        <Setter Property="Margin" Value="0,0,0,-3"/>
         <Setter Property="FontFamily" Value="Consolas"/>
     </Style>
     <Style x:Name="InlineCodeCommentContainer" TargetType="StackPanel">
-        <Setter Property="Background" Value="#eeeeee"></Setter>
+        <Setter Property="Background" Value="#eeeeee"/>
+        <Setter Property="Margin" Value="0,0,0,-3"/>
     </Style>
 </ResourceDictionary>
