@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Windows.Data.Html;
+using Windows.UI;
 using Windows.UI.Text;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
+using Windows.UI.Xaml.Media;
+using HtmlAgilityPack;
 
 namespace StackExchange.Windows.Html
 {
@@ -58,6 +65,18 @@ namespace StackExchange.Windows.Html
             }
         }
 
+        public static string TagNoIndent(string tag, params string[] content)
+        {
+            if (content.Length > 0)
+            {
+                return $@"<{tag}>{string.Join(Environment.NewLine, content)}</{tag}>".Trim();
+            }
+            else
+            {
+                return $"<{tag} />";
+            }
+        }
+
         public string Head(params string[] content)
         {
             return Tag("head", content);
@@ -88,18 +107,19 @@ namespace StackExchange.Windows.Html
 
         public static Block ConvertHtmlToBlocks(string html)
         {
-            var xml = XDocument.Parse(Tag("p", html));
-            return ConvertToBlock(xml.Root);
+            var doc = new HtmlDocument();
+            doc.LoadHtml(TagNoIndent("p", html));
+            return ConvertToBlock(doc.DocumentNode.FirstChild);
         }
 
-        private static bool FilterNodes(XNode element)
+        private static bool FilterNodes(HtmlNode element)
         {
-            return element.NodeType == XmlNodeType.Element || element.NodeType == XmlNodeType.CDATA || element.NodeType == XmlNodeType.Text;
+            return element.NodeType == HtmlNodeType.Element || element.NodeType == HtmlNodeType.Text;
         }
 
-        private static Block ConvertToBlock(XElement element)
+        private static Block ConvertToBlock(HtmlNode element)
         {
-            if (element.Name.LocalName == "p")
+            if (element.Name == "p")
             {
                 return P(element);
             }
@@ -108,56 +128,46 @@ namespace StackExchange.Windows.Html
                 var inline = ConvertToInline(element);
                 if (inline != null)
                 {
-                    return new Paragraph()
-                    {
-                        TextIndent = 0,
-                        Inlines = { inline }
-                    };
+                    var para = Paragraph();
+                    para.Inlines.Add(inline);
+                    return para;
                 }
             }
             return null;
         }
 
-        private static Inline ConvertToInline(XNode node)
+        private static Inline ConvertToInline(HtmlNode node)
         {
-            if (node is XText text)
+            if (node is HtmlTextNode text)
             {
                 return new Run()
                 {
-                    Text = text.Value
+                    Text = WebUtility.HtmlDecode(text.Text)
                 };
             }
-            else if (node is XElement element)
+            else if (node is HtmlNode element)
             {
-                if (element.Name.LocalName == "strong")
+                switch (element.Name)
                 {
-                    return Bold(element);
-                }
-                else if (element.Name.LocalName == "a")
-                {
-                    return Link(element);
-                }
-                else if (element.Name.LocalName == "code")
-                {
-                    return Code(element);
-                }
-                else
-                {
-                    return new Run()
-                    {
-                        Text = element.Value
-                    };
+                    case "strong":
+                        return Bold(element);
+                    case "a":
+                        return Link(element);
+                    case "code":
+                        return Code(element);
+                    default:
+                        return new Run()
+                        {
+                            Text = WebUtility.HtmlDecode(element.InnerText)
+                        };
                 }
             }
             return null;
         }
 
-        private static Block P(XElement element)
+        private static Block P(HtmlNode element)
         {
-            var p = new Paragraph()
-            {
-                TextIndent = 0
-            };
+            var p = Paragraph();
             foreach (var inline in ConvertToInlines(element))
             {
                 if (inline != null)
@@ -168,35 +178,55 @@ namespace StackExchange.Windows.Html
             return p;
         }
 
-        private static IEnumerable<Inline> ConvertToInlines(XElement element)
+        private static Paragraph Paragraph()
         {
-            return element.Nodes().Where(FilterNodes).Select(ConvertToInline);
+            return new Paragraph()
+            {
+                Margin = new Thickness(0)
+            };
         }
 
-        private static Inline Bold(XElement element)
+        private static IEnumerable<Inline> ConvertToInlines(HtmlNode element)
+        {
+            return element.ChildNodes.Where(FilterNodes).Select(ConvertToInline);
+        }
+
+        private static Inline Bold(HtmlNode element)
         {
             var bold = new Bold();
             AddInlines(element, bold);
             return bold;
         }
 
-        private static Inline Link(XElement element)
+        private static Inline Link(HtmlNode element)
         {
             var link = new Hyperlink();
-            var uri = element.Attribute("href");
-            link.NavigateUri = new Uri(uri.Value);
+            var uri = element.GetAttributeValue("href", "");
+            link.NavigateUri = new Uri(uri);
             AddInlines(element, link);
             return link;
         }
 
-        private static Inline Code(XElement element)
+        private static Inline Code(HtmlNode element)
         {
-            var code = new Span { FontStyle = FontStyle.Italic };
-            AddInlines(element, code);
-            return code;
+            return new InlineUIContainer
+            {
+                Child = new StackPanel()
+                {
+                    Children =
+                    {
+                        new TextBlock()
+                        {
+                            Text = WebUtility.HtmlDecode(element.InnerText),
+                            Style = (Style) App.Current.Resources["InlineCodeComment"]
+                        }
+                    },
+                    Style = (Style)App.Current.Resources["InlineCodeCommentContainer"]
+                }
+            };
         }
 
-        private static void AddInlines(XElement element, Span output)
+        private static void AddInlines(HtmlNode element, Span output)
         {
             foreach (var inline in ConvertToInlines(element))
             {

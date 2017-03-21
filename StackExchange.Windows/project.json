@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "HtmlAgilityPack": "1.4.9.5",
     "Humanizer": "2.1.0",
     "IdentityModel": "2.5.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",

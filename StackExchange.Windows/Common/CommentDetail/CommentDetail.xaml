@@ -11,6 +11,9 @@
 
     <StackPanel Orientation="Vertical"
                 HorizontalAlignment="Stretch">
-        <RichTextBlock x:Name="Content" FontSize="12" TextWrapping="WrapWholeWords"/>
+        <RichTextBlock x:Name="Content" 
+                       FontSize="12" 
+                       TextWrapping="WrapWholeWords"
+                       TextIndent="0"/>
     </StackPanel>
 </UserControl>
