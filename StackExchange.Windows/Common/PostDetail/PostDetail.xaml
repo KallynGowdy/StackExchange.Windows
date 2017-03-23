@@ -13,7 +13,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary Source="../../Resources/Light/Buttons.xaml" x:Key="Light"/>
+                <ResourceDictionary Source="../../Resources/Light/Light.xaml" x:Key="Light"/>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -33,13 +33,7 @@
               Grid.Row="0"
               Grid.Column="0"
               Grid.ColumnSpan="2"
-              X1="0"
-              X2="1"
-              HorizontalAlignment="Stretch"
-              Margin="0,8,0,16" 
-              Stroke="LightGray"
-              Stretch="Fill"
-              StrokeThickness="1"/>
+              Style="{StaticResource PostSeparator}"/>
 
         <StackPanel x:Name="ScorePanel" 
                     Grid.Row="1"

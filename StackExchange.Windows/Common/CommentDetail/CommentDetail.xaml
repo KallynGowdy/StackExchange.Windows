@@ -8,10 +8,22 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="../../Resources/Light/Light.xaml" x:Key="Light"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <StackPanel Orientation="Vertical"
                 HorizontalAlignment="Stretch"
-                Padding="8">
+                Padding="0,8,0,0">
+        <Line x:Name="Separator"
+              Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Style="{StaticResource PostSeparator}"/>
         <RichTextBlock x:Name="Content" 
                        FontSize="12" 
                        TextWrapping="WrapWholeWords"
