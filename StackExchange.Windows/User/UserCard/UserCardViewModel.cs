@@ -23,7 +23,7 @@ namespace StackExchange.Windows.User.UserCard
             if (content.Owner != null)
             {
                 Owner = content.Owner.DecodedDisplayName;
-                ImageUrl = new Uri(content.Owner.ProfileImage);
+                ImageUrl = string.IsNullOrEmpty(content.Owner.ProfileImage) ? null : new Uri(content.Owner.ProfileImage);
                 Reputation = content.Owner.Reputation.ToString();
             }
             PostedOn = content.FormattedDate;

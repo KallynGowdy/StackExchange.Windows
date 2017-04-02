@@ -27,6 +27,11 @@ namespace StackExchange.Windows
         public static async Task ResizeHeightToContentAsync(this WebView webView)
         {
             var result = await webView.InvokeScriptAsync("getHeight", null);
+            while (result == "-1")
+            {
+                await Task.Delay(25);
+                result = await webView.InvokeScriptAsync("getHeight", null);
+            }
             webView.Height = Convert.ToDouble(result);
         }
     }
