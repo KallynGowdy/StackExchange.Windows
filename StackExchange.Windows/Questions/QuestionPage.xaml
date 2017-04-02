@@ -50,6 +50,7 @@
                 <TextBlock x:Name="AnswersTitle"
                            Grid.Row="2"
                            Grid.Column="0"
+                           Margin="0,8,0,0"
                            Text="Answers"
                            Style="{StaticResource TitleTextBlockStyle}"/>
 

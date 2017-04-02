@@ -23,7 +23,7 @@
               Grid.Row="0"
               Grid.Column="0"
               Grid.ColumnSpan="2"
-              Style="{StaticResource PostSeparator}"/>
+              Style="{StaticResource CommentSeparator}"/>
         <RichTextBlock x:Name="Content" 
                        FontSize="12" 
                        TextWrapping="WrapWholeWords"
