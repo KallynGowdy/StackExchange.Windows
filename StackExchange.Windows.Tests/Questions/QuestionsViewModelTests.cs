@@ -276,5 +276,15 @@ namespace StackExchange.Windows.Tests.Questions
             Assert.Collection(Subject.Questions,
                 q => Assert.Equal("Second", q.Title));
         }
+
+        [Fact]
+        public void Test_Clears_Selected_Question_When_Activated()
+        {
+            Subject.SelectedQuestion = new QuestionItemViewModel();
+            using (Subject.Activator.Activate())
+            {
+                Assert.Null(Subject.SelectedQuestion);
+            }
+        }
     }
 }

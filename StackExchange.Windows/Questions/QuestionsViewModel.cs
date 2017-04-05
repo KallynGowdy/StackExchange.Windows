@@ -83,6 +83,8 @@ namespace StackExchange.Windows.Questions
 
             this.WhenActivated(d =>
             {
+                SelectedQuestion = null;
+
                 d(Search.WhenAnyValue(s => s.SelectedSite)
                     .Skip(1)
                     .Select(svm => Unit.Default)

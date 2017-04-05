@@ -32,7 +32,7 @@ namespace StackExchange.Windows.Questions
                 d(this.OneWayBind(ViewModel, vm => vm.Questions, view => view.Questions.ItemsSource));
                 d(this.Bind(ViewModel, vm => vm.SelectedQuestion, view => view.Questions.SelectedItem));
                 d(ViewModel.LoadQuestions.IsExecuting.BindTo(this, view => view.LoadingRing.IsActive));
-                
+
                 d(this.BindCommand(ViewModel, vm => vm.Refresh, view => view.Refresh));
 
                 d(ViewModel.LoadQuestions.Execute().Subscribe());
@@ -46,10 +46,5 @@ namespace StackExchange.Windows.Questions
         }
 
         public QuestionsViewModel ViewModel { get; set; } = Locator.Current.GetService<QuestionsViewModel>();
-
-        //private void SearchBox_OnLostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    SearchCompletionBox.Visibility = Visibility.Collapsed;
-        //}
     }
 }

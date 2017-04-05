@@ -5,5 +5,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="./Buttons.xaml"/>
         <ResourceDictionary Source="./Lines.xaml"/>
+        <ResourceDictionary Source="./Posts.xaml"/>
+        <ResourceDictionary Source="./UserCard.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

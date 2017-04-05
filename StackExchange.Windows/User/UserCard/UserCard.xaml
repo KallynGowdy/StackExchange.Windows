@@ -8,8 +8,15 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="../../Resources/Light/Light.xaml" x:Key="Light"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-    <Grid x:Name="UserCardGrid">
+    <Grid x:Name="UserCardGrid" Style="{StaticResource UserCardBackground}">
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="18" Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -42,7 +49,7 @@
                    Grid.Column="1"
                    TextAlignment="Left"
                    FontSize="12"/>
-        
+
         <TextBlock x:Name="Reputation"
                    Grid.Row="2"
                    Grid.Column="1"
