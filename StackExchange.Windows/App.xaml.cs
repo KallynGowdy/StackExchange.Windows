@@ -113,8 +113,13 @@ namespace StackExchange.Windows
                 Window.Current.Activate();
             }
 
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            rootFrame.Navigated += RootFrameOnNavigated;
             SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+        }
+
+        private void RootFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
+        {
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
         private void App_BackRequested(object sender, BackRequestedEventArgs e)
