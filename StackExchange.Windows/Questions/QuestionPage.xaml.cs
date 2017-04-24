@@ -35,7 +35,7 @@ namespace StackExchange.Windows.Questions
                 d(this.OneWayBind(ViewModel, vm => vm.Question, view => view.Question.ViewModel));
                 d(this.OneWayBind(ViewModel, vm => vm.Answers, view => view.Answers.ItemsSource));
                 
-                d(ViewModel.Load.IsExecuting.BindTo(this, view => view.Loading.IsActive));
+                d(ViewModel.Load.IsExecuting.BindTo(this, view => view.LoadingRing.IsActive));
                 d(ViewModel.Load.Execute().Subscribe());
             });
         }

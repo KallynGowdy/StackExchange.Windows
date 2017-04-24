@@ -67,7 +67,7 @@
             </Grid>
         </ScrollViewer>
         
-        <ProgressRing x:Name="Loading"
+        <ProgressRing x:Name="LoadingRing"
                       Grid.Column="0"
                       Grid.Row="0"
                       VerticalAlignment="Center"
