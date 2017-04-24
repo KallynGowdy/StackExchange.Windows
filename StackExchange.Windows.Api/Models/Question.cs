@@ -9,7 +9,6 @@ namespace StackExchange.Windows.Api.Models
     public class Question : Post
     {
         public int QuestionId { get; set; }
-        public string Link { get; set; } = "";
         public string Title { get; set; } = "";
         public string[] Tags { get; set; } = new string[0];
         public int AnswerCount { get; set; }

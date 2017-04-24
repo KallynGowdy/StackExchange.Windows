@@ -48,6 +48,9 @@ namespace StackExchange.Windows.Common.PostDetail
                         .Do(body => Body.NavigateToString(body))
                         .Subscribe()
                         .DisposeWith(d);
+
+                    this.BindCommand(ViewModel, vm => vm.CopyLink, view => view.Link)
+                        .DisposeWith(d);
                 });
             }
         }

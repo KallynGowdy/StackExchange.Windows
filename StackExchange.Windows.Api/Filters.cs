@@ -13,7 +13,7 @@ namespace StackExchange.Windows.Api
         /// Defines a filter that returns questions with detail information such as
         /// the body, and comments.
         /// </summary>
-        public const string QuestionDetail = "!g9XCYK.yjpHYJ7cr0kEdMUO)HSi-RxJp.8N";
+        public const string QuestionDetail = "!b0OfNFIBFo03eJ";
         
         // <summary>
         // Defines a filter that returns question info that contains only the information needed for a list.
@@ -24,6 +24,6 @@ namespace StackExchange.Windows.Api
         /// Defines a filter that returns answers with detail information such as
         /// the body and comments.
         /// </summary>
-        public const string AnswerDetail = "!3yXvh5nX2Ow3EnKVm";
+        public const string AnswerDetail = "!)rCcH8tl27TkOv40lXxi";
     }
 }

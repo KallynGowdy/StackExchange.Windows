@@ -11,5 +11,6 @@ namespace StackExchange.Windows.Api.Models
     public abstract class Post : Content
     {
         public Comment[] Comments { get; set; } = new Comment[0];
+        public string Link { get; set; }
     }
 }

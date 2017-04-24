@@ -66,6 +66,16 @@
                  DOMContentLoaded="Body_OnDOMContentLoaded"
                  NavigationStarting="Body_OnNavigationStarting"/>
 
+        <StackPanel x:Name="ShortcutsPanel"
+                    Grid.Row="2"
+                    Grid.Column="1">
+            <Button x:Name="Link"
+                    FontSize="16"
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE71B;"
+                    ToolTipService.ToolTip="Copy link"/>
+        </StackPanel>
+        
         <userCard:UserCard x:Name="Poster"
                            Grid.Row="2"
                            Grid.Column="1"
