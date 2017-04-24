@@ -24,7 +24,7 @@
               Grid.Column="0"
               Grid.ColumnSpan="2"
               Style="{StaticResource CommentSeparator}"/>
-        <RichTextBlock x:Name="Content" 
+        <RichTextBlock x:Name="CommentContent" 
                        FontSize="12" 
                        TextWrapping="WrapWholeWords"
                        TextIndent="0"/>

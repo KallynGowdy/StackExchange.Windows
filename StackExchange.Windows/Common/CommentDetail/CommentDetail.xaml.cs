@@ -39,8 +39,8 @@ namespace StackExchange.Windows.Common.CommentDetail
                     this.WhenAnyValue(view => view.ViewModel.Body)
                         .Do(block =>
                         {
-                            Content.Blocks.Clear();
-                            Content.Blocks.Add(block);
+                            CommentContent.Blocks.Clear();
+                            CommentContent.Blocks.Add(block);
                         })
                         .Subscribe()
                         .DisposeWith(d);
