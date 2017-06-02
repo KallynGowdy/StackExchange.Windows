@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using ReactiveUI;
+using Splat;
 using StackExchange.Windows.Html;
 using StackExchange.Windows.User.UserCard;
 using StackExchange.Windows.Api.Models;
 using StackExchange.Windows.Common.CommentDetail;
+using StackExchange.Windows.Services;
 
 namespace StackExchange.Windows.Common.PostDetail
 {
@@ -19,6 +21,8 @@ namespace StackExchange.Windows.Common.PostDetail
     /// </summary>
     public class PostViewModel : ReactiveObject
     {
+        public IClipboard Clipboard { get; }
+
         public UserCardViewModel Poster { get; } = new UserCardViewModel();
         public CommentViewModel[] Comments { get; } = new CommentViewModel[0];
         public string Body { get; } = "";
@@ -26,7 +30,15 @@ namespace StackExchange.Windows.Common.PostDetail
         public string Link { get; }
         public ReactiveCommand<Unit, Unit> CopyLink { get; }
 
-        public PostViewModel(Post post) : this()
+        public PostViewModel() : this((IClipboard)null)
+        {
+        }
+
+        public PostViewModel(Post post) : this(post, null)
+        {
+        }
+
+        public PostViewModel(Post post, IClipboard clipboard) : this(clipboard)
         {
             var htmlHelper = new HtmlHelper();
 
@@ -37,8 +49,9 @@ namespace StackExchange.Windows.Common.PostDetail
             Comments = post.Comments.Select(comment => new CommentViewModel(comment)).ToArray();
         }
 
-        public PostViewModel()
+        public PostViewModel(IClipboard clipboard)
         {
+            this.Clipboard = clipboard ?? Locator.Current.GetService<IClipboard>();
             CopyLink = ReactiveCommand.Create(CopyLinkImpl);
         }
 

@@ -18,6 +18,7 @@ using StackExchange.Windows.Authentication;
 using StackExchange.Windows.BindingConverters;
 using StackExchange.Windows.Common.SearchBox;
 using StackExchange.Windows.Questions;
+using StackExchange.Windows.Services;
 
 namespace StackExchange.Windows.Application
 {
@@ -90,6 +91,7 @@ namespace StackExchange.Windows.Application
             Locator.CurrentMutable.RegisterConstant(this, typeof(IApplicationViewModel));
             Locator.CurrentMutable.RegisterConstant(Authentication, typeof(IAuthenticationViewModel));
 
+            Locator.CurrentMutable.RegisterLazySingleton(() => new UwpClipboard(), typeof(IClipboard));
             Locator.CurrentMutable.RegisterLazySingleton(() => new QuestionsViewModel(), typeof(QuestionsViewModel));
             Locator.CurrentMutable.Register(UriToImageSourceBindingTypeConverter.Create, typeof(IBindingTypeConverter));
 

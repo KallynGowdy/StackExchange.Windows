@@ -11,6 +11,7 @@ using ReactiveUI;
 using StackExchange.Windows.Authentication;
 using System.Windows.Input;
 using StackExchange.Windows.Questions;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace StackExchange.Windows.Api
 {
@@ -395,6 +396,28 @@ namespace StackExchange.Windows.Common.SearchBox
         public delegate void Query_Set_Delegate(string value);
 
         public StubISearchViewModel Query_Set(Query_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+    }
+}
+
+namespace StackExchange.Windows.Services
+{
+    [CompilerGenerated]
+    public class StubIClipboard : IClipboard
+    {
+        private readonly StubContainer<StubIClipboard> _stubs = new StubContainer<StubIClipboard>();
+
+        void global::StackExchange.Windows.Services.IClipboard.SetContent(global::Windows.ApplicationModel.DataTransfer.DataPackage data)
+        {
+            _stubs.GetMethodStub<SetContent_DataPackage_Delegate>("SetContent").Invoke(data);
+        }
+
+        public delegate void SetContent_DataPackage_Delegate(global::Windows.ApplicationModel.DataTransfer.DataPackage data);
+
+        public StubIClipboard SetContent(SetContent_DataPackage_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
