@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 using ReactiveUI;
 using Splat;
 using StackExchange.Windows.Html;
@@ -29,6 +30,7 @@ namespace StackExchange.Windows.Common.PostDetail
         public string Score { get; } = "";
         public string Link { get; }
         public ReactiveCommand<Unit, Unit> CopyLink { get; }
+        public ReactiveCommand<Unit, Unit> OpenPostInBrowser { get; }
 
         public PostViewModel() : this((IClipboard)null)
         {
@@ -53,6 +55,12 @@ namespace StackExchange.Windows.Common.PostDetail
         {
             this.Clipboard = clipboard ?? Locator.Current.GetService<IClipboard>();
             CopyLink = ReactiveCommand.Create(CopyLinkImpl);
+            OpenPostInBrowser = ReactiveCommand.CreateFromTask(OpenPostImpl);
+        }
+
+        private async Task OpenPostImpl()
+        {
+            await Launcher.LaunchUriAsync(new Uri(Link));
         }
 
         private void CopyLinkImpl()

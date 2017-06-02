@@ -51,6 +51,8 @@ namespace StackExchange.Windows.Common.PostDetail
 
                     this.BindCommand(ViewModel, vm => vm.CopyLink, view => view.Link)
                         .DisposeWith(d);
+                    this.BindCommand(ViewModel, vm => vm.OpenPostInBrowser, view => view.OpenInBrowser)
+                        .DisposeWith(d);
                 });
             }
         }

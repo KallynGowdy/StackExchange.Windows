@@ -68,12 +68,18 @@
 
         <StackPanel x:Name="ShortcutsPanel"
                     Grid.Row="2"
-                    Grid.Column="1">
+                    Grid.Column="1"
+                    Orientation="Horizontal">
             <Button x:Name="Link"
                     FontSize="16"
                     FontFamily="Segoe MDL2 Assets"
                     Content="&#xE71B;"
                     ToolTipService.ToolTip="Copy link"/>
+            <Button x:Name="OpenInBrowser"
+                    FontSize="16"
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE909;"
+                    ToolTipService.ToolTip="Open In Browser"/>
         </StackPanel>
         
         <userCard:UserCard x:Name="Poster"
