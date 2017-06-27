@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     xmlns:commentDetail="using:StackExchange.Windows.Common.CommentDetail"
+    xmlns:tagsList="using:StackExchange.Windows.Common.TagsList"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -15,11 +16,18 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary Source="../../Resources/Light/Light.xaml" x:Key="Light"/>
             </ResourceDictionary.ThemeDictionaries>
+            <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
+                <Button x:Name="Tag"
+                        Margin="0,0,8,0"
+                        IsEnabled="False"
+                        Content="{x:Bind}"/>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid x:Name="RootGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -65,10 +73,16 @@
                  Margin="0,0,0,8"
                  DOMContentLoaded="Body_OnDOMContentLoaded"
                  NavigationStarting="Body_OnNavigationStarting"/>
-
+        
+        <tagsList:TagsList x:Name="Tags"
+                           Grid.Row="2"
+                           Grid.Column="1"
+                           Margin="0,8,0,0"/>
+        
         <StackPanel x:Name="ShortcutsPanel"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="1"
+                    Margin="0,8,0,0"
                     Orientation="Horizontal">
             <Button x:Name="Link"
                     FontSize="16"
@@ -85,10 +99,11 @@
         <userCard:UserCard x:Name="Poster"
                            Grid.Row="2"
                            Grid.Column="1"
+                           Grid.RowSpan="2"
                            HorizontalAlignment="Right"/>
 
         <ItemsControl x:Name="Comments"
-                      Grid.Row="3"
+                      Grid.Row="4"
                       Grid.Column="1">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="commentDetail:CommentViewModel">

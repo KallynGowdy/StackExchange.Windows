@@ -21,6 +21,9 @@ using ReactiveUI;
 
 namespace StackExchange.Windows.Common.PostDetail
 {
+    /// <summary>
+    /// Defines a user control that can display a <see cref="PostViewModel"/> in detail.
+    /// </summary>
     public sealed partial class PostDetail : UserControl, IViewFor<PostViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
@@ -41,6 +44,8 @@ namespace StackExchange.Windows.Common.PostDetail
                     this.OneWayBind(ViewModel, vm => vm.Poster, view => view.Poster.ViewModel)
                         .DisposeWith(d);
                     this.OneWayBind(ViewModel, vm => vm.Comments, view => view.Comments.ItemsSource)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.Tags, view => view.Tags.ViewModel)
                         .DisposeWith(d);
                     this.WhenAnyValue(view => view.ViewModel.Body)
                         .ObserveOn(RxApp.MainThreadScheduler)

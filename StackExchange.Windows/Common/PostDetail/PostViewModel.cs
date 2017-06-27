@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reactive;
 using System.Text;
@@ -26,6 +27,7 @@ namespace StackExchange.Windows.Common.PostDetail
 
         public UserCardViewModel Poster { get; } = new UserCardViewModel();
         public CommentViewModel[] Comments { get; } = new CommentViewModel[0];
+        public ImmutableArray<string> Tags { get; } = ImmutableArray<string>.Empty;
         public string Body { get; } = "";
         public string Score { get; } = "";
         public string Link { get; }
@@ -49,6 +51,11 @@ namespace StackExchange.Windows.Common.PostDetail
             Link = post.Link;
             Poster = new UserCardViewModel(post);
             Comments = post.Comments.Select(comment => new CommentViewModel(comment)).ToArray();
+
+            if (post is Question q)
+            {
+                Tags = q.Tags.ToImmutableArray();
+            }
         }
 
         public PostViewModel(IClipboard clipboard)
