@@ -11,6 +11,9 @@ using Windows.UI.Xaml.Documents;
 
 namespace StackExchange.Windows.Common.CommentDetail
 {
+    /// <summary>
+    /// Defines a view model that represents a comment.
+    /// </summary>
     public class CommentViewModel : ReactiveObject
     {
         public CommentViewModel(Comment comment)
@@ -35,8 +38,19 @@ namespace StackExchange.Windows.Common.CommentDetail
             Body = paragraph;
         }
 
+        /// <summary>
+        /// Gets a view model that represents the user that authored the comment.
+        /// </summary>
         public UserCardViewModel Poster { get; }
+        
+        /// <summary>
+        /// Gets a <see cref="Block"/> that represents the formatted content of the comment.
+        /// </summary>
         public Block Body { get; }
+        
+        /// <summary>
+        /// Gets the score of the comment.
+        /// </summary>
         public string Score { get; }
     }
 }

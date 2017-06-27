@@ -25,13 +25,44 @@ namespace StackExchange.Windows.Common.PostDetail
     {
         public IClipboard Clipboard { get; }
 
+        /// <summary>
+        /// Gets the view model that represents the user that authored the post.
+        /// </summary>
         public UserCardViewModel Poster { get; } = new UserCardViewModel();
+
+        /// <summary>
+        /// Gets the array of view models that represent the comments on the post.
+        /// </summary>
         public CommentViewModel[] Comments { get; } = new CommentViewModel[0];
+
+        /// <summary>
+        /// Gets the immutable array of view models that represent the tags on the post.
+        /// </summary>
         public ImmutableArray<string> Tags { get; } = ImmutableArray<string>.Empty;
+
+        /// <summary>
+        /// Gets the raw body of the post.
+        /// </summary>
         public string Body { get; } = "";
+        
+        /// <summary>
+        /// Gets the total score of the post.
+        /// </summary>
         public string Score { get; } = "";
+
+        /// <summary>
+        /// Gets the link to the post.
+        /// </summary>
         public string Link { get; }
+        
+        /// <summary>
+        /// The command that copies the link to the clipboard.
+        /// </summary>
         public ReactiveCommand<Unit, Unit> CopyLink { get; }
+
+        /// <summary>
+        /// The command that opens the post in a web browser.
+        /// </summary>
         public ReactiveCommand<Unit, Unit> OpenPostInBrowser { get; }
 
         public PostViewModel() : this((IClipboard)null)
@@ -67,6 +98,7 @@ namespace StackExchange.Windows.Common.PostDetail
 
         private async Task OpenPostImpl()
         {
+            // TODO: Move to ILauncher service or similar abstraction
             await Launcher.LaunchUriAsync(new Uri(Link));
         }
 

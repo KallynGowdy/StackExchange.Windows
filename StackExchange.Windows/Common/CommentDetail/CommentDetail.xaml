@@ -16,17 +16,35 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <StackPanel Orientation="Vertical"
-                HorizontalAlignment="Stretch"
-                Padding="0,8,0,0">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
         <Line x:Name="Separator"
               Grid.Row="0"
               Grid.Column="0"
               Grid.ColumnSpan="2"
               Style="{StaticResource CommentSeparator}"/>
-        <RichTextBlock x:Name="CommentContent" 
+        
+        <TextBlock x:Name="Score"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Margin="0,0,8,0"
+                   FontSize="12"
+                   FontWeight="Bold"
+                   Foreground="Gray"/>
+        
+        <RichTextBlock x:Name="CommentContent"
+                       Grid.Row="1"
+                       Grid.Column="1"
                        FontSize="12" 
                        TextWrapping="WrapWholeWords"
                        TextIndent="0"/>
-    </StackPanel>
+    </Grid>
 </UserControl>

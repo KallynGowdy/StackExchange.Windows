@@ -21,6 +21,9 @@ using StackExchange.Windows.Html;
 
 namespace StackExchange.Windows.Common.CommentDetail
 {
+    /// <summary>
+    /// Defines a user control that is able to display detail for a <see cref="CommentViewModel"/>.
+    /// </summary>
     public sealed partial class CommentDetail : UserControl, IViewFor<CommentViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
@@ -36,6 +39,8 @@ namespace StackExchange.Windows.Common.CommentDetail
             {
                 this.WhenActivated(d =>
                 {
+                    this.Bind(ViewModel, vm => vm.Score, view => view.Score.Text);
+
                     this.WhenAnyValue(view => view.ViewModel.Body)
                         .Do(block =>
                         {
@@ -50,14 +55,14 @@ namespace StackExchange.Windows.Common.CommentDetail
 
         object IViewFor.ViewModel
         {
-            get { return ViewModel; }
-            set { ViewModel = (CommentViewModel)value; }
+            get => ViewModel;
+            set => ViewModel = (CommentViewModel)value;
         }
 
         public CommentViewModel ViewModel
         {
-            get { return (CommentViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get => (CommentViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
         }
     }
 }
