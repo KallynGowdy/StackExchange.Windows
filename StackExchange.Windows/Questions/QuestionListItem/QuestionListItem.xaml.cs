@@ -47,7 +47,7 @@ namespace StackExchange.Windows.Questions.QuestionListItem
                         .DisposeWith(d);
                     this.Bind(ViewModel, vm => vm.User, view => view.UserCard.ViewModel)
                         .DisposeWith(d);
-                    this.Bind(ViewModel, vm => vm.Tags, view => view.Tags.ItemsSource)
+                    this.Bind(ViewModel, vm => vm.Tags, view => view.Tags.ViewModel)
                         .DisposeWith(d);
                 });
             }

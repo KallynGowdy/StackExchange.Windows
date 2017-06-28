@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using StackExchange.Windows.Api.Models;
+using StackExchange.Windows.Common.TagsList;
 using StackExchange.Windows.User.UserCard;
 
 namespace StackExchange.Windows.Questions
@@ -21,7 +22,7 @@ namespace StackExchange.Windows.Questions
         private readonly int views;
 
         public string Title { get; }
-        public string[] Tags { get; }
+        public TagsListViewModel Tags { get; }
         public string Score => score.ToString();
         public string Answers => answers.ToString();
         public string Views => views.ToString();
@@ -39,7 +40,7 @@ namespace StackExchange.Windows.Questions
         {
             Question = question;
             Title = question.DecodedTitle;
-            Tags = question.Tags;
+            Tags = question.Tags.ToListViewModel();
             User = new UserCardViewModel(question);
             score = question.Score;
             answers = question.AnswerCount;

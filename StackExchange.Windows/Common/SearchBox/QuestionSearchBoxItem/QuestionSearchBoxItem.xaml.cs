@@ -31,21 +31,21 @@ namespace StackExchange.Windows.Common.SearchBox.QuestionSearchBoxItem
                     d(this.Bind(ViewModel, vm => vm.User.Owner, view => view.Owner.Text));
                     d(this.OneWayBind(ViewModel, vm => vm.IsAnswered, view => view.ScorePanel.Background,
                         vmToViewConverterOverride: BooleanToBrushBindingTypeConverter.Create(@true: Colors.Aquamarine, @false: Colors.LightGray)));
-                    d(this.OneWayBind(ViewModel, vm => vm.Tags, view => view.Tags.ItemsSource));
+                    d(this.OneWayBind(ViewModel, vm => vm.Tags, view => view.Tags.ViewModel));
                 });
             }
         }
 
         object IViewFor.ViewModel
         {
-            get { return ViewModel; }
-            set { ViewModel = (QuestionItemViewModel)value; }
+            get => ViewModel;
+            set => ViewModel = (QuestionItemViewModel)value;
         }
 
         public QuestionItemViewModel ViewModel
         {
-            get { return (QuestionItemViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get => (QuestionItemViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
         }
     }
 }

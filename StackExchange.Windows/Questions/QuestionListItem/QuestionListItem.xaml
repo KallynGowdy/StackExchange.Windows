@@ -5,17 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
+    xmlns:tagsList="using:StackExchange.Windows.Common.TagsList"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    <UserControl.Resources>
-        <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
-            <Button x:Name="Tag"
-                    Margin="0,0,8,0"
-                    IsEnabled="False"
-                    Content="{x:Bind}"/>
-        </DataTemplate>
-    </UserControl.Resources>
 
     <Grid x:Name="QuestionGrid"
           HorizontalAlignment="Stretch"
@@ -116,16 +109,9 @@
                            Grid.RowSpan="2"
                            Margin="8,0,0,0"/>
 
-        <ItemsControl x:Name="Tags"
-                      Grid.Row="1"
-                      Grid.Column="3"
-                      Margin="0,8,0,0"
-                      ItemTemplate="{StaticResource TagTemplate}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        <tagsList:TagsList x:Name="Tags"
+                           Grid.Row="1"
+                           Grid.Column="3"
+                           Margin="0,8,0,0"/>
     </Grid>
 </UserControl>

@@ -4,19 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tagsList="using:StackExchange.Windows.Common.TagsList"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    <UserControl.Resources>
-        <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
-            <Button x:Name="Tag"
-                    Margin="0,0,2,0"
-                    Padding="2"
-                    IsEnabled="False"
-                    FontSize="10"
-                    Content="{x:Bind}"/>
-        </DataTemplate>
-    </UserControl.Resources>
 
     <Grid x:Name="QuestionItemGrid"
           HorizontalAlignment="Stretch"
@@ -52,17 +43,11 @@
                    Grid.ColumnSpan="2"
                    TextWrapping="WrapWholeWords"/>
 
-        <ItemsControl x:Name="Tags"
-                      Grid.Row="1"
-                      Grid.Column="1"
-                      Margin="0,2,2,0"
-                      ItemTemplate="{StaticResource TagTemplate}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        <tagsList:TagsList x:Name="Tags"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           Margin="0,2,2,0"
+                           TagStyle="Small"/>
 
         <StackPanel x:Name="QuestionInfoPanel"
                     Grid.Row="1"

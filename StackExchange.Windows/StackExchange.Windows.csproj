@@ -119,6 +119,7 @@
     <Compile Include="Common\TagsList\Tag.xaml.cs">
       <DependentUpon>Tag.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\TagsList\TagStyle.cs" />
     <Compile Include="Common\TagsList\TagsList.xaml.cs">
       <DependentUpon>TagsList.xaml</DependentUpon>
     </Compile>

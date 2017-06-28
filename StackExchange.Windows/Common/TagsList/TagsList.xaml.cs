@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.Foundation;
@@ -32,6 +33,12 @@ namespace StackExchange.Windows.Common.TagsList
             ownerType: typeof(TagsList),
             typeMetadata: new PropertyMetadata(null));
 
+        public static readonly DependencyProperty TagStyleProperty = DependencyProperty.Register(
+            name: nameof(TagStyle),
+            propertyType: typeof(TagStyle),
+            ownerType: typeof(TagsList),
+            typeMetadata: new PropertyMetadata(TagStyle.Normal));
+
         public TagsList()
         {
             this.InitializeComponent();
@@ -56,6 +63,12 @@ namespace StackExchange.Windows.Common.TagsList
         {
             get => (TagsListViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
+        }
+
+        public TagStyle TagStyle
+        {
+            get => (TagStyle)GetValue(TagStyleProperty);
+            set => SetValue(TagStyleProperty, value);
         }
     }
 }

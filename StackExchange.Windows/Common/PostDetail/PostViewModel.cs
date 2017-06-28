@@ -86,7 +86,7 @@ namespace StackExchange.Windows.Common.PostDetail
 
             if (post is Question q)
             {
-                Tags = new TagsListViewModel(q.Tags.Select(t => new TagViewModel(t)).ToArray());
+                Tags = q.Tags.ToListViewModel();
             }
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
+using StackExchange.Windows.Common.TagsList;
 
 namespace StackExchange.Windows
 {
@@ -33,6 +34,26 @@ namespace StackExchange.Windows
                 result = await webView.InvokeScriptAsync("getHeight", null);
             }
             webView.Height = Convert.ToDouble(result);
+        }
+
+        /// <summary>
+        /// Converts the given list of strings into an array of <see cref="TagViewModel"/> objects.
+        /// </summary>
+        /// <param name="tags">The list of tags to wrap.</param>
+        /// <returns></returns>
+        public static TagsListViewModel ToListViewModel(this IEnumerable<string> tags)
+        {
+            return new TagsListViewModel(tags.Select(t => new TagViewModel(t)).ToArray());
+        }
+
+        /// <summary>
+        /// Converts the given list of strings into an array of <see cref="TagViewModel"/> objects.
+        /// </summary>
+        /// <param name="tags">The list of tags to wrap.</param>
+        /// <returns></returns>
+        public static TagViewModel[] ToViewModels(this IEnumerable<string> tags)
+        {
+            return tags.Select(t => new TagViewModel(t)).ToArray();
         }
     }
 }

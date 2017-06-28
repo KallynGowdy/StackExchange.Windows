@@ -8,7 +8,18 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="NormalTag" TargetType="Button">
+                <Setter Property="Margin" Value="0,0,8,0"/>
+            </Style>
+            <Style x:Key="SmallTag" TargetType="Button">
+                <Setter Property="Margin" Value="0,0,2,0"/>
+                <Setter Property="Padding" Value="2"/>
+                <Setter Property="FontSize" Value="10"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-    <Button x:Name="TagButton"
-            Margin="0,0,8,0"/>
+    <Button x:Name="TagButton" />
 </UserControl>
