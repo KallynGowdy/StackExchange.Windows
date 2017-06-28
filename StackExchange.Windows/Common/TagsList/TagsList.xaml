@@ -9,11 +9,8 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
     <UserControl.Resources>
-        <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
-            <Button x:Name="Tag"
-                    Margin="0,0,8,0"
-                    IsEnabled="False"
-                    Content="{x:Bind}"/>
+        <DataTemplate x:Name="TagTemplate" x:DataType="local:TagViewModel">
+            <local:Tag x:Name="Tag" ViewModel="{x:Bind}"/>
         </DataTemplate>
     </UserControl.Resources>
 

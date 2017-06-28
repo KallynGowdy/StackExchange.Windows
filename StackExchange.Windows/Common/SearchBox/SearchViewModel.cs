@@ -45,7 +45,15 @@ namespace StackExchange.Windows.Common.SearchBox
         /// </summary>
         public ReactiveCommand<Unit, ReactiveList<QuestionItemViewModel>> Search { get; }
 
+        /// <summary>
+        /// Displays the given question.
+        /// </summary>
         public ReactiveCommand<QuestionItemViewModel, Unit> DisplayQuestion { get; }
+
+        /// <summary>
+        /// Sets the query to the given value and focuses the search box.
+        /// </summary>
+        public ReactiveCommand<string, Unit> SetQueryAndFocus { get; }
 
         /// <summary>
         /// The list of available sites.
@@ -57,7 +65,15 @@ namespace StackExchange.Windows.Common.SearchBox
         /// </summary>
         public ReactiveList<NetworkUserViewModel> AssociatedAccounts { get; } = new ReactiveList<NetworkUserViewModel>();
 
+        /// <summary>
+        /// The list of questions that are suggested based on the current query.
+        /// </summary>
         public ReactiveList<QuestionItemViewModel> SuggestedQuestions => suggestedQuestions.Value;
+
+        /// <summary>
+        /// The interaction that focuses the search box.
+        /// </summary>
+        public Interaction<Unit, Unit> FocusSearchBox { get; } = new Interaction<Unit, Unit>();
 
         /// <summary>
         /// Gets or sets the currently selected site.
@@ -77,6 +93,7 @@ namespace StackExchange.Windows.Common.SearchBox
             var canSearch = this.WhenAnyValue(vm => vm.Query).Select(q => !string.IsNullOrWhiteSpace(q));
             Search = ReactiveCommand.CreateFromTask(SearchImpl, canSearch, outputScheduler: RxApp.MainThreadScheduler);
             suggestedQuestions = Search.ToProperty(this, vm => vm.SuggestedQuestions, initialValue: new ReactiveList<QuestionItemViewModel>());
+            SetQueryAndFocus = ReactiveCommand.CreateFromTask<string>(SetQueryAndFocusImpl);
 
             this.WhenActivated(d =>
             {
@@ -85,6 +102,12 @@ namespace StackExchange.Windows.Common.SearchBox
                     .Select(q => Unit.Default)
                     .InvokeCommand(this, vm => vm.Search));
             });
+        }
+
+        private async Task SetQueryAndFocusImpl(string query)
+        {
+            await FocusSearchBox.Handle(Unit.Default).FirstAsync();
+            Query = query;
         }
 
         private async Task DisplayQuestionImpl(QuestionItemViewModel question)
@@ -120,5 +143,6 @@ namespace StackExchange.Windows.Common.SearchBox
         }
 
         public ViewModelActivator Activator { get; } = new ViewModelActivator();
+
     }
 }

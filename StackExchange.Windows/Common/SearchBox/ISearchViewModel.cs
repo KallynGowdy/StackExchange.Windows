@@ -36,8 +36,18 @@ namespace StackExchange.Windows.Common.SearchBox
         ReactiveCommand<QuestionItemViewModel, Unit> DisplayQuestion { get; }
 
         /// <summary>
+        /// Sets the query to the given value and focuses the search box.
+        /// </summary>
+        ReactiveCommand<string, Unit> SetQueryAndFocus { get; }
+
+        /// <summary>
         /// Gets or sets the current search query.
         /// </summary>
         string Query { get; set; }
+
+        /// <summary>
+        /// The interaction that focuses the search box.
+        /// </summary>
+        Interaction<Unit, Unit> FocusSearchBox { get; }
     }
 }

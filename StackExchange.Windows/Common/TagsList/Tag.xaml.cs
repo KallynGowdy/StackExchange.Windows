@@ -14,33 +14,33 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ReactiveUI;
-using StackExchange.Windows.Common.PostDetail;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace StackExchange.Windows.Common.TagsList
 {
     /// <summary>
-    /// A user control that is able to render a list of tags.
-    /// Effectively a wrapper for a list of strings.
+    /// Defines a user control that is able to display a single tag.
     /// </summary>
-    public sealed partial class TagsList : UserControl, IViewFor<TagsListViewModel>
+    public sealed partial class Tag : UserControl, IViewFor<TagViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
             name: nameof(ViewModel),
-            propertyType: typeof(TagsListViewModel),
+            propertyType: typeof(TagViewModel),
             ownerType: typeof(TagsList),
             typeMetadata: new PropertyMetadata(null));
 
-        public TagsList()
+        public Tag()
         {
             this.InitializeComponent();
+
             if (!DesignMode.DesignModeEnabled)
             {
                 this.WhenActivated(d =>
                 {
-                    this.WhenAnyValue(view => view.ViewModel.Tags)
-                        .BindTo(this, view => view.TagsControl.ItemsSource)
+                    this.Bind(ViewModel, vm => vm.Tag, view => view.TagButton.Content)
+                        .DisposeWith(d);
+                    this.BindCommand(ViewModel, vm => vm.SearchTag, view => view.TagButton)
                         .DisposeWith(d);
                 });
             }
@@ -49,12 +49,12 @@ namespace StackExchange.Windows.Common.TagsList
         object IViewFor.ViewModel
         {
             get => ViewModel;
-            set => ViewModel = (TagsListViewModel)value;
+            set => ViewModel = (TagViewModel)value;
         }
 
-        public TagsListViewModel ViewModel
+        public TagViewModel ViewModel
         {
-            get => (TagsListViewModel)GetValue(ViewModelProperty);
+            get => (TagViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
     }

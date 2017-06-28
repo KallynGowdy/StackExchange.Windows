@@ -324,6 +324,14 @@ namespace StackExchange.Windows.Common.SearchBox
             }
         }
 
+        global::ReactiveUI.ReactiveCommand<string, global::System.Reactive.Unit> global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.SetQueryAndFocus
+        {
+            get
+            {
+                return _stubs.GetMethodStub<SetQueryAndFocus_Get_Delegate>("get_SetQueryAndFocus").Invoke();
+            }
+        }
+
         string global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.Query
         {
             get
@@ -334,6 +342,14 @@ namespace StackExchange.Windows.Common.SearchBox
             set
             {
                 _stubs.GetMethodStub<Query_Set_Delegate>("set_Query").Invoke(value);
+            }
+        }
+
+        global::ReactiveUI.Interaction<global::System.Reactive.Unit, global::System.Reactive.Unit> global::StackExchange.Windows.Common.SearchBox.ISearchViewModel.FocusSearchBox
+        {
+            get
+            {
+                return _stubs.GetMethodStub<FocusSearchBox_Get_Delegate>("get_FocusSearchBox").Invoke();
             }
         }
 
@@ -385,6 +401,14 @@ namespace StackExchange.Windows.Common.SearchBox
             return this;
         }
 
+        public delegate global::ReactiveUI.ReactiveCommand<string, global::System.Reactive.Unit> SetQueryAndFocus_Get_Delegate();
+
+        public StubISearchViewModel SetQueryAndFocus_Get(SetQueryAndFocus_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
         public delegate string Query_Get_Delegate();
 
         public StubISearchViewModel Query_Get(Query_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
@@ -396,6 +420,14 @@ namespace StackExchange.Windows.Common.SearchBox
         public delegate void Query_Set_Delegate(string value);
 
         public StubISearchViewModel Query_Set(Query_Set_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate global::ReactiveUI.Interaction<global::System.Reactive.Unit, global::System.Reactive.Unit> FocusSearchBox_Get_Delegate();
+
+        public StubISearchViewModel FocusSearchBox_Get(FocusSearchBox_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;

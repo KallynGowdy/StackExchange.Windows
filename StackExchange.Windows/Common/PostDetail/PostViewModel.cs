@@ -14,6 +14,7 @@ using StackExchange.Windows.Html;
 using StackExchange.Windows.User.UserCard;
 using StackExchange.Windows.Api.Models;
 using StackExchange.Windows.Common.CommentDetail;
+using StackExchange.Windows.Common.TagsList;
 using StackExchange.Windows.Services;
 
 namespace StackExchange.Windows.Common.PostDetail
@@ -38,13 +39,13 @@ namespace StackExchange.Windows.Common.PostDetail
         /// <summary>
         /// Gets the immutable array of view models that represent the tags on the post.
         /// </summary>
-        public ImmutableArray<string> Tags { get; } = ImmutableArray<string>.Empty;
+        public TagsListViewModel Tags { get; } = new TagsListViewModel();
 
         /// <summary>
         /// Gets the raw body of the post.
         /// </summary>
         public string Body { get; } = "";
-        
+
         /// <summary>
         /// Gets the total score of the post.
         /// </summary>
@@ -54,7 +55,7 @@ namespace StackExchange.Windows.Common.PostDetail
         /// Gets the link to the post.
         /// </summary>
         public string Link { get; }
-        
+
         /// <summary>
         /// The command that copies the link to the clipboard.
         /// </summary>
@@ -85,7 +86,7 @@ namespace StackExchange.Windows.Common.PostDetail
 
             if (post is Question q)
             {
-                Tags = q.Tags.ToImmutableArray();
+                Tags = new TagsListViewModel(q.Tags.Select(t => new TagViewModel(t)).ToArray());
             }
         }
 

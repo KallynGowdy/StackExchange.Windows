@@ -116,10 +116,14 @@
     <Compile Include="Common\SiteSelector\SiteSelector.xaml.cs">
       <DependentUpon>SiteSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\TagsList\Tag.xaml.cs">
+      <DependentUpon>Tag.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\TagsList\TagsList.xaml.cs">
       <DependentUpon>TagsList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\TagsList\TagsListViewModel.cs" />
+    <Compile Include="Common\TagsList\TagViewModel.cs" />
     <Compile Include="Controls\RefreshableListView.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Html\HtmlHelper.cs" />
@@ -231,6 +235,10 @@
     <Page Include="Common\SiteSelector\SiteSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\TagsList\Tag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\TagsList\TagsList.xaml">
       <SubType>Designer</SubType>

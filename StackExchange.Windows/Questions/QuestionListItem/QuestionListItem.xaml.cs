@@ -22,14 +22,8 @@ namespace StackExchange.Windows.Questions.QuestionListItem
 
         public QuestionItemViewModel Question
         {
-            get
-            {
-                return (QuestionItemViewModel)GetValue(QuestionProperty);
-            }
-            set
-            {
-                SetValue(QuestionProperty, value);
-            }
+            get => (QuestionItemViewModel)GetValue(QuestionProperty);
+            set => SetValue(QuestionProperty, value);
         }
 
         public QuestionListItem()
@@ -37,29 +31,38 @@ namespace StackExchange.Windows.Questions.QuestionListItem
             this.InitializeComponent();
             if (!DesignMode.DesignModeEnabled)
             {
-                (this).WhenActivated((System.Action<System.Action<System.IDisposable>>)((System.Action<System.IDisposable> d) =>
+                this.WhenActivated(d =>
                 {
-                    d((this).Bind(ViewModel, vm => vm.Title, view => view.Title.Text));
-                    d((this).Bind(ViewModel, vm => vm.Score, view => view.Score.Text));
-                    d((this).Bind(ViewModel, vm => vm.Views, view => view.NumViews.Text));
-                    d((this).Bind(ViewModel, vm => vm.Answers, view => view.NumAnswers.Text));
-                    d((this).OneWayBind(ViewModel, vm => vm.IsAnswered, view => view.AnswersPanel.Background, vmToViewConverterOverride: BooleanToBrushBindingTypeConverter.Create(@true: Colors.Aquamarine, @false: Colors.Transparent)));
-                    d((this).Bind(ViewModel, vm => vm.User, (System.Linq.Expressions.Expression<System.Func<QuestionListItem, User.UserCard.UserCardViewModel>>)(view => (User.UserCard.UserCardViewModel)view.UserCard.ViewModel)));
-                    d((this).Bind(ViewModel, vm => vm.Tags, view => view.Tags.ItemsSource));
-                }));
+                    this.Bind(ViewModel, vm => vm.Title, view => view.Title.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Score, view => view.Score.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Views, view => view.NumViews.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Answers, view => view.NumAnswers.Text)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.IsAnswered, view => view.AnswersPanel.Background, vmToViewConverterOverride: BooleanToBrushBindingTypeConverter.Create(@true: Colors.Aquamarine, @false: Colors.Transparent))
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.User, view => view.UserCard.ViewModel)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.User, view => view.UserCard.ViewModel)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Tags, view => view.Tags.ItemsSource)
+                        .DisposeWith(d);
+                });
             }
         }
 
         object IViewFor.ViewModel
         {
-            get { return ViewModel; }
-            set { ViewModel = (QuestionItemViewModel) value; }
+            get => ViewModel;
+            set => ViewModel = (QuestionItemViewModel)value;
         }
 
         public QuestionItemViewModel ViewModel
         {
-            get { return Question; }
-            set { Question = value; }
+            get => Question;
+            set => Question = value;
         }
     }
 }

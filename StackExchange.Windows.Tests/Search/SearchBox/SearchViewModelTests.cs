@@ -305,6 +305,22 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
                 s => Assert.Same(site, s));
         }
 
-        
+        [Fact]
+        public async Task Test_SearchAndFocus_Sets_Query_And_Triggers_FocusSearchBox_Interaction()
+        {
+            var called = false;
+            using (Subject.FocusSearchBox.RegisterHandler(ctx =>
+            {
+                called = true;
+                ctx.SetOutput(Unit.Default);
+            }))
+            {
+                await Subject.SetQueryAndFocus.Execute("test");
+
+                Assert.True(called, "FocusSearchBox should be called");
+                Assert.Equal("test", Subject.Query);
+            }
+        }
+
     }
 }

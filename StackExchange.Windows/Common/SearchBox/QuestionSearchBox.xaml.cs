@@ -1,7 +1,9 @@
-﻿using System.Reactive.Disposables;
+﻿using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Windows.ApplicationModel;
 using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ReactiveUI;
 using Splat;
@@ -19,8 +21,10 @@ namespace StackExchange.Windows.Common.SearchBox
             {
                 this.WhenActivated(d =>
                 {
-                    d(this.Bind(ViewModel, vm => vm.Query, view => view.InputBox.Text));
-                    d(this.Bind(ViewModel, vm => vm.SuggestedQuestions, view => view.InputBox.ItemsSource));
+                    this.Bind(ViewModel, vm => vm.Query, view => view.InputBox.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.SuggestedQuestions, view => view.InputBox.ItemsSource)
+                        .DisposeWith(d);
                     Observable.FromEventPattern<
                             TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs>,
                             AutoSuggestBox,
@@ -29,6 +33,14 @@ namespace StackExchange.Windows.Common.SearchBox
                         .Select(ep => ep.EventArgs.SelectedItem)
                         .InvokeCommand(ViewModel, vm => vm.DisplayQuestion)
                         .DisposeWith(d);
+
+                    ViewModel.FocusSearchBox.RegisterHandler(ctx =>
+                    {
+                        if (InputBox.Focus(FocusState.Programmatic))
+                        {
+                            ctx.SetOutput(Unit.Default);
+                        }
+                    }).DisposeWith(d);
                 });
             }
         }
