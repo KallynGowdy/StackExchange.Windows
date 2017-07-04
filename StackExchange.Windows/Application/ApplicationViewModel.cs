@@ -94,6 +94,7 @@ namespace StackExchange.Windows.Application
             Locator.CurrentMutable.RegisterLazySingleton(() => new UwpClipboard(), typeof(IClipboard));
             Locator.CurrentMutable.RegisterLazySingleton(() => new QuestionsViewModel(), typeof(QuestionsViewModel));
             Locator.CurrentMutable.Register(UriToImageSourceBindingTypeConverter.Create, typeof(IBindingTypeConverter));
+            Locator.CurrentMutable.Register(() => new ColorToBrushBindingTypeConverter(), typeof(IBindingTypeConverter));
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
             {

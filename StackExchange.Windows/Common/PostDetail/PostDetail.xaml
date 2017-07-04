@@ -58,18 +58,15 @@
                        VerticalAlignment="Center"
                        Margin="0,8,0,10"/>
 
-            <Button HorizontalAlignment="Center"
+            <Button x:Name="DownvoteButton" 
+                    HorizontalAlignment="Center"
                     Style="{StaticResource DownvoteButton}">
                 <FontIcon Glyph="&#xE972;"/>
             </Button>
 
-            <FontIcon x:Name="Accepted" 
-                      Glyph="&#xE73D;"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"
+            <FontIcon x:Name="Accepted"
                       FontSize="38"
-                      Foreground="Green"
-                      Margin="0,14,0,0"/>
+                      Style="{StaticResource AcceptedBox}" />
         </StackPanel>
 
         <WebView x:Name="Body"
@@ -81,12 +78,12 @@
                  Margin="0,0,0,8"
                  DOMContentLoaded="Body_OnDOMContentLoaded"
                  NavigationStarting="Body_OnNavigationStarting"/>
-        
+
         <tagsList:TagsList x:Name="Tags"
                            Grid.Row="2"
                            Grid.Column="1"
                            Margin="0,8,0,0"/>
-        
+
         <StackPanel x:Name="ShortcutsPanel"
                     Grid.Row="3"
                     Grid.Column="1"
@@ -103,7 +100,7 @@
                     Content="&#xE909;"
                     ToolTipService.ToolTip="Open In Browser"/>
         </StackPanel>
-        
+
         <userCard:UserCard x:Name="Poster"
                            Grid.Row="2"
                            Grid.Column="1"

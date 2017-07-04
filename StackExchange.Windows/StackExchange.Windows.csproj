@@ -104,6 +104,7 @@
     <Compile Include="Authentication\IAuthenticationViewModel.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="BindingConverters\BooleanToBrushBindingTypeConverter.cs" />
+    <Compile Include="BindingConverters\ColorToBrushBindingTypeConverter.cs" />
     <Compile Include="BindingConverters\UriToImageSourceBindingTypeConverter.cs" />
     <Compile Include="Common\CommentDetail\CommentDetail.xaml.cs">
       <DependentUpon>CommentDetail.xaml</DependentUpon>
@@ -162,6 +163,7 @@
     <Compile Include="Common\SearchBox\SearchViewModel.cs" />
     <Compile Include="Common\SearchBox\SemanticQuery.cs" />
     <Compile Include="Common\SearchBox\SiteViewModel.cs" />
+    <Compile Include="Resources\Pallete.cs" />
     <Compile Include="Services\IClipboard.cs" />
     <Compile Include="Services\UwpClipboard.cs" />
     <Compile Include="User\NetworkUserViewModel.cs" />

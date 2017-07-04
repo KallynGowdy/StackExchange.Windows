@@ -27,7 +27,8 @@ namespace StackExchange.Windows.Questions
         public string Answers => answers.ToString();
         public string Views => views.ToString();
         public UserCardViewModel User { get; }
-        public bool IsAnswered { get; }
+        public bool HasAGoodAnswer { get; }
+        public bool HasAnAcceptedAnswer { get; }
         public Question Question { get; }
 
         /// <summary>
@@ -45,7 +46,8 @@ namespace StackExchange.Windows.Questions
             score = question.Score;
             answers = question.AnswerCount;
             views = question.ViewCount;
-            IsAnswered = question.IsAnswered;
+            HasAGoodAnswer = question.IsAnswered;
+            HasAnAcceptedAnswer = question.AcceptedAnswerId.HasValue;
         }
 
         public QuestionItemViewModel()

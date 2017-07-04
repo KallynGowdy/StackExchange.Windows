@@ -21,5 +21,6 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Button x:Name="TagButton" />
+    <Button x:Name="TagButton"
+            ClickMode="Press" />
 </UserControl>

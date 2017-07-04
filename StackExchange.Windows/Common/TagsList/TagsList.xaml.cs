@@ -43,9 +43,11 @@ namespace StackExchange.Windows.Common.TagsList
         {
             InitializeComponent();
             if (!DesignMode.DesignModeEnabled)
+            {
                 this.WhenActivated(d =>
                 {
                     this.WhenAnyValue(view => view.ViewModel.Tags)
+                        .Do(tags => UpdateTagStyles())
                         .BindTo(this, view => view.TagsControl.ItemsSource)
                         .DisposeWith(d);
 
@@ -56,6 +58,7 @@ namespace StackExchange.Windows.Common.TagsList
                         .Subscribe()
                         .DisposeWith(d);
                 });
+            }
         }
 
         object IViewFor.ViewModel
@@ -83,8 +86,12 @@ namespace StackExchange.Windows.Common.TagsList
         private void UpdateTagStyles()
         {
             if (ViewModel != null)
+            {
                 foreach (var tag in ViewModel.Tags)
+                {
                     tag.TagStyle = TagStyle;
+                }
+            }
         }
     }
 }

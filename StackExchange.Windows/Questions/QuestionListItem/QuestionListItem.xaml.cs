@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using ReactiveUI;
 using StackExchange.Windows.BindingConverters;
+using StackExchange.Windows.Resources;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -41,7 +42,12 @@ namespace StackExchange.Windows.Questions.QuestionListItem
                         .DisposeWith(d);
                     this.Bind(ViewModel, vm => vm.Answers, view => view.NumAnswers.Text)
                         .DisposeWith(d);
-                    this.OneWayBind(ViewModel, vm => vm.IsAnswered, view => view.AnswersPanel.Background, vmToViewConverterOverride: BooleanToBrushBindingTypeConverter.Create(@true: Colors.Aquamarine, @false: Colors.Transparent))
+                    this.WhenAnyValue(
+                            view => view.ViewModel.HasAGoodAnswer,
+                            view => view.ViewModel.HasAnAcceptedAnswer,
+                            (good, accepted) => new { good, accepted })
+                        .Select(tuple => tuple.accepted ? Pallete.AcceptedColor : tuple.good ? Pallete.GoodAnswerColor : Colors.Transparent)
+                        .BindTo(this, view => view.AnswersPanel.Background)
                         .DisposeWith(d);
                     this.Bind(ViewModel, vm => vm.User, view => view.UserCard.ViewModel)
                         .DisposeWith(d);

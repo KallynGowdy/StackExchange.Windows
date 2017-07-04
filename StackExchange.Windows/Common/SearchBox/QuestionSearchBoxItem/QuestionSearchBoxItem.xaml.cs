@@ -1,10 +1,12 @@
-﻿using Windows.ApplicationModel;
+﻿using System.Reactive.Linq;
+using Windows.ApplicationModel;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ReactiveUI;
 using StackExchange.Windows.BindingConverters;
 using StackExchange.Windows.Questions;
+using StackExchange.Windows.Resources;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -29,8 +31,13 @@ namespace StackExchange.Windows.Common.SearchBox.QuestionSearchBoxItem
                     d(this.Bind(ViewModel, vm => vm.User.PostedOn, view => view.Time.Text));
                     d(this.Bind(ViewModel, vm => vm.Score, view => view.Score.Text));
                     d(this.Bind(ViewModel, vm => vm.User.Owner, view => view.Owner.Text));
-                    d(this.OneWayBind(ViewModel, vm => vm.IsAnswered, view => view.ScorePanel.Background,
-                        vmToViewConverterOverride: BooleanToBrushBindingTypeConverter.Create(@true: Colors.Aquamarine, @false: Colors.LightGray)));
+                    this.WhenAnyValue(
+                            view => view.ViewModel.HasAGoodAnswer,
+                            view => view.ViewModel.HasAnAcceptedAnswer,
+                            (good, accepted) => new { good, accepted })
+                        .Select(tuple => tuple.accepted ? Pallete.AcceptedColor : tuple.good ? Pallete.GoodAnswerColor : Colors.Transparent)
+                        .BindTo(this, view => view.ScorePanel.Background)
+                        .DisposeWith(d);
                     d(this.OneWayBind(ViewModel, vm => vm.Tags, view => view.Tags.ViewModel));
                 });
             }
