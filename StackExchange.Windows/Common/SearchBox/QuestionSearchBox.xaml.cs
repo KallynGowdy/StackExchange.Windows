@@ -26,11 +26,12 @@ namespace StackExchange.Windows.Common.SearchBox
                     this.Bind(ViewModel, vm => vm.SuggestedQuestions, view => view.InputBox.ItemsSource)
                         .DisposeWith(d);
                     Observable.FromEventPattern<
-                            TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs>,
+                            TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs>,
                             AutoSuggestBox,
-                            AutoSuggestBoxSuggestionChosenEventArgs>(h => this.InputBox.SuggestionChosen += h,
-                            h => this.InputBox.SuggestionChosen -= h)
-                        .Select(ep => ep.EventArgs.SelectedItem)
+                            AutoSuggestBoxQuerySubmittedEventArgs>(
+                            h => this.InputBox.QuerySubmitted += h,
+                            h => this.InputBox.QuerySubmitted -= h)
+                        .Select(ep => ep.EventArgs.ChosenSuggestion)
                         .InvokeCommand(ViewModel, vm => vm.DisplayQuestion)
                         .DisposeWith(d);
 

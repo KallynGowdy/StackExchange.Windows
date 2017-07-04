@@ -30,5 +30,32 @@ namespace StackExchange.Windows.Tests.User.UserCard
 
             Assert.Null(Subject.ImageUrl);
         }
+
+        [Theory]
+        [InlineData(10, "10")]
+        [InlineData(100, "100")]
+        [InlineData(1000, "1k")]
+        [InlineData(1100, "1.1k")]
+        [InlineData(9999, "9.99k")]
+        [InlineData(10000, "10k")]
+        [InlineData(10500, "10.5k")]
+        [InlineData(15900, "15.9k")]
+        [InlineData(30000, "30k")]
+        [InlineData(100000, "100k")]
+        [InlineData(100500, "100k")]
+        [InlineData(109999, "109k")]
+        public void Test_Formats_Reputation(int reputation, string expected)
+        {
+            Subject = new UserCardViewModel(new Question()
+            {
+                Owner = new ShallowUser()
+                {
+                    DisplayName = "Name",
+                    Reputation = reputation
+                }
+            });
+
+            Assert.Equal(expected, Subject.Reputation);
+        }
     }
 }

@@ -51,11 +51,53 @@
                    TextAlignment="Left"
                    FontSize="12"/>
 
-        <TextBlock x:Name="Reputation"
-                   Grid.Row="2"
-                   Grid.Column="1"
-                   Text="3280"
-                   FontSize="12"
-                   FontWeight="SemiBold"/>
+        <StackPanel x:Name="Badges"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+            <TextBlock x:Name="Reputation"
+                       Text="3280"
+                       FontSize="12"
+                       FontWeight="SemiBold"
+                       Margin="0,0,4,0" />
+            <Ellipse x:Name="BronzeDot"
+                     Fill="#af7626"
+                     Stroke="#af7626"
+                     Height="8"
+                     Width="8"
+                     VerticalAlignment="Center"/>
+            
+            <TextBlock x:Name="Bronze"
+                       Text="8"
+                       FontSize="12"
+                       FontWeight="Light"
+                       Margin="2,0,4,0"/>
+            
+            <Ellipse x:Name="SilverDot"
+                     Fill="#bababa"
+                     Stroke="#bababa"
+                     Height="8"
+                     Width="8"
+                     VerticalAlignment="Center"/>
+
+            <TextBlock x:Name="Silver"
+                       Text="8"
+                       FontSize="12"
+                       FontWeight="Light"
+                       Margin="2,0,4,0"/>
+            
+            <Ellipse x:Name="GoldDot"
+                     Fill="#ffe438"
+                     Stroke="#ffe438"
+                     Height="8"
+                     Width="8"
+                     VerticalAlignment="Center"/>
+
+            <TextBlock x:Name="Gold"
+                       Text="8"
+                       FontSize="12"
+                       FontWeight="Light"
+                       Margin="2,0,4,0"/>
+        </StackPanel>
     </Grid>
 </UserControl>

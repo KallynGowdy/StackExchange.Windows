@@ -13,6 +13,7 @@ namespace StackExchange.Windows.Api.Models
         public int UserId { get; set; }
         public int? Reputation { get; set; }
         public string ProfileImage { get; set; } = "";
+        public BadgeCount BadgeCounts { get; set; }
 
         public string DecodedDisplayName => WebUtility.HtmlDecode(DisplayName);
     }

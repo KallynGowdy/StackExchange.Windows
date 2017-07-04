@@ -35,10 +35,22 @@ namespace StackExchange.Windows.User.UserCard
             {
                 this.WhenActivated(d =>
                 {
-                    d(this.OneWayBind(ViewModel, vm => vm.ImageUrl, view => view.OwnerImage.Source));
-                    d(this.Bind(ViewModel, vm => vm.Owner, view => view.Owner.Text));
-                    d(this.Bind(ViewModel, vm => vm.PostedOn, view => view.PostedOn.Text));
-                    d(this.Bind(ViewModel, vm => vm.Reputation, view => view.Reputation.Text));
+                    this.OneWayBind(ViewModel, vm => vm.ImageUrl, view => view.OwnerImage.Source)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Owner, view => view.Owner.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.PostedOn, view => view.PostedOn.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Reputation, view => view.Reputation.Text)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.HasBadges, view => view.Badges.Visibility)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.BronzeBadges, view => view.Bronze.Text)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.SilverBadges, view => view.Silver.Text)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.GoldBadges, view => view.Gold.Text)
+                        .DisposeWith(d);
                 });
             }
         }

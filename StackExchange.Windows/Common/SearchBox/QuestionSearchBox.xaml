@@ -17,7 +17,8 @@
                     MinWidth="500"
                     MaxHeight="100"
                     VerticalAlignment="Top"
-                    PlaceholderText="Search...">
+                    PlaceholderText="Search..."
+                    UpdateTextOnSelect="False">
         <AutoSuggestBox.ItemTemplate>
             <DataTemplate x:DataType="questions:QuestionItemViewModel">
                 <questionSearchBoxItem:QuestionSearchBoxItem ViewModel="{x:Bind}"/>
