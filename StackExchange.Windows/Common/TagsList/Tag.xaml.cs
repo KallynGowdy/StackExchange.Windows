@@ -31,12 +31,6 @@ namespace StackExchange.Windows.Common.TagsList
             ownerType: typeof(TagsList),
             typeMetadata: new PropertyMetadata(null));
 
-        public static readonly DependencyProperty TagStyleProperty = DependencyProperty.Register(
-            name: nameof(TagStyle),
-            propertyType: typeof(TagStyle),
-            ownerType: typeof(TagsList),
-            typeMetadata: new PropertyMetadata(TagStyle.Normal));
-
         public Tag()
         {
             this.InitializeComponent();
@@ -50,7 +44,7 @@ namespace StackExchange.Windows.Common.TagsList
                     this.BindCommand(ViewModel, vm => vm.SearchTag, view => view.TagButton)
                         .DisposeWith(d);
 
-                    this.WhenAnyValue(view => view.TagStyle)
+                    this.WhenAnyValue(view => view.ViewModel.TagStyle)
                         .Select(style => style == TagStyle.Normal ? NormalTag : SmallTag)
                         .BindTo(this, view => view.TagButton.Style)
                         .DisposeWith(d);
@@ -68,12 +62,6 @@ namespace StackExchange.Windows.Common.TagsList
         {
             get => (TagViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
-        }
-
-        public TagStyle TagStyle
-        {
-            get => (TagStyle)GetValue(TagStyleProperty);
-            set => SetValue(TagStyleProperty, value);
         }
 
         private Style NormalTag => (Style)Resources[nameof(NormalTag)];

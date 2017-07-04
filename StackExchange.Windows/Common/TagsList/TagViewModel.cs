@@ -1,6 +1,7 @@
 ﻿using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using ReactiveUI;
 using Splat;
 using StackExchange.Windows.Application;
@@ -23,7 +24,17 @@ namespace StackExchange.Windows.Common.TagsList
         /// </summary>
         public ReactiveCommand<Unit, Unit> SearchTag { get; }
 
+        /// <summary>
+        /// Gets or sets the style that the tag should be displayed in.
+        /// </summary>
+        public TagStyle TagStyle
+        {
+            get => tagStyle;
+            set => this.RaiseAndSetIfChanged(ref tagStyle, value);
+        }
+
         private ISearchViewModel search;
+        private TagStyle tagStyle = TagStyle.Normal;
 
         public TagViewModel(string tag, ISearchViewModel search = null)
         {

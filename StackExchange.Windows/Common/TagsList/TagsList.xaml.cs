@@ -28,29 +28,34 @@ namespace StackExchange.Windows.Common.TagsList
     public sealed partial class TagsList : UserControl, IViewFor<TagsListViewModel>
     {
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
-            name: nameof(ViewModel),
-            propertyType: typeof(TagsListViewModel),
-            ownerType: typeof(TagsList),
-            typeMetadata: new PropertyMetadata(null));
+            nameof(ViewModel),
+            typeof(TagsListViewModel),
+            typeof(TagsList),
+            new PropertyMetadata(null));
 
         public static readonly DependencyProperty TagStyleProperty = DependencyProperty.Register(
-            name: nameof(TagStyle),
-            propertyType: typeof(TagStyle),
-            ownerType: typeof(TagsList),
-            typeMetadata: new PropertyMetadata(TagStyle.Normal));
+            nameof(TagStyle),
+            typeof(TagStyle),
+            typeof(TagsList),
+            new PropertyMetadata(TagStyle.Normal));
 
         public TagsList()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             if (!DesignMode.DesignModeEnabled)
-            {
                 this.WhenActivated(d =>
                 {
                     this.WhenAnyValue(view => view.ViewModel.Tags)
                         .BindTo(this, view => view.TagsControl.ItemsSource)
                         .DisposeWith(d);
+
+                    this.WhenAnyValue(view => view.ViewModel)
+                        .Where(vm => vm != null)
+                        .FirstAsync()
+                        .Do(vm => UpdateTagStyles())
+                        .Subscribe()
+                        .DisposeWith(d);
                 });
-            }
         }
 
         object IViewFor.ViewModel
@@ -68,7 +73,18 @@ namespace StackExchange.Windows.Common.TagsList
         public TagStyle TagStyle
         {
             get => (TagStyle)GetValue(TagStyleProperty);
-            set => SetValue(TagStyleProperty, value);
+            set
+            {
+                SetValue(TagStyleProperty, value);
+                UpdateTagStyles();
+            }
+        }
+
+        private void UpdateTagStyles()
+        {
+            if (ViewModel != null)
+                foreach (var tag in ViewModel.Tags)
+                    tag.TagStyle = TagStyle;
         }
     }
 }
