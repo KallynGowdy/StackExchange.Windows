@@ -20,6 +20,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
         <ScrollViewer x:Name="ScrollableContent"
@@ -66,16 +67,22 @@
                 </ItemsControl>
             </Grid>
         </ScrollViewer>
-        
+
+        <WebView x:Name="WebResults"
+                 Grid.Row="0"
+                 Grid.Column="1"/>
+
         <ProgressRing x:Name="LoadingRing"
-                      Grid.Column="0"
                       Grid.Row="0"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="2"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Center"/>
         
         <CommandBar x:Name="CommandBar"
-                    Grid.Column="0"
                     Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
                     Margin="-16,0,-16,-16">
             <CommandBar.Content>
                 <StackPanel x:Name="CommandBarContent"

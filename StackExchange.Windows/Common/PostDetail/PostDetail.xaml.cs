@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ReactiveUI;
+using Splat;
+using StackExchange.Windows.Application;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -32,9 +34,12 @@ namespace StackExchange.Windows.Common.PostDetail
             typeof(PostDetail),
             new PropertyMetadata(null));
 
+        private IApplicationViewModel app;
+
         public PostDetail()
         {
             this.InitializeComponent();
+            app = Locator.Current.GetService<IApplicationViewModel>();
             if (!DesignMode.DesignModeEnabled)
             {
                 this.WhenActivated(d =>
@@ -86,7 +91,7 @@ namespace StackExchange.Windows.Common.PostDetail
             if (args.Uri != null)
             {
                 args.Cancel = true;
-                await Launcher.LaunchUriAsync(args.Uri);
+                await app.OpenUri.Handle(args.Uri);
             }
         }
     }

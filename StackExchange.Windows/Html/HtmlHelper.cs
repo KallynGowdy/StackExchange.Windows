@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 using HtmlAgilityPack;
+using Splat;
+using StackExchange.Windows.Application;
 
 namespace StackExchange.Windows.Html
 {
@@ -201,8 +204,12 @@ namespace StackExchange.Windows.Html
         private static Inline Link(HtmlNode element)
         {
             var link = new Hyperlink();
-            var uri = element.GetAttributeValue("href", "");
-            link.NavigateUri = new Uri(uri);
+            var uri = new Uri(element.GetAttributeValue("href", ""));
+            link.Click += async (sender, args) =>
+            {
+                var app = Locator.Current.GetService<IApplicationViewModel>();
+                await app.OpenUri.Handle(uri);
+            };
             AddInlines(element, link);
             return link;
         }

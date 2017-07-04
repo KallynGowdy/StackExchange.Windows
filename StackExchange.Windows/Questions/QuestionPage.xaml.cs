@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
@@ -14,7 +15,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ReactiveUI;
+using Splat;
 using StackExchange.Windows.Api.Models;
+using StackExchange.Windows.Application;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -34,9 +37,17 @@ namespace StackExchange.Windows.Questions
                 d(this.Bind(ViewModel, vm => vm.AnswersTitle, view => view.AnswersTitle.Text));
                 d(this.OneWayBind(ViewModel, vm => vm.Question, view => view.Question.ViewModel));
                 d(this.OneWayBind(ViewModel, vm => vm.Answers, view => view.Answers.ItemsSource));
-                
+
                 d(ViewModel.Load.IsExecuting.BindTo(this, view => view.LoadingRing.IsActive));
                 d(ViewModel.Load.Execute().Subscribe());
+
+                var app = Locator.Current.GetService<IApplicationViewModel>();
+                app.OpenUri.RegisterHandler(ctx =>
+                {
+                    WebResults.Navigate(ctx.Input);
+                    ctx.SetOutput(Unit.Default);
+                })
+                .DisposeWith(d);
             });
         }
 

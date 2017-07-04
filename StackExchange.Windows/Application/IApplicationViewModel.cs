@@ -1,3 +1,4 @@
+using System;
 using System.Reactive;
 using ReactiveUI;
 using StackExchange.Windows.Authentication;
@@ -28,6 +29,11 @@ namespace StackExchange.Windows.Application
         /// Gets the interaction that requests navigation to the given page type and clears the page stack at the same time.
         /// </summary>
         Interaction<NavigationParams, Unit> NavigateAndClearStack { get; }
+
+        /// <summary>
+        /// Gets the interaction that requests a URI to be opened.
+        /// </summary>
+        Interaction<Uri, Unit> OpenUri { get; }
 
         /// <summary>
         /// Gets the API parameter of the site that the user is currently viewing.
