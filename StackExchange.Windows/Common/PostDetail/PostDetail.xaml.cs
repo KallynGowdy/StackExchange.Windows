@@ -47,6 +47,7 @@ namespace StackExchange.Windows.Common.PostDetail
                         .DisposeWith(d);
                     this.OneWayBind(ViewModel, vm => vm.Tags, view => view.Tags.ViewModel)
                         .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.Accepted, view => view.Accepted.Visibility);
                     this.WhenAnyValue(view => view.ViewModel.Body)
                         .ObserveOn(RxApp.MainThreadScheduler)
                         .Where(body => !string.IsNullOrEmpty(body))

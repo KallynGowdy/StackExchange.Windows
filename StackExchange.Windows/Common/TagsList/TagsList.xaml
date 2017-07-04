@@ -17,7 +17,6 @@
     </UserControl.Resources>
 
     <ItemsControl x:Name="TagsControl"
-                  Margin="0,8,0,0"
                   ItemTemplate="{StaticResource TagTemplate}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>

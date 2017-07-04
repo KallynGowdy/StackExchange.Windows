@@ -62,6 +62,14 @@
                     Style="{StaticResource DownvoteButton}">
                 <FontIcon Glyph="&#xE972;"/>
             </Button>
+
+            <FontIcon x:Name="Accepted" 
+                      Glyph="&#xE73D;"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      FontSize="38"
+                      Foreground="Green"
+                      Margin="0,14,0,0"/>
         </StackPanel>
 
         <WebView x:Name="Body"

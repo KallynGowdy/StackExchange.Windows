@@ -4,6 +4,7 @@
     xmlns:local="using:StackExchange.Windows.Resources.Light">
     <Style x:Key="UserCardBackground" TargetType="Grid">
         <Setter Property="Background" Value="#d0d9e8"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Padding" Value="8"/>
     </Style>
 </ResourceDictionary>

@@ -66,6 +66,8 @@ namespace StackExchange.Windows.Common.PostDetail
         /// </summary>
         public ReactiveCommand<Unit, Unit> OpenPostInBrowser { get; }
 
+        public bool Accepted { get; }
+
         public PostViewModel() : this((IClipboard)null)
         {
         }
@@ -87,6 +89,10 @@ namespace StackExchange.Windows.Common.PostDetail
             if (post is Question q)
             {
                 Tags = q.Tags.ToListViewModel();
+            }
+            else if (post is Answer a)
+            {
+                Accepted = a.IsAccepted;
             }
         }
 

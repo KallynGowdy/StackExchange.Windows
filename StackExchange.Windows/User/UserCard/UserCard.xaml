@@ -16,7 +16,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="UserCardGrid" Style="{StaticResource UserCardBackground}">
+    <Grid x:Name="UserCardGrid" 
+          Style="{StaticResource UserCardBackground}">
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="18" Height="Auto"/>
             <RowDefinition Height="Auto"/>
