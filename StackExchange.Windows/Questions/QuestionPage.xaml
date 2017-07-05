@@ -20,69 +20,72 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
-        <ScrollViewer x:Name="ScrollableContent"
-                      Grid.Column="0"
-                      Grid.Row="0">
-            <Grid x:Name="MainContent"
-                  Padding="8">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MaxWidth="964"/>
-                </Grid.ColumnDefinitions>
 
-                <TextBlock x:Name="QuestionTitle"
-                           Grid.Row="0"
-                           Grid.Column="0"
-                           Style="{StaticResource SubheaderTextBlockStyle}"/>
+        <SplitView x:Name="SplitContent"
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   DisplayMode="Overlay"
+                   PanePlacement="Right"
+                   OpenPaneLength="900">
+            <ScrollViewer x:Name="ScrollableContent">
+                <Grid x:Name="MainContent"
+                      Padding="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MaxWidth="964"/>
+                    </Grid.ColumnDefinitions>
 
-                <postDetail:PostDetail Grid.Row="1"
-                                       Grid.Column="0"
-                                       x:Name="Question" />
+                    <TextBlock x:Name="QuestionTitle"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               Style="{StaticResource SubheaderTextBlockStyle}"/>
 
-                <TextBlock x:Name="AnswersTitle"
-                           Grid.Row="2"
-                           Grid.Column="0"
-                           Margin="0,8,0,0"
-                           Text="Answers"
-                           Style="{StaticResource TitleTextBlockStyle}"/>
+                    <postDetail:PostDetail Grid.Row="1"
+                                           Grid.Column="0"
+                                           x:Name="Question" />
 
-                <ItemsControl x:Name="Answers"
-                              Grid.Row="3"
-                              Grid.Column="0">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="postDetail:PostViewModel">
-                            <postDetail:PostDetail ViewModel="{x:Bind}"
-                                                   Margin="0,8,0,0"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
-        </ScrollViewer>
+                    <TextBlock x:Name="AnswersTitle"
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               Margin="0,8,0,0"
+                               Text="Answers"
+                               Style="{StaticResource TitleTextBlockStyle}"/>
 
-        <WebView x:Name="WebResults"
-                 Grid.Row="0"
-                 Grid.Column="1"/>
+                    <ItemsControl x:Name="Answers"
+                                  Grid.Row="3"
+                                  Grid.Column="0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="postDetail:PostViewModel">
+                                <postDetail:PostDetail ViewModel="{x:Bind}"
+                                                       Margin="0,8,0,0"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </ScrollViewer>
+
+            <SplitView.Pane>
+                <WebView x:Name="WebResults"
+                         Margin="8"/>
+            </SplitView.Pane>
+        </SplitView>
 
         <ProgressRing x:Name="LoadingRing"
                       Grid.Row="0"
                       Grid.Column="0"
-                      Grid.ColumnSpan="2"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Center"/>
-        
+
         <CommandBar x:Name="CommandBar"
                     Grid.Row="1"
                     Grid.Column="0"
-                    Grid.ColumnSpan="2"
                     Margin="-16,0,-16,-16">
             <CommandBar.Content>
                 <StackPanel x:Name="CommandBarContent"
