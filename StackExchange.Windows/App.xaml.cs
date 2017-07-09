@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -66,6 +67,7 @@ namespace StackExchange.Windows
                     if (rootFrame.CanGoBack)
                     {
                         rootFrame.GoBack();
+                        context.SetOutput(Unit.Default);
                     }
                 }
             });
@@ -122,9 +124,10 @@ namespace StackExchange.Windows
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
-        private void App_BackRequested(object sender, BackRequestedEventArgs e)
+        private async void App_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            rootFrame.GoBack();
+            await Application.NavigateBack.Handle(Unit.Default);
+            e.Handled = true;
         }
 
         private bool NavigateByParams(NavigationParams input)
