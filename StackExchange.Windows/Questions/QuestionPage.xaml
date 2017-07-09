@@ -27,7 +27,8 @@
                    Grid.Row="0"
                    DisplayMode="Overlay"
                    PanePlacement="Right"
-                   OpenPaneLength="900">
+                   OpenPaneLength="900"
+                   PaneBackground="#333">
             <ScrollViewer x:Name="ScrollableContent">
                 <Grid x:Name="MainContent"
                       Padding="8">
@@ -73,7 +74,8 @@
 
             <SplitView.Pane>
                 <WebView x:Name="WebResults"
-                         Margin="8"/>
+                         Margin="8"
+                         Width="884"/>
             </SplitView.Pane>
         </SplitView>
 

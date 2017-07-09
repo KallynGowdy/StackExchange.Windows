@@ -43,11 +43,14 @@ namespace StackExchange.Windows.Questions
 
                 var app = Locator.Current.GetService<IApplicationViewModel>();
                 app.OpenUri.RegisterHandler(ctx =>
+                {
+                    if (!ctx.IsHandled)
                     {
                         SplitContent.IsPaneOpen = true;
                         WebResults.Navigate(ctx.Input);
                         ctx.SetOutput(Unit.Default);
-                    })
+                    }
+                })
                 .DisposeWith(d);
             });
         }
