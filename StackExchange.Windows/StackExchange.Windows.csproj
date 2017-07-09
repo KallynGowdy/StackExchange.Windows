@@ -110,6 +110,9 @@
       <DependentUpon>CommentDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\CommentDetail\CommentViewModel.cs" />
+    <Compile Include="Common\ExtendedWebView\ExtendedWebView.xaml.cs">
+      <DependentUpon>ExtendedWebView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\PostDetail\PostDetail.xaml.cs">
       <DependentUpon>PostDetail.xaml</DependentUpon>
     </Compile>
@@ -228,6 +231,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Common\CommentDetail\CommentDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\ExtendedWebView\ExtendedWebView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

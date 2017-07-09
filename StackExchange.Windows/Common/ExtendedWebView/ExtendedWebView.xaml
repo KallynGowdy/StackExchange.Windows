@@ -1,0 +1,54 @@
+﻿<UserControl
+    x:Class="StackExchange.Windows.Common.ExtendedWebView.ExtendedWebView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StackExchange.Windows.Common.ExtendedWebView"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid x:Name="RootGrid"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="ResultsPageTitle"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   VerticalAlignment="Center"
+                   MaxWidth="400"
+                   Margin="0,0,8,0" />
+
+        <TextBox x:Name="ResultsUrl" 
+                 Grid.Row="0"
+                 Grid.Column="1"
+                 IsReadOnly="True"
+                 Margin="0,0,8,0"/>
+
+        <Button x:Name="OpenResultsInBrowser"
+                Grid.Row="0"
+                Grid.Column="2"
+                FontFamily="Segoe MDL2 Assets"
+                Content="&#xE909;"
+                ToolTipService.ToolTip="Open In Browser"
+                Click="OpenResultsInBrowser_OnClick"/>
+
+        <WebView x:Name="WebResults"
+                 Grid.Row="1"
+                 Grid.Column="0"
+                 Grid.ColumnSpan="3"
+                 Margin="0,8,0,0"
+                 VerticalAlignment="Stretch"
+                 NavigationCompleted="WebResults_OnNavigationCompleted"/>
+    </Grid>
+</UserControl>

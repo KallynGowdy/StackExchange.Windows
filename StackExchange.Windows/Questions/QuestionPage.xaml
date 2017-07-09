@@ -9,6 +9,7 @@
     xmlns:siteSelector="using:StackExchange.Windows.Common.SiteSelector"
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     xmlns:postDetail="using:StackExchange.Windows.Common.PostDetail"
+    xmlns:extendedWebView="using:StackExchange.Windows.Common.ExtendedWebView"
     mc:Ignorable="d">
 
     <Grid x:Name="PageGrid"
@@ -28,7 +29,7 @@
                    DisplayMode="Overlay"
                    PanePlacement="Right"
                    OpenPaneLength="900"
-                   PaneBackground="#333">
+                   PaneBackground="#eee">
             <ScrollViewer x:Name="ScrollableContent">
                 <Grid x:Name="MainContent"
                       Padding="8">
@@ -73,9 +74,8 @@
             </ScrollViewer>
 
             <SplitView.Pane>
-                <WebView x:Name="WebResults"
-                         Margin="8"
-                         Width="884"/>
+                <extendedWebView:ExtendedWebView x:Name="WebResults" 
+                                                 Margin="8"/>
             </SplitView.Pane>
         </SplitView>
 

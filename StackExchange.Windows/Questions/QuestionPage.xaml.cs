@@ -68,5 +68,10 @@ namespace StackExchange.Windows.Questions
         }
 
         public QuestionPageViewModel ViewModel { get; set; }
+
+        private void WebResults_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
+        {
+            
+        }
     }
 }
