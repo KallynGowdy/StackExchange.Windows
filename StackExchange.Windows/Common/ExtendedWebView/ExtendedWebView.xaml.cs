@@ -39,6 +39,8 @@ namespace StackExchange.Windows.Common.ExtendedWebView
 
         private void WebResults_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
+            Progress.Visibility = Visibility.Collapsed;
+            sender.Visibility = Visibility.Visible;
             ResultsUrl.Text = sender.Source.ToString();
             ResultsPageTitle.Text = sender.DocumentTitle;
             ToolTipService.SetToolTip(ResultsPageTitle, ResultsPageTitle.Text);
@@ -50,6 +52,12 @@ namespace StackExchange.Windows.Common.ExtendedWebView
             {
                 await Launcher.LaunchUriAsync(WebResults.Source);
             }
+        }
+
+        private void WebResults_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        {
+            sender.Visibility = Visibility.Collapsed;
+            Progress.Visibility = Visibility.Visible;
         }
     }
 }

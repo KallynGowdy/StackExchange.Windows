@@ -27,7 +27,8 @@
                    Grid.Column="0"
                    VerticalAlignment="Center"
                    MaxWidth="400"
-                   Margin="0,0,8,0" />
+                   Margin="0,0,8,0"
+                   TextTrimming="CharacterEllipsis" />
 
         <TextBox x:Name="ResultsUrl" 
                  Grid.Row="0"
@@ -49,6 +50,18 @@
                  Grid.ColumnSpan="3"
                  Margin="0,8,0,0"
                  VerticalAlignment="Stretch"
+                 NavigationStarting="WebResults_OnNavigationStarting"
                  NavigationCompleted="WebResults_OnNavigationCompleted"/>
+        
+        <ProgressRing x:Name="Progress"
+                      Grid.Row="1"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Visibility="Collapsed"
+                      IsActive="True" 
+                      Width="50"
+                      Height="50" />
     </Grid>
 </UserControl>
