@@ -216,20 +216,11 @@ namespace StackExchange.Windows.Html
 
         private static Inline Code(HtmlNode element)
         {
-            return new InlineUIContainer
+            return new Run()
             {
-                Child = new StackPanel()
-                {
-                    Children =
-                    {
-                        new TextBlock()
-                        {
-                            Text = WebUtility.HtmlDecode(element.InnerText),
-                            Style = (Style) App.Current.Resources["InlineCodeComment"]
-                        }
-                    },
-                    Style = (Style)App.Current.Resources["InlineCodeCommentContainer"]
-                }
+                FontFamily = new FontFamily("Consolas"),
+                Text = WebUtility.HtmlDecode(element.InnerText),
+                Foreground = new SolidColorBrush(Colors.Coral),
             };
         }
 
