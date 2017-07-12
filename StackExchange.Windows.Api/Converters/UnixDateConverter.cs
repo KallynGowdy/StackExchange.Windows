@@ -19,10 +19,17 @@ namespace StackExchange.Windows.Api.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            if (objectType == typeof(DateTime?))
+            {
+                if (reader.Value == null)
+                {
+                    return null;
+                }
+            }
             var t = Convert.ToInt64(reader.Value);
             return new DateTime(1970, 1, 1).AddSeconds(t);
         }
 
-        public override bool CanConvert(Type objectType) => typeof(DateTime) == objectType;
+        public override bool CanConvert(Type objectType) => typeof(DateTime) == objectType || typeof(DateTime?) == objectType;
     }
 }
