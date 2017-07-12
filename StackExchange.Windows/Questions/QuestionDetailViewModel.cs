@@ -15,7 +15,6 @@ namespace StackExchange.Windows.Questions
         {
             Id = question.QuestionId.ToString();
             Title = question.DecodedTitle;
-            Tags = question.Tags;
         }
 
         public QuestionDetailViewModel(int questionId)
@@ -24,7 +23,6 @@ namespace StackExchange.Windows.Questions
         }
 
         public string Title { get; } = "";
-        public string[] Tags { get; } = new string[0];
         public string Id { get; }
     }
 }

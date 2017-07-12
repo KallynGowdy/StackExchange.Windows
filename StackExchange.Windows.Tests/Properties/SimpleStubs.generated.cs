@@ -139,6 +139,14 @@ namespace StackExchange.Windows.Application
             }
         }
 
+        global::ReactiveUI.Interaction<global::System.Uri, global::System.Reactive.Unit> global::StackExchange.Windows.Application.IApplicationViewModel.OpenUri
+        {
+            get
+            {
+                return _stubs.GetMethodStub<OpenUri_Get_Delegate>("get_OpenUri").Invoke();
+            }
+        }
+
         string global::StackExchange.Windows.Application.IApplicationViewModel.CurrentSite
         {
             get
@@ -174,6 +182,14 @@ namespace StackExchange.Windows.Application
         public delegate global::ReactiveUI.Interaction<global::StackExchange.Windows.Application.NavigationParams, global::System.Reactive.Unit> NavigateAndClearStack_Get_Delegate();
 
         public StubIApplicationViewModel NavigateAndClearStack_Get(NavigateAndClearStack_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate global::ReactiveUI.Interaction<global::System.Uri, global::System.Reactive.Unit> OpenUri_Get_Delegate();
+
+        public StubIApplicationViewModel OpenUri_Get(OpenUri_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
