@@ -57,6 +57,21 @@ namespace StackExchange.Windows.Common.PostDetail
         public string Link { get; }
 
         /// <summary>
+        /// Gets whether the post has been edited.
+        /// </summary>
+        public bool Edited => LastEditDate.HasValue;
+
+        /// <summary>
+        /// Gets the date that the post was last edited on.
+        /// </summary>
+        public DateTimeOffset? LastEditDate { get; }
+
+        /// <summary>
+        /// Gets a string that describes when the post was edited.
+        /// </summary>
+        public string EditDescription => $"edited {LastEditDate:MMM dd \"'\"yy} at {LastEditDate:HH:mm}";
+
+        /// <summary>
         /// The command that copies the link to the clipboard.
         /// </summary>
         public ReactiveCommand<Unit, Unit> CopyLink { get; }
@@ -83,6 +98,7 @@ namespace StackExchange.Windows.Common.PostDetail
             Score = post.Score.ToString();
             Body = htmlHelper.WrapPostBody(post.Body);
             Link = post.Link;
+            LastEditDate = post.LastEditDate;
             Poster = new UserCardViewModel(post);
             Comments = post.Comments.Select(comment => new CommentViewModel(comment)).ToArray();
 

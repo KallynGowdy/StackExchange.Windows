@@ -101,11 +101,19 @@
                     ToolTipService.ToolTip="Open In Browser"/>
         </StackPanel>
 
-        <userCard:UserCard x:Name="Poster"
-                           Grid.Row="2"
-                           Grid.Column="1"
-                           Grid.RowSpan="2"
-                           HorizontalAlignment="Right"/>
+        <StackPanel x:Name="PostAuthorInformation"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Grid.RowSpan="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <TextBlock x:Name="Editor"
+                       Padding="0,8,0,0" />
+            
+            <userCard:UserCard x:Name="Poster"
+                               Margin="8,0,0,0"/>
+        </StackPanel>
+
 
         <ItemsControl x:Name="Comments"
                       Grid.Row="4"

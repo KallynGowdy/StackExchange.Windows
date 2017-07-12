@@ -53,6 +53,8 @@ namespace StackExchange.Windows.Common.PostDetail
                     this.OneWayBind(ViewModel, vm => vm.Tags, view => view.Tags.ViewModel)
                         .DisposeWith(d);
                     this.OneWayBind(ViewModel, vm => vm.Accepted, view => view.Accepted.Visibility);
+                    this.OneWayBind(ViewModel, vm => vm.Edited, view => view.Editor.Visibility);
+                    this.OneWayBind(ViewModel, vm => vm.EditDescription, view => view.Editor.Text);
                     this.WhenAnyValue(view => view.ViewModel.Body)
                         .ObserveOn(RxApp.MainThreadScheduler)
                         .Where(body => !string.IsNullOrEmpty(body))
