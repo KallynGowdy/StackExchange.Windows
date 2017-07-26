@@ -44,6 +44,8 @@ namespace StackExchange.Windows.Questions
                 var app = Locator.Current.GetService<IApplicationViewModel>();
                 app.OpenUri.RegisterHandler(ctx =>
                 {
+                    // TODO: Allow the user to specify whether to open in a real browser
+                    //       or our pseudo-browser.
                     if (!ctx.IsHandled)
                     {
                         SplitContent.IsPaneOpen = true;
