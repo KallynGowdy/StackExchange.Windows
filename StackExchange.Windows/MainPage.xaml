@@ -7,7 +7,23 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="Hello"></TextBlock>
-    </Grid>
+    <SplitView x:Name="Navigation"
+               OpenPaneLength="150"
+               DisplayMode="CompactOverlay">
+        <SplitView.Pane>
+            <Grid x:Name="MenuGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                
+            </Grid>
+        </SplitView.Pane>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Frame x:Name="RootFrame"
+                   Navigated="FrameOnNavigated"/>
+        </Grid>
+        
+    </SplitView>
 </Page>
