@@ -11,12 +11,12 @@
     xmlns:userCard="using:StackExchange.Windows.User.UserCard"
     xmlns:questionListItem="using:StackExchange.Windows.Questions.QuestionListItem"
     xmlns:controls="using:StackExchange.Windows.Controls"
-    xmlns:searchBox="using:StackExchange.Windows.Search.SearchBox"
     xmlns:siteSelector="using:StackExchange.Windows.Common.SiteSelector"
+    xmlns:searchBox1="using:StackExchange.Windows.Common.SearchBox"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Name="QuestionTemplate" x:DataType="local:QuestionViewModel">
+            <DataTemplate x:Name="QuestionTemplate" x:DataType="local:QuestionItemViewModel">
                 <!-- 
                 Bind Question to Self because if we just use {x:Bind} then the Question will be set to null, activated (WhenActivated called), and then set to the correct question.
                 -->
@@ -82,7 +82,7 @@
                 <StackPanel x:Name="CommandBarContent"
                             Orientation="Horizontal"
                             HorizontalAlignment="Stretch">
-                    <searchBox:QuestionSearchBox HorizontalAlignment="Stretch"/>
+                    <searchBox1:QuestionSearchBox HorizontalAlignment="Stretch"/>
                     <siteSelector:SiteSelector/>
                 </StackPanel>
             </CommandBar.Content>

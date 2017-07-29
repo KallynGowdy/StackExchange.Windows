@@ -23,13 +23,13 @@ namespace StackExchange.Windows
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page, IViewFor<ApplicationViewModel>
+    public sealed partial class MainPage : Page, IViewFor<IApplicationViewModel>
     {
 
         public MainPage()
         {
             this.InitializeComponent();
-            ViewModel = Locator.Current.GetService<ApplicationViewModel>();
+            ViewModel = Locator.Current.GetService<IApplicationViewModel>();
             this.WhenActivated(d =>
             {
                 d(this.OneWayBind(ViewModel, vm => vm.Authentication.Token, view => view.Hello.Text));
@@ -42,6 +42,6 @@ namespace StackExchange.Windows
             set { ViewModel = (ApplicationViewModel)value; }
         }
 
-        public ApplicationViewModel ViewModel { get; set; }
+        public IApplicationViewModel ViewModel { get; set; }
     }
 }

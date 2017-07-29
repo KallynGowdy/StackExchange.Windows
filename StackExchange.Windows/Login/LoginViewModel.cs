@@ -26,7 +26,7 @@ namespace StackExchange.Windows.Login
         {
             GoToMainPage = ReactiveCommand.CreateFromTask(async () =>
             {
-                await Application.NavigateAndClearStack.Handle(typeof(QuestionsPage));
+                await Application.NavigateAndClearStack.Handle(new NavigationParams(typeof(QuestionsPage)));
             });
 
             Authentication.Login.InvokeCommand(this, vm => vm.GoToMainPage);

@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ReactiveUI;
+using Splat;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -29,7 +30,9 @@ namespace StackExchange.Windows.Questions
             this.WhenActivated(d =>
             {
                 d(this.OneWayBind(ViewModel, vm => vm.Questions, view => view.Questions.ItemsSource));
+                d(this.Bind(ViewModel, vm => vm.SelectedQuestion, view => view.Questions.SelectedItem));
                 d(ViewModel.LoadQuestions.IsExecuting.BindTo(this, view => view.LoadingRing.IsActive));
+
                 d(this.BindCommand(ViewModel, vm => vm.Refresh, view => view.Refresh));
 
                 d(ViewModel.LoadQuestions.Execute().Subscribe());
@@ -42,11 +45,6 @@ namespace StackExchange.Windows.Questions
             set { ViewModel = (QuestionsViewModel)value; }
         }
 
-        public QuestionsViewModel ViewModel { get; set; } = new QuestionsViewModel();
-
-        //private void SearchBox_OnLostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    SearchCompletionBox.Visibility = Visibility.Collapsed;
-        //}
+        public QuestionsViewModel ViewModel { get; set; } = Locator.Current.GetService<QuestionsViewModel>();
     }
 }

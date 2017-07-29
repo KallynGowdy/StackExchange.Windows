@@ -7,29 +7,31 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ReactiveUI;
+using Refit;
 using Splat;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Converters;
 using StackExchange.Windows.Authentication;
 using StackExchange.Windows.BindingConverters;
-using StackExchange.Windows.Search.SearchBox;
+using StackExchange.Windows.Common.SearchBox;
+using StackExchange.Windows.Questions;
+using StackExchange.Windows.Services;
 
 namespace StackExchange.Windows.Application
 {
     /// <summary>
     /// Defines a view model that represents the entire application.
     /// </summary>
-    public class ApplicationViewModel : ReactiveObject
+    public class ApplicationViewModel : ReactiveObject, IApplicationViewModel
     {
-        private string currentSite = "stackoverflow";
-
         /// <summary>
         /// Gets the view model in charge of authentication.
         /// </summary>
-        public AuthenticationViewModel Authentication { get; }
+        public IAuthenticationViewModel Authentication { get; }
 
         /// <summary>
         /// Gets the view model in charge of search for the site.
@@ -39,7 +41,7 @@ namespace StackExchange.Windows.Application
         /// <summary>
         /// Gets the interaction that requests navigation to other pages.
         /// </summary>
-        public Interaction<Type, Unit> Navigate { get; } = new Interaction<Type, Unit>();
+        public Interaction<NavigationParams, Unit> Navigate { get; } = new Interaction<NavigationParams, Unit>();
 
         /// <summary>
         /// Gets the interaction that requests navigation back in the navigation stack.
@@ -49,25 +51,27 @@ namespace StackExchange.Windows.Application
         /// <summary>
         /// Gets the interaction that requests navigation to the given page type and clears the page stack at the same time.
         /// </summary>
-        public Interaction<Type, Unit> NavigateAndClearStack { get; } = new Interaction<Type, Unit>();
+        public Interaction<NavigationParams, Unit> NavigateAndClearStack { get; } = new Interaction<NavigationParams, Unit>();
 
         /// <summary>
-        /// Gets or sets the site that the user is currently viewing.
+        /// Gets the interaction that requests a URI to be opened.
         /// </summary>
-        public string CurrentSite
-        {
-            get { return currentSite; }
-            set { this.RaiseAndSetIfChanged(ref currentSite, value); }
-        }
+        public Interaction<Uri, Unit> OpenUri { get; } = new Interaction<Uri, Unit>();
+
+        /// <summary>
+        /// Gets the site that the user is currently viewing.
+        /// </summary>
+        public string CurrentSite => Search.SelectedSite.ApiSiteParameter;
 
         /// <summary>
         /// Gets the current HTTP client for the application.
         /// </summary>
         public HttpClient HttpClient { get; private set; }
 
-        public ApplicationViewModel()
+        public ApplicationViewModel(ISearchViewModel search = null)
         {
-            Authentication = new AuthenticationViewModel(this);
+            Search = search;
+            Authentication = new AuthenticationViewModel();
             Authentication.Login.Do(u => OnLogin()).Subscribe();
         }
 
@@ -75,7 +79,7 @@ namespace StackExchange.Windows.Application
         {
             var handler = new AuthenticatedHttpClientHandler("eZclcV**uSVviAazkVJ6ug((", () => Authentication.Token)
             {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
             };
 
             // TODO: Add message handler to add access token
@@ -90,10 +94,13 @@ namespace StackExchange.Windows.Application
 
         public void Start()
         {
-            Locator.CurrentMutable.RegisterConstant(this, typeof(ApplicationViewModel));
-            Locator.CurrentMutable.RegisterConstant(Authentication, typeof(AuthenticationViewModel));
+            Locator.CurrentMutable.RegisterConstant(this, typeof(IApplicationViewModel));
+            Locator.CurrentMutable.RegisterConstant(Authentication, typeof(IAuthenticationViewModel));
 
+            Locator.CurrentMutable.RegisterLazySingleton(() => new UwpClipboard(), typeof(IClipboard));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new QuestionsViewModel(), typeof(QuestionsViewModel));
             Locator.CurrentMutable.Register(UriToImageSourceBindingTypeConverter.Create, typeof(IBindingTypeConverter));
+            Locator.CurrentMutable.Register(() => new ColorToBrushBindingTypeConverter(), typeof(IBindingTypeConverter));
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
             {
@@ -106,7 +113,17 @@ namespace StackExchange.Windows.Application
                     new UnixDateConverter()
                 }
             };
+
+            OpenUri.RegisterHandler(async ctx =>
+            {
+                await Launcher.LaunchUriAsync(ctx.Input);
+                ctx.SetOutput(Unit.Default);
+            });
+        }
+
+        public TService Api<TService>()
+        {
+            return RestService.For<TService>(HttpClient);
         }
     }
 }
-

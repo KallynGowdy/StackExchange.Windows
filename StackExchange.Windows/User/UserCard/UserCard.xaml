@@ -8,22 +8,31 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="../../Resources/Light/Light.xaml" x:Key="Light"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-    <Grid x:Name="UserCardGrid">
+    <Grid x:Name="UserCardGrid" 
+          Style="{StaticResource UserCardBackground}">
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="18" Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="130"/>
         </Grid.ColumnDefinitions>
 
         <Image x:Name="OwnerImage"
                Grid.Row="1"
                Grid.Column="0"
-               Grid.RowSpan="2"
+               Grid.RowSpan="3"
                Margin="0,0,8,0"
                Stretch="Fill"
                Width="32"
@@ -34,13 +43,61 @@
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
                    TextAlignment="Left"
-                   FontSize="11"/>
+                   FontSize="12"/>
 
         <TextBlock x:Name="Owner"
                    Grid.Row="1"
                    Grid.Column="1"
-                   Grid.RowSpan="2"
                    TextAlignment="Left"
-                   FontSize="11"/>
+                   FontSize="12"/>
+
+        <StackPanel x:Name="Badges"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+            <TextBlock x:Name="Reputation"
+                       Text="3280"
+                       FontSize="12"
+                       FontWeight="SemiBold"
+                       Margin="0,0,4,0" />
+            <Ellipse x:Name="BronzeDot"
+                     Fill="#af7626"
+                     Stroke="#af7626"
+                     Height="8"
+                     Width="8"
+                     VerticalAlignment="Center"/>
+            
+            <TextBlock x:Name="Bronze"
+                       Text="8"
+                       FontSize="12"
+                       FontWeight="Light"
+                       Margin="2,0,4,0"/>
+            
+            <Ellipse x:Name="SilverDot"
+                     Fill="#bababa"
+                     Stroke="#bababa"
+                     Height="8"
+                     Width="8"
+                     VerticalAlignment="Center"/>
+
+            <TextBlock x:Name="Silver"
+                       Text="8"
+                       FontSize="12"
+                       FontWeight="Light"
+                       Margin="2,0,4,0"/>
+            
+            <Ellipse x:Name="GoldDot"
+                     Fill="#ffe438"
+                     Stroke="#ffe438"
+                     Height="8"
+                     Width="8"
+                     VerticalAlignment="Center"/>
+
+            <TextBlock x:Name="Gold"
+                       Text="8"
+                       FontSize="12"
+                       FontWeight="Light"
+                       Margin="2,0,4,0"/>
+        </StackPanel>
     </Grid>
 </UserControl>

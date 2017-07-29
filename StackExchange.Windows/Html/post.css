@@ -1,0 +1,22 @@
+﻿body {
+    font-family: "Segoe UI", Calibri, Candara, Segoe, Optima, Arial, sans-serif;
+    -ms-content-zooming: none;
+    margin: 0;
+}
+
+pre {
+    font-family: Consolas, Courier, monospace;
+    background: #eee;
+    padding: 8px 16px 16px 8px;
+    max-width: 900px;
+    max-height: 500px;
+    overflow: auto;
+}
+
+:not(pre) > code {
+    background: #eee;
+}
+
+code {
+    font-family: Consolas, Courier, monospace;
+}

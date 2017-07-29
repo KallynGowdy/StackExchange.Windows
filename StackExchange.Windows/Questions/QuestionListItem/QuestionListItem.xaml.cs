@@ -7,29 +7,24 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using ReactiveUI;
 using StackExchange.Windows.BindingConverters;
+using StackExchange.Windows.Resources;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace StackExchange.Windows.Questions.QuestionListItem
 {
-    public sealed partial class QuestionListItem : UserControl, IViewFor<QuestionViewModel>
+    public sealed partial class QuestionListItem : UserControl, IViewFor<QuestionItemViewModel>
     {
         public static readonly DependencyProperty QuestionProperty = DependencyProperty.Register(
             nameof(Question),
-            typeof(QuestionViewModel),
+            typeof(QuestionItemViewModel),
             typeof(QuestionListItem),
             new PropertyMetadata(null));
 
-        public QuestionViewModel Question
+        public QuestionItemViewModel Question
         {
-            get
-            {
-                return (QuestionViewModel)GetValue(QuestionProperty);
-            }
-            set
-            {
-                SetValue(QuestionProperty, value);
-            }
+            get => (QuestionItemViewModel)GetValue(QuestionProperty);
+            set => SetValue(QuestionProperty, value);
         }
 
         public QuestionListItem()
@@ -39,27 +34,41 @@ namespace StackExchange.Windows.Questions.QuestionListItem
             {
                 this.WhenActivated(d =>
                 {
-                    d(this.Bind(ViewModel, vm => vm.Title, view => view.Title.Text));
-                    d(this.Bind(ViewModel, vm => vm.Score, view => view.Score.Text));
-                    d(this.Bind(ViewModel, vm => vm.Views, view => view.NumViews.Text));
-                    d(this.Bind(ViewModel, vm => vm.Answers, view => view.NumAnswers.Text));
-                    d(this.OneWayBind(ViewModel, vm => vm.IsAnswered, view => view.AnswersPanel.Background, vmToViewConverterOverride: BooleanToBrushBindingTypeConverter.Create(@true: Colors.Aquamarine, @false: Colors.Transparent)));
-                    d(this.Bind(ViewModel, vm => vm.User, view => view.UserCard.User));
-                    d(this.Bind(ViewModel, vm => vm.Tags, view => view.Tags.ItemsSource));
+                    this.Bind(ViewModel, vm => vm.Title, view => view.Title.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Score, view => view.Score.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Views, view => view.NumViews.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Answers, view => view.NumAnswers.Text)
+                        .DisposeWith(d);
+                    this.WhenAnyValue(
+                            view => view.ViewModel.HasAGoodAnswer,
+                            view => view.ViewModel.HasAnAcceptedAnswer,
+                            (good, accepted) => new { good, accepted })
+                        .Select(tuple => tuple.accepted ? Pallete.AcceptedColor : tuple.good ? Pallete.GoodAnswerColor : Colors.Transparent)
+                        .BindTo(this, view => view.AnswersPanel.Background)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.User, view => view.UserCard.ViewModel)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.User, view => view.UserCard.ViewModel)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Tags, view => view.Tags.ViewModel)
+                        .DisposeWith(d);
                 });
             }
         }
 
         object IViewFor.ViewModel
         {
-            get { return ViewModel; }
-            set { ViewModel = (QuestionViewModel) value; }
+            get => ViewModel;
+            set => ViewModel = (QuestionItemViewModel)value;
         }
 
-        public QuestionViewModel ViewModel
+        public QuestionItemViewModel ViewModel
         {
-            get { return Question; }
-            set { Question = value; }
+            get => Question;
+            set => Question = value;
         }
     }
 }

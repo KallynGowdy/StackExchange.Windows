@@ -11,8 +11,9 @@ using ReactiveUI;
 using ReactiveUI.Testing;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
+using StackExchange.Windows.Application;
+using StackExchange.Windows.Common.SearchBox;
 using StackExchange.Windows.Questions;
-using StackExchange.Windows.Search.SearchBox;
 using Xunit;
 
 namespace StackExchange.Windows.Tests.Questions
@@ -22,14 +23,14 @@ namespace StackExchange.Windows.Tests.Questions
         public QuestionsViewModel Subject { get; set; }
         public StubISearchViewModel Search { get; set; }
         public ReactiveCommand<Unit, Unit> LoadSites { get; set; } = ReactiveCommand.Create(() => { });
-        public StubIQuestionsApi QuestionsApi { get; set; }
+        public StubINetworkApi NetworkApi { get; set; }
         public SiteViewModel Site { get; set; }
 
         public QuestionsViewModelTests()
         {
-            QuestionsApi = new StubIQuestionsApi();
+            NetworkApi = new StubINetworkApi();
             Search = new StubISearchViewModel();
-            Subject = new QuestionsViewModel(search: Search, questionsApi: QuestionsApi);
+            Subject = new QuestionsViewModel(search: Search, networkApi: NetworkApi);
 
             Search.SelectedSite_Set(site => Site = site);
             Search.SelectedSite_Get(() => Site);
@@ -39,7 +40,7 @@ namespace StackExchange.Windows.Tests.Questions
         [Fact]
         public async Task Test_Clear_Removes_Questions_From_The_Questions_List()
         {
-            Subject.Questions.Add(new QuestionViewModel());
+            Subject.Questions.Add(new QuestionItemViewModel());
 
             await Subject.Clear.Execute();
 
@@ -50,8 +51,8 @@ namespace StackExchange.Windows.Tests.Questions
         public async Task Test_Refresh_Clears_And_Loads_Questions()
         {
             Site = new SiteViewModel(new Site());
-            Subject.Questions.Add(new QuestionViewModel());
-            QuestionsApi.Questions(
+            Subject.Questions.Add(new QuestionItemViewModel());
+            NetworkApi.Questions(
                 (site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()
                 {
                     Items = new[]
@@ -77,7 +78,7 @@ namespace StackExchange.Windows.Tests.Questions
         public async Task Test_LoadQuestions_Executes_LoadSites_If_There_Is_No_Currently_Selected_Site()
         {
             Site = null;
-            QuestionsApi.Questions((site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()));
+            NetworkApi.Questions((site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()));
 
             LoadSites = ReactiveCommand.Create(() =>
             {
@@ -97,7 +98,7 @@ namespace StackExchange.Windows.Tests.Questions
             var testTask = new TaskCompletionSource<int>();
             Site = null;
             LoadSites = ReactiveCommand.CreateFromTask(() => loadSitesTask.Task);
-            QuestionsApi.Questions(
+            NetworkApi.Questions(
                 (site, order, sort, page, pagesize, filter) => Task.FromResult(new Response<Question>()
                 {
                     Items = new[]
@@ -143,33 +144,36 @@ namespace StackExchange.Windows.Tests.Questions
         [Fact]
         public async Task Test_LoadQuestions_Loads_From_Currently_Selected_Site()
         {
+            var called = false;
             Site = new SiteViewModel(new Site()
             {
                 ApiSiteParameter = "stackoverflow"
             });
 
-            QuestionsApi.Questions((site, order, sort, page, pagesize, filter) =>
+            NetworkApi.Questions((site, order, sort, page, pagesize, filter) =>
             {
                 Assert.Equal("stackoverflow", site);
+                called = true;
                 return Task.FromResult(new Response<Question>());
             });
 
             await Subject.LoadQuestions.Execute();
+
+            Assert.True(called);
         }
 
         [Fact]
         public void Test_Refreshes_Questions_When_Site_Is_Changed_After_Activation()
         {
-            QuestionsApi.Questions((site, order, sort, page, pagesize, filter) =>
+            NetworkApi.Questions((site, order, sort, page, pagesize, filter) =>
             {
                 Assert.Equal("othersite", site);
                 return Task.FromResult(new Response<Question>());
             });
             var api = new StubINetworkApi();
-            var searchApi = new StubISearchApi();
-            var search = new SearchViewModel(networkApi: api, searchApi: searchApi);
-            Subject = new QuestionsViewModel(search: search, questionsApi: QuestionsApi);
-            Subject.Questions.Add(new QuestionViewModel());
+            var search = new SearchViewModel(networkApi: api);
+            Subject = new QuestionsViewModel(search: search, networkApi: NetworkApi);
+            Subject.Questions.Add(new QuestionItemViewModel());
 
             using (Subject.Activator.Activate())
             {
@@ -179,6 +183,107 @@ namespace StackExchange.Windows.Tests.Questions
                 });
 
                 Assert.Empty(Subject.Questions);
+            }
+        }
+
+        [Fact]
+        public async Task Test_DisplayQuestion_Calls_Navigate_With_The_Given_QuestionViewModel()
+        {
+            var application = new ApplicationViewModel();
+            var question = new Question();
+            var questionViewModel = new QuestionItemViewModel(question);
+            Subject = new QuestionsViewModel(application, Search, NetworkApi);
+
+            using (application.Navigate.RegisterHandler(ctx =>
+            {
+                Assert.Same(question, ctx.Input.Parameter);
+                ctx.SetOutput(Unit.Default);
+            }))
+            {
+                await Subject.DisplayQuestion.Execute(questionViewModel);
+            }
+        }
+
+        [Fact]
+        public async Task Test_LoadQuestions_Does_Not_Reload_When_Questions_Already_Exist()
+        {
+            Site = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "stackoverflow"
+            });
+
+            Subject.LoadedSite = "stackoverflow";
+
+            var question = new QuestionItemViewModel();
+            Subject.Questions.Add(question);
+
+            await Subject.LoadQuestions.Execute();
+
+            Assert.Collection(Subject.Questions,
+                q => Assert.Same(question, q));
+        }
+
+        [Fact]
+        public async Task Test_LoadQuestions_Does_Reload_If_The_Site_Is_Different_Than_The_Current_Questions()
+        {
+            Site = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "stackoverflow"
+            });
+
+            NetworkApi.Questions((site, order, sort, page, pagesize, filter) =>
+            {
+                if (site == "stackoverflow")
+                {
+                    return Task.FromResult(new Response<Question>()
+                    {
+                        Items = new[]
+                        {
+                            new Question()
+                            {
+                                Title = "First"
+                            },
+                        }
+                    });
+                }
+                else
+                {
+                    return Task.FromResult(new Response<Question>()
+                    {
+                        Items = new[]
+                        {
+                            new Question()
+                            {
+                                Title = "Second"
+                            },
+                        }
+                    });
+                }
+            });
+
+            await Subject.LoadQuestions.Execute();
+
+            Assert.Collection(Subject.Questions,
+                q => Assert.Equal("First", q.Title));
+
+            Site = new SiteViewModel(new Site()
+            {
+                ApiSiteParameter = "other"
+            });
+
+            await Subject.LoadQuestions.Execute();
+
+            Assert.Collection(Subject.Questions,
+                q => Assert.Equal("Second", q.Title));
+        }
+
+        [Fact]
+        public void Test_Clears_Selected_Question_When_Activated()
+        {
+            Subject.SelectedQuestion = new QuestionItemViewModel();
+            using (Subject.Activator.Activate())
+            {
+                Assert.Null(Subject.SelectedQuestion);
             }
         }
     }

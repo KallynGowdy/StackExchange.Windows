@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ using Microsoft.Reactive.Testing;
 using ReactiveUI.Testing;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Api.Models;
-using StackExchange.Windows.Search.SearchBox;
+using StackExchange.Windows.Application;
+using StackExchange.Windows.Common.SearchBox;
+using StackExchange.Windows.Questions;
 using Xunit;
 
 namespace StackExchange.Windows.Tests.Search.SearchBox
@@ -17,13 +20,11 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
     {
         public SearchViewModel Subject { get; set; }
         public StubINetworkApi NetworkApi { get; set; }
-        public StubISearchApi SearchApi { get; set; }
 
         public SearchViewModelTests()
         {
             NetworkApi = new StubINetworkApi();
-            SearchApi = new StubISearchApi();
-            Subject = new SearchViewModel(null, NetworkApi, SearchApi);
+            Subject = new SearchViewModel(null, NetworkApi);
         }
 
         [Fact]
@@ -35,7 +36,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [Fact]
         public async Task Test_LoadSites_Loads_A_List_Of_Sites_From_The_Api()
         {
-            NetworkApi.Sites(() => Task.FromResult(new Response<Site>()
+            NetworkApi.Sites((page, pagesize) => Task.FromResult(new Response<Site>()
             {
                 Items = new[] {
                     new Site()
@@ -82,7 +83,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [Fact]
         public async Task Test_LoadSites_Selects_The_First_Returned_Site()
         {
-            NetworkApi.Sites(() => Task.FromResult(new Response<Site>()
+            NetworkApi.Sites((page, pagesize) => Task.FromResult(new Response<Site>()
             {
                 Items = new[] {
                     new Site()
@@ -150,7 +151,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [Fact]
         public async Task Test_Search_Passes_The_Current_Query_To_The_Api()
         {
-            SearchApi.SearchAdvanced((q, site) =>
+            NetworkApi.SearchAdvanced((q, site, filter) =>
             {
                 Assert.Equal("query", q);
                 return Task.FromResult(new Response<Question>());
@@ -168,7 +169,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [Fact]
         public async Task Test_Search_Fills_SuggestedQuestions_From_The_Returned_Search_Questions()
         {
-            SearchApi.SearchAdvanced((q, site) => Task.FromResult(new Response<Question>()
+            NetworkApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()
             {
                 Items = new[]
                 {
@@ -201,7 +202,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [Fact]
         public void Test_Automatically_Searches_When_Activated_After_Throttling_For_Half_A_Second()
         {
-            SearchApi.SearchAdvanced((q, site) => Task.FromResult(new Response<Question>()
+            NetworkApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()
             {
                 Items = new[]
                 {
@@ -247,7 +248,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [InlineData(null)]
         public async Task Test_Search_Cannot_Execute_When_Query_Is_Null_Or_Whitespace(string query)
         {
-            SearchApi.SearchAdvanced((q, site) => Task.FromResult(new Response<Question>()));
+            NetworkApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()));
             Subject.SelectedSite = new SiteViewModel(new Site()
             {
                 ApiSiteParameter = "stackoverflow"
@@ -262,7 +263,7 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
         [InlineData("search")]
         public async Task Test_Search_Can_Execute_When_Query_Contains_Letters(string query)
         {
-            SearchApi.SearchAdvanced((q, site) => Task.FromResult(new Response<Question>()));
+            NetworkApi.SearchAdvanced((q, site, filter) => Task.FromResult(new Response<Question>()));
             Subject.SelectedSite = new SiteViewModel(new Site()
             {
                 ApiSiteParameter = "stackoverflow"
@@ -272,5 +273,54 @@ namespace StackExchange.Windows.Tests.Search.SearchBox
 
             Assert.True(await Subject.Search.CanExecute.FirstAsync());
         }
+
+        [Fact]
+        public async Task Test_DisplayQuestion_Navigates_With_The_Given_QuestionViewModel()
+        {
+            var application = new ApplicationViewModel();
+            var question = new Question();
+            var questionViewModel = new QuestionItemViewModel(question);
+            Subject = new SearchViewModel(application, NetworkApi);
+
+            using (application.Navigate.RegisterHandler(ctx =>
+            {
+                Assert.Same(question, ctx.Input.Parameter);
+                ctx.SetOutput(Unit.Default);
+            }))
+            {
+                await Subject.DisplayQuestion.Execute(questionViewModel);
+            }
+        }
+
+        [Fact]
+        public async Task Test_LoadSites_Does_Not_Reload_If_There_Are_Already_Available_Sites()
+        {
+            var site = new SiteViewModel();
+            Subject = new SearchViewModel(null, NetworkApi);
+            Subject.AvailableSites.Add(site);
+
+            await Subject.LoadSites.Execute();
+
+            Assert.Collection(Subject.AvailableSites,
+                s => Assert.Same(site, s));
+        }
+
+        [Fact]
+        public async Task Test_SearchAndFocus_Sets_Query_And_Triggers_FocusSearchBox_Interaction()
+        {
+            var called = false;
+            using (Subject.FocusSearchBox.RegisterHandler(ctx =>
+            {
+                called = true;
+                ctx.SetOutput(Unit.Default);
+            }))
+            {
+                await Subject.SetQueryAndFocus.Execute("test");
+
+                Assert.True(called, "FocusSearchBox should be called");
+                Assert.Equal("test", Subject.Query);
+            }
+        }
+
     }
 }

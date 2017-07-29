@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,7 @@ namespace StackExchange.Windows.Api
     /// <summary>
     /// Defines a HttpClientHandler that is able to authenticate requests to the API.
     /// </summary>
-    public class AuthenticatedHttpClientHandler : HttpClientHandler
+    public class AuthenticatedHttpClientHandler : CachedHttpClientHandler
     {
         public const string AccessTokenParameter = "access_token";
         public const string KeyParameter = "key";

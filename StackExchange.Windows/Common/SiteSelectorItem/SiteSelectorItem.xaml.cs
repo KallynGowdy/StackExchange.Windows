@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ReactiveUI;
-using StackExchange.Windows.Search.SearchBox;
+using StackExchange.Windows.Common.SearchBox;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 

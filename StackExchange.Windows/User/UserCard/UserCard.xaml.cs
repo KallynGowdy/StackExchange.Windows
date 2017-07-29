@@ -22,23 +22,11 @@ namespace StackExchange.Windows.User.UserCard
 {
     public sealed partial class UserCard : UserControl, IViewFor<UserCardViewModel>
     {
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(
-            nameof(User),
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+            nameof(ViewModel),
             typeof(UserCardViewModel),
             typeof(UserCard),
             new PropertyMetadata(null));
-
-        public UserCardViewModel User
-        {
-            get
-            {
-                return (UserCardViewModel)GetValue(UserProperty);
-            }
-            set
-            {
-                SetValue(UserProperty, value);
-            }
-        }
 
         public UserCard()
         {
@@ -47,9 +35,22 @@ namespace StackExchange.Windows.User.UserCard
             {
                 this.WhenActivated(d =>
                 {
-                    d(this.OneWayBind(ViewModel, vm => vm.ImageUrl, view => view.OwnerImage.Source));
-                    d(this.Bind(ViewModel, vm => vm.Owner, view => view.Owner.Text));
-                    d(this.Bind(ViewModel, vm => vm.PostedOn, view => view.PostedOn.Text));
+                    this.OneWayBind(ViewModel, vm => vm.ImageUrl, view => view.OwnerImage.Source)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Owner, view => view.Owner.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.PostedOn, view => view.PostedOn.Text)
+                        .DisposeWith(d);
+                    this.Bind(ViewModel, vm => vm.Reputation, view => view.Reputation.Text)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.HasBadges, view => view.Badges.Visibility)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.BronzeBadges, view => view.Bronze.Text)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.SilverBadges, view => view.Silver.Text)
+                        .DisposeWith(d);
+                    this.OneWayBind(ViewModel, vm => vm.GoldBadges, view => view.Gold.Text)
+                        .DisposeWith(d);
                 });
             }
         }
@@ -62,8 +63,14 @@ namespace StackExchange.Windows.User.UserCard
 
         public UserCardViewModel ViewModel
         {
-            get { return User; }
-            set { User = value; }
+            get
+            {
+                return (UserCardViewModel)GetValue(ViewModelProperty);
+            }
+            set
+            {
+                SetValue(ViewModelProperty, value);
+            }
         }
     }
 }

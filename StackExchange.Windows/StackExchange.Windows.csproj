@@ -97,16 +97,41 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Application\ApplicationViewModel.cs" />
+    <Compile Include="Application\IApplicationViewModel.cs" />
+    <Compile Include="Application\NavigationParams.cs" />
     <Compile Include="Authentication\AuthenticationSettings.cs" />
     <Compile Include="Authentication\AuthenticationViewModel.cs" />
+    <Compile Include="Authentication\IAuthenticationViewModel.cs" />
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="BindingConverters\BooleanToBrushBindingTypeConverter.cs" />
+    <Compile Include="BindingConverters\ColorToBrushBindingTypeConverter.cs" />
     <Compile Include="BindingConverters\UriToImageSourceBindingTypeConverter.cs" />
+    <Compile Include="Common\CommentDetail\CommentDetail.xaml.cs">
+      <DependentUpon>CommentDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\CommentDetail\CommentViewModel.cs" />
+    <Compile Include="Common\ExtendedWebView\ExtendedWebView.xaml.cs">
+      <DependentUpon>ExtendedWebView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\PostDetail\PostDetail.xaml.cs">
+      <DependentUpon>PostDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\PostDetail\PostViewModel.cs" />
     <Compile Include="Common\SiteSelector\SiteSelector.xaml.cs">
       <DependentUpon>SiteSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\TagsList\Tag.xaml.cs">
+      <DependentUpon>Tag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\TagsList\TagStyle.cs" />
+    <Compile Include="Common\TagsList\TagsList.xaml.cs">
+      <DependentUpon>TagsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\TagsList\TagsListViewModel.cs" />
+    <Compile Include="Common\TagsList\TagViewModel.cs" />
     <Compile Include="Controls\RefreshableListView.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Html\HtmlHelper.cs" />
     <Compile Include="Login\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -115,27 +140,35 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Questions\QuestionDetailViewModel.cs" />
+    <Compile Include="Questions\QuestionPage.xaml.cs">
+      <DependentUpon>QuestionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Questions\QuestionPageViewModel.cs" />
     <Compile Include="Questions\QuestionsPage.xaml.cs">
       <DependentUpon>QuestionsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Questions\QuestionsViewModel.cs" />
-    <Compile Include="Questions\QuestionViewModel.cs" />
+    <Compile Include="Questions\QuestionItemViewModel.cs" />
     <Compile Include="Questions\QuestionListItem\QuestionListItem.xaml.cs">
       <DependentUpon>QuestionListItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\SiteSelectorItem\SiteSelectorItem.xaml.cs">
       <DependentUpon>SiteSelectorItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Search\SearchBox\ISearchViewModel.cs" />
-    <Compile Include="Search\SearchBox\QuestionSearchBox.xaml.cs">
+    <Compile Include="Common\SearchBox\ISearchViewModel.cs" />
+    <Compile Include="Common\SearchBox\QuestionSearchBox.xaml.cs">
       <DependentUpon>QuestionSearchBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Search\SearchBox\QuestionSearchBoxItem\QuestionSearchBoxItem.xaml.cs">
+    <Compile Include="Common\SearchBox\QuestionSearchBoxItem\QuestionSearchBoxItem.xaml.cs">
       <DependentUpon>QuestionSearchBoxItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Search\SearchBox\SearchViewModel.cs" />
-    <Compile Include="Search\SearchBox\SemanticQuery.cs" />
-    <Compile Include="Search\SearchBox\SiteViewModel.cs" />
+    <Compile Include="Common\SearchBox\SearchViewModel.cs" />
+    <Compile Include="Common\SearchBox\SemanticQuery.cs" />
+    <Compile Include="Common\SearchBox\SiteViewModel.cs" />
+    <Compile Include="Resources\Pallete.cs" />
+    <Compile Include="Services\IClipboard.cs" />
+    <Compile Include="Services\UwpClipboard.cs" />
     <Compile Include="User\NetworkUserViewModel.cs" />
     <Compile Include="User\UserCard\UserCard.xaml.cs">
       <DependentUpon>UserCard.xaml</DependentUpon>
@@ -149,6 +182,40 @@
     <None Include="StackExchange.Windows_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Html\lib\prettify.js" />
+    <Content Include="Html\lib\themes\atelier-cave-dark.css" />
+    <Content Include="Html\lib\themes\atelier-cave-light.css" />
+    <Content Include="Html\lib\themes\atelier-dune-dark.css" />
+    <Content Include="Html\lib\themes\atelier-dune-light.css" />
+    <Content Include="Html\lib\themes\atelier-estuary-dark.css" />
+    <Content Include="Html\lib\themes\atelier-estuary-light.css" />
+    <Content Include="Html\lib\themes\atelier-forest-dark.css" />
+    <Content Include="Html\lib\themes\atelier-forest-light.css" />
+    <Content Include="Html\lib\themes\atelier-heath-dark.css" />
+    <Content Include="Html\lib\themes\atelier-heath-light.css" />
+    <Content Include="Html\lib\themes\atelier-lakeside-dark.css" />
+    <Content Include="Html\lib\themes\atelier-lakeside-light.css" />
+    <Content Include="Html\lib\themes\atelier-plateau-dark.css" />
+    <Content Include="Html\lib\themes\atelier-plateau-light.css" />
+    <Content Include="Html\lib\themes\atelier-savanna-dark.css" />
+    <Content Include="Html\lib\themes\atelier-savanna-light.css" />
+    <Content Include="Html\lib\themes\atelier-seaside-dark.css" />
+    <Content Include="Html\lib\themes\atelier-seaside-light.css" />
+    <Content Include="Html\lib\themes\atelier-sulphurpool-dark.css" />
+    <Content Include="Html\lib\themes\atelier-sulphurpool-light.css" />
+    <Content Include="Html\lib\themes\github-v2.css" />
+    <Content Include="Html\lib\themes\github.css" />
+    <Content Include="Html\lib\themes\hemisu-dark.css" />
+    <Content Include="Html\lib\themes\hemisu-light.css" />
+    <Content Include="Html\lib\themes\tomorrow-night-blue.css" />
+    <Content Include="Html\lib\themes\tomorrow-night-bright.css" />
+    <Content Include="Html\lib\themes\tomorrow-night-eighties.css" />
+    <Content Include="Html\lib\themes\tomorrow-night.css" />
+    <Content Include="Html\lib\themes\tomorrow.css" />
+    <Content Include="Html\lib\themes\tranquil-heart.css" />
+    <Content Include="Html\lib\themes\vibrant-ink.css" />
+    <Content Include="Html\mark_prettyprint.js" />
+    <Content Include="Html\post.css" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -163,9 +230,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Common\CommentDetail\CommentDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\ExtendedWebView\ExtendedWebView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\PostDetail\PostDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\SiteSelector\SiteSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\TagsList\Tag.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Common\TagsList\TagsList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Login\LoginPage.xaml">
       <SubType>Designer</SubType>
@@ -174,6 +261,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Questions\QuestionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Questions\QuestionsPage.xaml">
       <SubType>Designer</SubType>
@@ -187,13 +278,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Search\SearchBox\QuestionSearchBox.xaml">
+    <Page Include="Common\SearchBox\QuestionSearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Search\SearchBox\QuestionSearchBoxItem\QuestionSearchBoxItem.xaml">
+    <Page Include="Common\SearchBox\QuestionSearchBoxItem\QuestionSearchBoxItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Light\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\Light\Light.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\Light\Lines.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\Light\Posts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\Light\UserCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="User\UserCard\UserCard.xaml">
       <SubType>Designer</SubType>

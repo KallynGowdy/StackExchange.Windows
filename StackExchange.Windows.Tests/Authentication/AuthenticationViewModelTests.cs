@@ -14,7 +14,6 @@ namespace StackExchange.Windows.Tests.Authentication
 {
     public class AuthenticationViewModelTests
     {
-        private ApplicationViewModel Application { get; } = new ApplicationViewModel();
         private AuthenticationSettings Settings { get; } = new AuthenticationSettings()
         {
             ClientId = "id",
@@ -26,7 +25,7 @@ namespace StackExchange.Windows.Tests.Authentication
 
         public AuthenticationViewModelTests()
         {
-            Subject = new AuthenticationViewModel(Application)
+            Subject = new AuthenticationViewModel()
             {
                 Settings = Settings
             };

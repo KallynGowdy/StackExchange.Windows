@@ -1,0 +1,101 @@
+﻿<Page
+    x:Class="StackExchange.Windows.Questions.QuestionPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StackExchange.Windows.Questions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:searchBox="using:StackExchange.Windows.Common.SearchBox"
+    xmlns:siteSelector="using:StackExchange.Windows.Common.SiteSelector"
+    xmlns:userCard="using:StackExchange.Windows.User.UserCard"
+    xmlns:postDetail="using:StackExchange.Windows.Common.PostDetail"
+    xmlns:extendedWebView="using:StackExchange.Windows.Common.ExtendedWebView"
+    mc:Ignorable="d">
+
+    <Grid x:Name="PageGrid"
+          Padding="16"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <SplitView x:Name="SplitContent"
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   DisplayMode="Overlay"
+                   PanePlacement="Right"
+                   OpenPaneLength="900"
+                   PaneBackground="#eee">
+            <ScrollViewer x:Name="ScrollableContent">
+                <Grid x:Name="MainContent"
+                      Padding="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MaxWidth="964"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="QuestionTitle"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               Style="{StaticResource SubheaderTextBlockStyle}"/>
+
+                    <postDetail:PostDetail Grid.Row="1"
+                                           Grid.Column="0"
+                                           x:Name="Question" />
+
+                    <TextBlock x:Name="AnswersTitle"
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               Margin="0,8,0,0"
+                               Text="Answers"
+                               Style="{StaticResource TitleTextBlockStyle}"/>
+
+                    <ItemsControl x:Name="Answers"
+                                  Grid.Row="3"
+                                  Grid.Column="0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="postDetail:PostViewModel">
+                                <postDetail:PostDetail ViewModel="{x:Bind}"
+                                                       Margin="0,8,0,0"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </ScrollViewer>
+
+            <SplitView.Pane>
+                <extendedWebView:ExtendedWebView x:Name="WebResults" 
+                                                 Margin="8"/>
+            </SplitView.Pane>
+        </SplitView>
+
+        <ProgressRing x:Name="LoadingRing"
+                      Grid.Row="0"
+                      Grid.Column="0"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"/>
+
+        <CommandBar x:Name="CommandBar"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="-16,0,-16,-16">
+            <CommandBar.Content>
+                <StackPanel x:Name="CommandBarContent"
+                            Orientation="Horizontal">
+                    <searchBox:QuestionSearchBox/>
+                    <siteSelector:SiteSelector/>
+                </StackPanel>
+            </CommandBar.Content>
+        </CommandBar>
+    </Grid>
+</Page>

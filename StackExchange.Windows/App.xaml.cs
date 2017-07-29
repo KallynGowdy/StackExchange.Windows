@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -19,6 +20,7 @@ using Windows.UI.Xaml.Navigation;
 using ReactiveUI;
 using StackExchange.Windows.Application;
 using StackExchange.Windows.Login;
+using Windows.UI.Core;
 
 namespace StackExchange.Windows
 {
@@ -52,7 +54,7 @@ namespace StackExchange.Windows
             {
                 if (!context.IsHandled)
                 {
-                    if (rootFrame.Navigate(context.Input))
+                    if (NavigateByParams(context.Input))
                     {
                         context.SetOutput(Unit.Default);
                     }
@@ -65,6 +67,7 @@ namespace StackExchange.Windows
                     if (rootFrame.CanGoBack)
                     {
                         rootFrame.GoBack();
+                        context.SetOutput(Unit.Default);
                     }
                 }
             });
@@ -72,7 +75,7 @@ namespace StackExchange.Windows
             {
                 if (!context.IsHandled)
                 {
-                    rootFrame.Navigate(context.Input);
+                    NavigateByParams(context.Input);
                     rootFrame.BackStack.Clear();
                     context.SetOutput(Unit.Default);
                 }
@@ -111,6 +114,25 @@ namespace StackExchange.Windows
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
+            rootFrame.Navigated += RootFrameOnNavigated;
+            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+        }
+
+        private void RootFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)
+        {
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = rootFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+        }
+
+        private async void App_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            await Application.NavigateBack.Handle(Unit.Default);
+            e.Handled = true;
+        }
+
+        private bool NavigateByParams(NavigationParams input)
+        {
+            return rootFrame.Navigate(input.PageType, input.Parameter);
         }
 
         /// <summary>

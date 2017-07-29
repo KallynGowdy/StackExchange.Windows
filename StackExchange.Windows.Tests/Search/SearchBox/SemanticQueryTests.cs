@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using StackExchange.Windows.Search.SearchBox;
+using StackExchange.Windows.Common.SearchBox;
 using Xunit;
 
 namespace StackExchange.Windows.Tests.Search.SearchBox

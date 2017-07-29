@@ -1,0 +1,128 @@
+﻿<UserControl
+    x:Class="StackExchange.Windows.Common.PostDetail.PostDetail"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StackExchange.Windows.Common.PostDetail"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userCard="using:StackExchange.Windows.User.UserCard"
+    xmlns:commentDetail="using:StackExchange.Windows.Common.CommentDetail"
+    xmlns:tagsList="using:StackExchange.Windows.Common.TagsList"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="../../Resources/Light/Light.xaml" x:Key="Light"/>
+            </ResourceDictionary.ThemeDictionaries>
+            <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
+                <Button x:Name="Tag"
+                        Margin="0,0,8,0"
+                        IsEnabled="False"
+                        Content="{x:Bind}"/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="64"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Line x:Name="Separator"
+              Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Style="{StaticResource PostSeparator}"/>
+
+        <StackPanel x:Name="ScorePanel" 
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Orientation="Vertical">
+            <Button HorizontalAlignment="Center"
+                    Style="{StaticResource UpvoteButton}">
+                <FontIcon Glyph="&#xE971;"/>
+            </Button>
+
+            <TextBlock x:Name="Score"
+                       FontSize="24"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Margin="0,8,0,10"/>
+
+            <Button x:Name="DownvoteButton" 
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource DownvoteButton}">
+                <FontIcon Glyph="&#xE972;"/>
+            </Button>
+
+            <FontIcon x:Name="Accepted"
+                      FontSize="38"
+                      Style="{StaticResource AcceptedBox}" />
+        </StackPanel>
+
+        <WebView x:Name="Body"
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 Width="900"
+                 Margin="0,0,0,8"
+                 DOMContentLoaded="Body_OnDOMContentLoaded"
+                 NavigationStarting="Body_OnNavigationStarting"/>
+
+        <tagsList:TagsList x:Name="Tags"
+                           Grid.Row="2"
+                           Grid.Column="1"
+                           Margin="0,8,0,0"/>
+
+        <StackPanel x:Name="ShortcutsPanel"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="0,8,0,0"
+                    Orientation="Horizontal">
+            <Button x:Name="Link"
+                    FontSize="16"
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE71B;"
+                    ToolTipService.ToolTip="Copy link"/>
+            <Button x:Name="OpenInBrowser"
+                    FontSize="16"
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE909;"
+                    ToolTipService.ToolTip="Open In Browser"/>
+        </StackPanel>
+
+        <StackPanel x:Name="PostAuthorInformation"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Grid.RowSpan="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <TextBlock x:Name="Editor"
+                       Padding="0,8,0,0" />
+            
+            <userCard:UserCard x:Name="Poster"
+                               Margin="8,0,0,0"/>
+        </StackPanel>
+
+
+        <ItemsControl x:Name="Comments"
+                      Grid.Row="4"
+                      Grid.Column="1">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="commentDetail:CommentViewModel">
+                    <commentDetail:CommentDetail ViewModel="{x:Bind}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

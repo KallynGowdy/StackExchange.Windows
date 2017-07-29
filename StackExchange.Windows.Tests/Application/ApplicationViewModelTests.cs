@@ -7,7 +7,7 @@ using Splat;
 using StackExchange.Windows.Api;
 using StackExchange.Windows.Application;
 using StackExchange.Windows.Authentication;
-using StackExchange.Windows.Search.SearchBox;
+using StackExchange.Windows.Common.SearchBox;
 using Xunit;
 
 namespace StackExchange.Windows.Tests.Application
@@ -26,7 +26,7 @@ namespace StackExchange.Windows.Tests.Application
         {
             Subject.Start();
 
-            Assert.NotNull(Locator.Current.GetService<AuthenticationViewModel>());
+            Assert.NotNull(Locator.Current.GetService<IAuthenticationViewModel>());
         }
 
         [Fact]
@@ -34,14 +34,13 @@ namespace StackExchange.Windows.Tests.Application
         {
             Subject.Start();
 
-            Assert.Same(Subject, Locator.Current.GetService<ApplicationViewModel>());
+            Assert.Same(Subject, Locator.Current.GetService<IApplicationViewModel>());
         }
 
         [Fact]
         public void Test_OnLogin_Registers_SearchViewModel()
         {
             Locator.CurrentMutable.Register(() => new StubINetworkApi(), typeof(INetworkApi));
-            Locator.CurrentMutable.Register(() => new StubISearchApi(), typeof(ISearchApi));
             Subject.OnLogin();
             Assert.NotNull(Locator.Current.GetService<ISearchViewModel>());
         }
