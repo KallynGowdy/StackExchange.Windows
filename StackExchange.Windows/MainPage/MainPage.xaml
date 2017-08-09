@@ -1,0 +1,78 @@
+﻿<Page
+    x:Class="StackExchange.Windows.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StackExchange.Windows">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SplitViewStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="RadioButton" BasedOn="{StaticResource SplitViewRadioButtonStyle}"/>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <SplitView x:Name="Navigation"
+               Style="{StaticResource SplitViewMenuStyle}">
+        <SplitView.Pane>
+
+            <Grid x:Name="NavigationGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ScrollViewer x:Name="MainMenuScrollPanel" 
+                              Grid.Row="0" 
+                              Grid.Column="0"
+                              HorizontalScrollBarVisibility="Hidden" 
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <RadioButton x:Name="MenuButton" 
+                                     Checked="DontCheck"
+                                     Content="MENU"
+                                     FontWeight="Bold">
+                            <RadioButton.Tag>
+                                <TextBlock Text="{StaticResource MenuButtonText}" 
+                                           FontSize="{StaticResource SplitViewLargeNavFontSize}"
+                                           Style="{StaticResource SplitViewTextBlockStyle}"/>
+                            </RadioButton.Tag>
+                        </RadioButton>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <StackPanel x:Name="RadioButtonContainer" 
+                            Grid.Row="1"
+                            Grid.Column="0">
+                    <RadioButton x:Name="HomeButton" 
+                                 GroupName="Nav"
+                                 Content="Home">
+                        <RadioButton.Tag>
+                            <TextBlock Text="&#xE80F;"
+                                       Style="{StaticResource SplitViewTextBlockStyle}"/>
+                        </RadioButton.Tag>
+                    </RadioButton>
+                </StackPanel>
+
+                <StackPanel x:Name="NavBottomRowContainer"
+                            Grid.Row="2"
+                            Grid.Column="0">
+                    <RadioButton GroupName="Nav"
+                                 Content="Settings">
+                        <RadioButton.Tag>
+                            <TextBlock Text="&#xE713;"
+                                       Style="{StaticResource SplitViewTextBlockStyle}" />
+                        </RadioButton.Tag>
+                    </RadioButton>
+                </StackPanel>
+            </Grid>
+        </SplitView.Pane>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Frame x:Name="RootFrame"
+                   Navigated="FrameOnNavigated"/>
+        </Grid>
+
+    </SplitView>
+</Page>

@@ -26,15 +26,22 @@ namespace StackExchange.Windows
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page, IViewFor<IApplicationViewModel>
+    public sealed partial class MainPage : Page, IViewFor<MainPageViewModel>
     {
         public MainPage()
         {
             this.InitializeComponent();
-            ViewModel = Locator.Current.GetService<IApplicationViewModel>();
+            ViewModel = new MainPageViewModel();
             this.WhenActivated(d =>
             {
-                ViewModel.Navigate.RegisterHandler(context =>
+                this.Bind(ViewModel, vm => vm.NavigationMenuOpen, view => view.Navigation.IsPaneOpen)
+                    .DisposeWith(d);
+                this.BindCommand(ViewModel, vm => vm.ToggleNavigationMenu, view => view.MenuButton)
+                    .DisposeWith(d);
+                this.BindCommand(ViewModel, vm => vm.NavigateHome, view => view.HomeButton)
+                    .DisposeWith(d);
+
+                ViewModel.Application.Navigate.RegisterHandler(context =>
                 {
                     if (!context.IsHandled)
                     {
@@ -44,7 +51,7 @@ namespace StackExchange.Windows
                         }
                     }
                 }).DisposeWith(d);
-                ViewModel.NavigateBack.RegisterHandler(context =>
+                ViewModel.Application.NavigateBack.RegisterHandler(context =>
                 {
                     if (!context.IsHandled)
                     {
@@ -55,7 +62,7 @@ namespace StackExchange.Windows
                         }
                     }
                 }).DisposeWith(d);
-                ViewModel.NavigateAndClearStack.RegisterHandler(context =>
+                ViewModel.Application.NavigateAndClearStack.RegisterHandler(context =>
                 {
                     if (!context.IsHandled)
                     {
@@ -66,7 +73,7 @@ namespace StackExchange.Windows
                     }
                 }).DisposeWith(d);
 
-                ViewModel.Navigate.Handle(new NavigationParams(typeof(LoginPage))).Subscribe().DisposeWith(d);
+                ViewModel.Application.Navigate.Handle(new NavigationParams(typeof(LoginPage))).Subscribe().DisposeWith(d);
             });
         }
 
@@ -89,10 +96,15 @@ namespace StackExchange.Windows
 
         object IViewFor.ViewModel
         {
-            get { return ViewModel; }
-            set { ViewModel = (ApplicationViewModel)value; }
+            get => ViewModel;
+            set => ViewModel = (MainPageViewModel)value;
         }
 
-        public IApplicationViewModel ViewModel { get; set; }
+        public MainPageViewModel ViewModel { get; set; }
+
+        private void DontCheck(object sender, RoutedEventArgs e)
+        {
+            ((RadioButton)sender).IsChecked = false;
+        }
     }
 }
