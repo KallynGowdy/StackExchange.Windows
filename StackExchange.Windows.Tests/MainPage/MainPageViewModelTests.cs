@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using StackExchange.Windows.Application;
 using StackExchange.Windows.Questions;
+using StackExchange.Windows.Settings;
 using Xunit;
 
 namespace StackExchange.Windows.Tests.MainPage
@@ -24,6 +25,9 @@ namespace StackExchange.Windows.Tests.MainPage
 
             var navigate = new Interaction<NavigationParams, Unit>();
             Application.Navigate_Get(() => navigate);
+
+            var navigateAndClear = new Interaction<NavigationParams, Unit>();
+            Application.NavigateAndClearStack_Get(() => navigateAndClear);
         }
 
         [Theory]
@@ -39,10 +43,10 @@ namespace StackExchange.Windows.Tests.MainPage
         }
 
         [Fact]
-        public async Task Test_NavigateHome_Navigates_To_The_QuestionsPage()
+        public async Task Test_NavigateHome_Navigates_To_The_QuestionsPage_And_Resets_The_Stack()
         {
             Type type = null;
-            using (Subject.Application.Navigate.RegisterHandler(ctx =>
+            using (Subject.Application.NavigateAndClearStack.RegisterHandler(ctx =>
             {
                 type = ctx.Input.PageType;
                 ctx.SetOutput(Unit.Default);
@@ -51,6 +55,22 @@ namespace StackExchange.Windows.Tests.MainPage
                 await Subject.NavigateHome.Execute();
 
                 Assert.Equal(typeof(QuestionsPage), type);
+            }
+        }
+
+        [Fact]
+        public async Task Test_NavigateToSettings_Navigates_To_The_SettingsPage()
+        {
+            Type type = null;
+            using (Subject.Application.Navigate.RegisterHandler(ctx =>
+            {
+                type = ctx.Input.PageType;
+                ctx.SetOutput(Unit.Default);
+            }))
+            {
+                await Subject.NavigateToSettings.Execute();
+
+                Assert.Equal(typeof(SettingsPage), type);
             }
         }
     }

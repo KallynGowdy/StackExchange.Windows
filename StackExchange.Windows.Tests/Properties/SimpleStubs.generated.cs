@@ -12,6 +12,7 @@ using StackExchange.Windows.Authentication;
 using System.Windows.Input;
 using StackExchange.Windows.Questions;
 using Windows.ApplicationModel.DataTransfer;
+using System.Linq;
 
 namespace StackExchange.Windows.Api
 {
@@ -466,6 +467,41 @@ namespace StackExchange.Windows.Services
         public delegate void SetContent_DataPackage_Delegate(global::Windows.ApplicationModel.DataTransfer.DataPackage data);
 
         public StubIClipboard SetContent(SetContent_DataPackage_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+    }
+}
+
+namespace StackExchange.Windows.Services.Settings
+{
+    [CompilerGenerated]
+    public class StubISettingsStore : ISettingsStore
+    {
+        private readonly StubContainer<StubISettingsStore> _stubs = new StubContainer<StubISettingsStore>();
+
+        global::System.Threading.Tasks.Task global::StackExchange.Windows.Services.Settings.ISettingsStore.SaveSettingAsync(global::StackExchange.Windows.Services.Settings.SavedSetting setting)
+        {
+            return _stubs.GetMethodStub<SaveSettingAsync_SavedSetting_Delegate>("SaveSettingAsync").Invoke(setting);
+        }
+
+        public delegate global::System.Threading.Tasks.Task SaveSettingAsync_SavedSetting_Delegate(global::StackExchange.Windows.Services.Settings.SavedSetting setting);
+
+        public StubISettingsStore SaveSettingAsync(SaveSettingAsync_SavedSetting_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<global::StackExchange.Windows.Services.Settings.SavedSetting>> global::StackExchange.Windows.Services.Settings.ISettingsStore.GetSettingsAsync()
+        {
+            return _stubs.GetMethodStub<GetSettingsAsync_Delegate>("GetSettingsAsync").Invoke();
+        }
+
+        public delegate global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<global::StackExchange.Windows.Services.Settings.SavedSetting>> GetSettingsAsync_Delegate();
+
+        public StubISettingsStore GetSettingsAsync(GetSettingsAsync_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;

@@ -107,6 +107,7 @@
     <Compile Include="Search\SearchBox\SemanticQueryTests.cs" />
     <Compile Include="Search\SearchBox\SearchViewModelTests.cs" />
     <Compile Include="Search\SearchBox\SiteViewModelTests.cs" />
+    <Compile Include="Settings\SettingsViewModelTests.cs" />
     <Compile Include="UnitTestApp.xaml.cs">
       <DependentUpon>UnitTestApp.xaml</DependentUpon>
     </Compile>

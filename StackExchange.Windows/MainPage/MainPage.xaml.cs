@@ -42,6 +42,8 @@ namespace StackExchange.Windows
                     .DisposeWith(d);
                 this.BindCommand(ViewModel, vm => vm.NavigateHome, view => view.HomeButton)
                     .DisposeWith(d);
+                this.BindCommand(ViewModel, vm => vm.NavigateToSettings, view => view.SettingsButton)
+                    .DisposeWith(d);
 
                 ViewModel.Application.Navigate.RegisterHandler(context =>
                 {

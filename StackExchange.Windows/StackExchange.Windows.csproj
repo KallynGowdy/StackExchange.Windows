@@ -102,6 +102,7 @@
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="BindingConverters\BooleanToBrushBindingTypeConverter.cs" />
     <Compile Include="BindingConverters\ColorToBrushBindingTypeConverter.cs" />
+    <Compile Include="BindingConverters\StringResourceConverter.cs" />
     <Compile Include="BindingConverters\UriToImageSourceBindingTypeConverter.cs" />
     <Compile Include="Common\CommentDetail\CommentDetail.xaml.cs">
       <DependentUpon>CommentDetail.xaml</DependentUpon>
@@ -166,7 +167,21 @@
     <Compile Include="Common\SearchBox\SiteViewModel.cs" />
     <Compile Include="Resources\Pallete.cs" />
     <Compile Include="Services\IClipboard.cs" />
+    <Compile Include="Services\Settings\ColorMode.cs" />
+    <Compile Include="Services\Settings\ISettingsStore.cs" />
+    <Compile Include="Services\Settings\SavedSetting.cs" />
+    <Compile Include="Services\Settings\SettingDefinition.cs" />
+    <Compile Include="Services\Settings\SettingsConstraints.cs" />
+    <Compile Include="Services\Settings\SettingsStore.cs" />
     <Compile Include="Services\UwpClipboard.cs" />
+    <Compile Include="Settings\SettingsItem.xaml.cs">
+      <DependentUpon>SettingsItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\SettingsItemViewModel.cs" />
+    <Compile Include="Settings\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\SettingsViewModel.cs" />
     <Compile Include="User\NetworkUserViewModel.cs" />
     <Compile Include="User\UserCard\UserCard.xaml.cs">
       <DependentUpon>UserCard.xaml</DependentUpon>
@@ -313,6 +328,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\Strings\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Settings\SettingsItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="User\UserCard\UserCard.xaml">
       <SubType>Designer</SubType>

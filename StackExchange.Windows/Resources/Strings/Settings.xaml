@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StackExchange.Windows.Resources.Strings">
+
+    <!-- Groups -->
+    <x:String x:Key="AppearanceSettingGroup">Appearance</x:String>
+
+    <!-- Color Mode -->
+    <x:String x:Key="ColorModeSettingName">Color Mode</x:String>
+    <x:String x:Key="ColorModeSettingDescription">Choose a theme</x:String>
+</ResourceDictionary>

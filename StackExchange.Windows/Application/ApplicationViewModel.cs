@@ -20,6 +20,7 @@ using StackExchange.Windows.BindingConverters;
 using StackExchange.Windows.Common.SearchBox;
 using StackExchange.Windows.Questions;
 using StackExchange.Windows.Services;
+using StackExchange.Windows.Services.Settings;
 
 namespace StackExchange.Windows.Application
 {
@@ -98,6 +99,7 @@ namespace StackExchange.Windows.Application
             Locator.CurrentMutable.RegisterConstant(Authentication, typeof(IAuthenticationViewModel));
 
             Locator.CurrentMutable.RegisterLazySingleton(() => new UwpClipboard(), typeof(IClipboard));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new SettingsStore(), typeof(ISettingsStore));
             Locator.CurrentMutable.RegisterLazySingleton(() => new QuestionsViewModel(), typeof(QuestionsViewModel));
             Locator.CurrentMutable.Register(UriToImageSourceBindingTypeConverter.Create, typeof(IBindingTypeConverter));
             Locator.CurrentMutable.Register(() => new ColorToBrushBindingTypeConverter(), typeof(IBindingTypeConverter));

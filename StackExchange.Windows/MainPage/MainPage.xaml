@@ -8,8 +8,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SplitViewStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <Style TargetType="RadioButton" BasedOn="{StaticResource SplitViewRadioButtonStyle}"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -33,7 +31,8 @@
                         <RadioButton x:Name="MenuButton" 
                                      Checked="DontCheck"
                                      Content="MENU"
-                                     FontWeight="Bold">
+                                     FontWeight="Bold"
+                                     Style="{StaticResource SplitViewRadioButtonStyle}">
                             <RadioButton.Tag>
                                 <TextBlock Text="{StaticResource MenuButtonText}" 
                                            FontSize="{StaticResource SplitViewLargeNavFontSize}"
@@ -48,7 +47,8 @@
                             Grid.Column="0">
                     <RadioButton x:Name="HomeButton" 
                                  GroupName="Nav"
-                                 Content="Home">
+                                 Content="Home"
+                                 Style="{StaticResource SplitViewRadioButtonStyle}">
                         <RadioButton.Tag>
                             <TextBlock Text="&#xE80F;"
                                        Style="{StaticResource SplitViewTextBlockStyle}"/>
@@ -59,8 +59,10 @@
                 <StackPanel x:Name="NavBottomRowContainer"
                             Grid.Row="2"
                             Grid.Column="0">
-                    <RadioButton GroupName="Nav"
-                                 Content="Settings">
+                    <RadioButton x:Name="SettingsButton" 
+                                 GroupName="Nav"
+                                 Content="Settings"
+                                 Style="{StaticResource SplitViewRadioButtonStyle}">
                         <RadioButton.Tag>
                             <TextBlock Text="&#xE713;"
                                        Style="{StaticResource SplitViewTextBlockStyle}" />
