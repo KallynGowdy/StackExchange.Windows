@@ -28,6 +28,8 @@ namespace StackExchange.Windows
     /// </summary>
     public sealed partial class MainPage : Page, IViewFor<MainPageViewModel>
     {
+        private object currentPageParameter;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -45,7 +47,14 @@ namespace StackExchange.Windows
                 {
                     if (!context.IsHandled)
                     {
-                        if (NavigateByParams(context.Input))
+                        if (RootFrame.CurrentSourcePageType != context.Input.PageType || currentPageParameter != context.Input.Parameter)
+                        {
+                            if (NavigateByParams(context.Input))
+                            {
+                                context.SetOutput(Unit.Default);
+                            }
+                        }
+                        else
                         {
                             context.SetOutput(Unit.Default);
                         }
@@ -91,6 +100,7 @@ namespace StackExchange.Windows
 
         private bool NavigateByParams(NavigationParams input)
         {
+            currentPageParameter = input.Parameter;
             return RootFrame.Navigate(input.PageType, input.Parameter);
         }
 
