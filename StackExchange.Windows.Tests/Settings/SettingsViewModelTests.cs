@@ -19,14 +19,16 @@ namespace StackExchange.Windows.Tests.Settings
         public SettingsViewModel Subject { get; set; }
         public StubIApplicationViewModel Application { get; set; }
         public StubISettingsStore SettingsStore { get; set; }
+        public StubISettingsItemViewModelFactory Factory { get; set; }
 
         public SettingsViewModelTests()
         {
             Application = new StubIApplicationViewModel();
             SettingsStore = new StubISettingsStore();
-            Subject = new SettingsViewModel(SettingsStore, Application);
-        }
+            Subject = new SettingsViewModel(Factory, SettingsStore, Application);
 
+            Factory.CreateViewModel(s => new DummySettingsItemViewModel(s));
+        }
 
         [Fact]
         public void Test_Loads_Settings_When_Activated()

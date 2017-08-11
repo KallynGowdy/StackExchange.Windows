@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReactiveUI;
@@ -17,27 +18,34 @@ namespace StackExchange.Windows.Settings
     public class SettingsViewModel : BaseViewModel, ISupportsActivation
     {
         private readonly ISettingsStore settingsStore;
-        private IEnumerable<IGrouping<string, SettingsItemViewModel>> groupedSettings;
+        private readonly ISettingsItemViewModelFactory factory;
+        private readonly ObservableAsPropertyHelper<SettingsItemViewModel[]> loadedSettings;
+        private readonly ObservableAsPropertyHelper<IGrouping<string, SettingsItemViewModel>[]> groupedSettings;
+
+        /// <summary>
+        /// Gets the list of settings that have been loaded into this view model.
+        /// </summary>
+        public SettingsItemViewModel[] LoadedSettings => loadedSettings.Value;
 
         /// <summary>
         /// Gets the list of settings grouped by category.
         /// </summary>
-        public IEnumerable<IGrouping<string, SettingsItemViewModel>> GroupedSettings
-        {
-            get => groupedSettings;
-            private set => this.RaiseAndSetIfChanged(ref groupedSettings, value);
-        }
+        public IGrouping<string, SettingsItemViewModel>[] GroupedSettings => groupedSettings.Value;
 
         /// <summary>
         /// Gets the command that loads the settings from the store.
         /// </summary>
-        public ReactiveCommand<Unit, Unit> LoadSettings { get; }
+        public ReactiveCommand<Unit, SettingsItemViewModel[]> LoadSettings { get; }
 
-        public SettingsViewModel(ISettingsStore store = null, IApplicationViewModel application = null) : base(application)
+        public SettingsViewModel(ISettingsItemViewModelFactory factory = null, ISettingsStore store = null, IApplicationViewModel application = null) : base(application)
         {
+            this.factory = factory ?? Locator.Current.GetService<ISettingsItemViewModelFactory>();
             settingsStore = store ?? Locator.Current.GetService<ISettingsStore>();
+            LoadSettings = ReactiveCommand.CreateFromTask(LoadSettingsImpl, outputScheduler: RxApp.MainThreadScheduler);
 
-            LoadSettings = ReactiveCommand.CreateFromTask(LoadSettingsImpl);
+            loadedSettings = LoadSettings.ToProperty(this, vm => vm.LoadedSettings);
+            groupedSettings = LoadSettings.Select(settings => settings.GroupBy(s => s.GroupResource).ToArray())
+                .ToProperty(this, vm => vm.GroupedSettings);
 
             this.WhenActivated(d =>
             {
@@ -45,12 +53,11 @@ namespace StackExchange.Windows.Settings
             });
         }
 
-        private async Task LoadSettingsImpl()
+        private async Task<SettingsItemViewModel[]> LoadSettingsImpl()
         {
             var settings = await settingsStore.GetSettingsAsync();
 
-            GroupedSettings = settings.Select(s => new SettingsItemViewModel(s))
-                .GroupBy(s => s.GroupResource);
+            return settings.Select(s => factory.CreateViewModel(s)).ToArray();
         }
 
         public ViewModelActivator Activator { get; } = new ViewModelActivator();

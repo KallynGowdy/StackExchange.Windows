@@ -11,16 +11,29 @@ namespace StackExchange.Windows.Settings
     /// <summary>
     /// Defines a view model that represents a settings item.
     /// </summary>
-    public class SettingsItemViewModel : ReactiveObject
+    public abstract class SettingsItemViewModel : ReactiveObject
     {
-        private SavedSetting s;
+        private SavedSetting setting;
 
-        public SettingsItemViewModel(SavedSetting s)
+        public SettingsItemViewModel(SavedSetting setting)
         {
-            this.s = s;
+            this.setting = setting;
         }
 
-        public string GroupResource => s.Definition.GroupResource;
-        public string NameResource => s.Definition.NameResource;
+        public string GroupResource => setting.Definition.GroupResource;
+        public string NameResource => setting.Definition.NameResource;
+
+        public object Value
+        {
+            get => setting.SavedValue;
+            set
+            {
+                if (setting.SavedValue != value)
+                {
+                    setting = setting.SetValue(value);
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
     }
 }

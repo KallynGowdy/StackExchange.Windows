@@ -5,15 +5,45 @@
     xmlns:local="using:StackExchange.Windows.Settings"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:bindingConverters="using:StackExchange.Windows.BindingConverters"
+    xmlns:system="using:System"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
             <CollectionViewSource x:Key="SettingsCollectionSource" x:Name="SettingsCollectionSource" IsSourceGrouped="True"/>
-            
-            <DataTemplate x:Key="SettingsItemTemplate" x:DataType="local:SettingsItemViewModel">
-                <local:SettingsItem ViewModel="{x:Bind}"/>
-            </DataTemplate>
+            <bindingConverters:StringResourceConverter x:Key="ResourceConverter"/>
+            <local:SettingsItemTemplateSelector x:Key="SettingsItemTemplateSelector">
+                <local:SettingsItemTemplateSelector.EnumTemplate>
+                    <DataTemplate x:DataType="local:EnumSettingsItemViewModel">
+                        <Grid Margin="0,16,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="SettingName"
+                                       Grid.Row="0"
+                                       Grid.Column="0"
+                                       Text="{x:Bind NameResource, Converter={StaticResource ResourceConverter}}"/>
+
+                            <ItemsControl x:Name="EnumValues"
+                                          Grid.Row="1"
+                                          Grid.Column="0"
+                                          Margin="0,8,0,0"
+                                          ItemsSource="{x:Bind Values}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="local:EnumValue">
+                                        <RadioButton x:Name="Option"
+                                                     Content="{x:Bind Name}"
+                                                     Margin="0,4,0,0"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </DataTemplate>
+                </local:SettingsItemTemplateSelector.EnumTemplate>
+            </local:SettingsItemTemplateSelector>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -50,8 +80,9 @@
                       Grid.Column="0"
                       Grid.ColumnSpan="2"
                       Margin="0,8,0,0"
-                      ItemTemplate="{StaticResource SettingsItemTemplate}"
+                      ItemTemplateSelector="{StaticResource SettingsItemTemplateSelector}"
                       ItemsSource="{Binding Source={StaticResource SettingsCollectionSource}}"/>
 
     </Grid>
 </Page>
+

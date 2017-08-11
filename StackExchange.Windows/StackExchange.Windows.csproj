@@ -174,10 +174,13 @@
     <Compile Include="Services\Settings\SettingsConstraints.cs" />
     <Compile Include="Services\Settings\SettingsStore.cs" />
     <Compile Include="Services\UwpClipboard.cs" />
-    <Compile Include="Settings\SettingsItem.xaml.cs">
-      <DependentUpon>SettingsItem.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Settings\BoolSettingsItemViewModel.cs" />
+    <Compile Include="Settings\EnumSettingsItemViewModel.cs" />
+    <Compile Include="Settings\EnumValue.cs" />
+    <Compile Include="Settings\ISettingsItemViewModelFactory.cs" />
     <Compile Include="Settings\SettingsItemViewModel.cs" />
+    <Compile Include="Settings\SettingsItemViewModelFactory.cs" />
+    <Compile Include="Settings\SettingsItemTemplateSelector.cs" />
     <Compile Include="Settings\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -333,10 +336,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
-    <Page Include="Settings\SettingsItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Settings\SettingsPage.xaml">
       <SubType>Designer</SubType>

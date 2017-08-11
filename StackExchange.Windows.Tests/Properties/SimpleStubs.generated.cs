@@ -13,6 +13,7 @@ using System.Windows.Input;
 using StackExchange.Windows.Questions;
 using Windows.ApplicationModel.DataTransfer;
 using System.Linq;
+using StackExchange.Windows.Services.Settings;
 
 namespace StackExchange.Windows.Api
 {
@@ -502,6 +503,28 @@ namespace StackExchange.Windows.Services.Settings
         public delegate global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<global::StackExchange.Windows.Services.Settings.SavedSetting>> GetSettingsAsync_Delegate();
 
         public StubISettingsStore GetSettingsAsync(GetSettingsAsync_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+    }
+}
+
+namespace StackExchange.Windows.Settings
+{
+    [CompilerGenerated]
+    public class StubISettingsItemViewModelFactory : ISettingsItemViewModelFactory
+    {
+        private readonly StubContainer<StubISettingsItemViewModelFactory> _stubs = new StubContainer<StubISettingsItemViewModelFactory>();
+
+        global::StackExchange.Windows.Settings.SettingsItemViewModel global::StackExchange.Windows.Settings.ISettingsItemViewModelFactory.CreateViewModel(global::StackExchange.Windows.Services.Settings.SavedSetting setting)
+        {
+            return _stubs.GetMethodStub<CreateViewModel_SavedSetting_Delegate>("CreateViewModel").Invoke(setting);
+        }
+
+        public delegate global::StackExchange.Windows.Settings.SettingsItemViewModel CreateViewModel_SavedSetting_Delegate(global::StackExchange.Windows.Services.Settings.SavedSetting setting);
+
+        public StubISettingsItemViewModelFactory CreateViewModel(CreateViewModel_SavedSetting_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;

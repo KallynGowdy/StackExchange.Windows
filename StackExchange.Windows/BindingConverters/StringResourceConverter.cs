@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Data;
 using ReactiveUI;
 using Splat;
 
@@ -12,14 +13,14 @@ namespace StackExchange.Windows.BindingConverters
     /// <summary>
     /// Defines a <see cref="IBindingTypeConverter"/> that looks up strings in the application resource dictionary.
     /// </summary>
-    public class StringResourceConverter : IBindingTypeConverter
+    public class StringResourceConverter : IBindingTypeConverter, IValueConverter
     {
         private static readonly Lazy<StringResourceConverter> app = new Lazy<StringResourceConverter>(() => new StringResourceConverter());
         public static StringResourceConverter App => app.Value;
 
         private readonly ResourceDictionary dictionary;
 
-        private StringResourceConverter() : this(global::Windows.UI.Xaml.Application.Current.Resources)
+        public StringResourceConverter() : this(global::Windows.UI.Xaml.Application.Current.Resources)
         {
         }
 
@@ -51,6 +52,18 @@ namespace StackExchange.Windows.BindingConverters
             }
 
             return true;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            object result;
+            TryConvert(value, targetType, parameter, out result);
+            return result;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
         }
     }
 }

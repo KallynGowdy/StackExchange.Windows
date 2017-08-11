@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,11 @@ namespace StackExchange.Windows.Services.Settings
         /// Gets or sets the constraints on the setting.
         /// </summary>
         public SettingsConstraints Constraints { get; set; }
+
+        /// <summary>
+        /// Gets whether this setting stores an enum value.
+        /// </summary>
+        public bool StoresEnum => Type.GetTypeInfo().IsEnum;
 
         /// <summary>
         /// Gets the default <see cref="SavedSetting"/> representation of this definition.

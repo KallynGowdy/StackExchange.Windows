@@ -6,17 +6,25 @@ using Windows.Storage;
 
 namespace StackExchange.Windows.Services.Settings
 {
+    /// <summary>
+    /// Defines a concrete implementation of <see cref="ISettingsStore"/>.
+    /// </summary>
     public class SettingsStore : ISettingsStore
     {
+        /// <summary>
+        /// Gets the <see cref="SettingDefinition"/> for the current color mode.
+        /// </summary>
+        public static readonly SettingDefinition ColorModeDefinition = new SettingDefinition()
+        {
+            NameResource = "ColorModeSettingName",
+            DescriptionResource = "ColorModeSettingDescription",
+            Key = "ColorMode",
+            GroupResource = "AppearanceSettingGroup",
+            Type = typeof(ColorMode)
+        };
+
         private static readonly SettingDefinition[] Definitions = {
-            new SettingDefinition()
-            {
-                NameResource = "ColorModeSettingName",
-                DescriptionResource = "ColorModeSettingDescription",
-                Key = "ColorMode",
-                GroupResource = "AppearanceSettingGroup",
-                Type = typeof(ColorMode)
-            },
+            ColorModeDefinition
         };
 
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
