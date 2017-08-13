@@ -17,8 +17,8 @@ namespace StackExchange.Windows.Settings
         public EnumSettingsItemViewModel(SavedSetting setting) : base(setting)
         {
             Values = Enum.GetValues(setting.Definition.Type)
-                .Cast<int>()
-                .OrderBy(val => val)
+                .Cast<Enum>()
+                .OrderBy(val => ((IConvertible)val).ToInt32(null))
                 .Select(val => new EnumValue(val, GetName(setting, val), this))
                 .ToArray();
         }
@@ -28,7 +28,7 @@ namespace StackExchange.Windows.Settings
         /// </summary>
         public EnumValue[] Values { get; }
 
-        private static string GetName(SavedSetting setting, int val)
+        private static string GetName(SavedSetting setting, Enum val)
         {
             var name = Enum.GetName(setting.Definition.Type, val);
             var members = setting.Definition.Type.GetMember(name);

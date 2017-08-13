@@ -16,31 +16,7 @@
             <local:SettingsItemTemplateSelector x:Key="SettingsItemTemplateSelector">
                 <local:SettingsItemTemplateSelector.EnumTemplate>
                     <DataTemplate x:DataType="local:EnumSettingsItemViewModel">
-                        <Grid Margin="0,16,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock x:Name="SettingName"
-                                       Grid.Row="0"
-                                       Grid.Column="0"
-                                       Text="{x:Bind NameResource, Converter={StaticResource ResourceConverter}}"/>
-
-                            <ItemsControl x:Name="EnumValues"
-                                          Grid.Row="1"
-                                          Grid.Column="0"
-                                          Margin="0,8,0,0"
-                                          ItemsSource="{x:Bind Values}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="local:EnumValue">
-                                        <RadioButton x:Name="Option"
-                                                     Content="{x:Bind Name, Converter={StaticResource ResourceConverter}}"
-                                                     Margin="0,4,0,0"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
+                        <local:EnumSettingsItem ViewModel="{x:Bind}"/>
                     </DataTemplate>
                 </local:SettingsItemTemplateSelector.EnumTemplate>
             </local:SettingsItemTemplateSelector>
@@ -81,7 +57,20 @@
                       Grid.ColumnSpan="2"
                       Margin="0,8,0,0"
                       ItemTemplateSelector="{StaticResource SettingsItemTemplateSelector}"
-                      ItemsSource="{Binding Source={StaticResource SettingsCollectionSource}}"/>
+                      ItemsSource="{Binding Source={StaticResource SettingsCollectionSource}}">
+            <ItemsControl.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock x:Name="GroupHeader" 
+                                       Style="{StaticResource SubheaderTextBlockStyle}"
+                                       Text="{Binding Key, Converter={StaticResource ResourceConverter}}"
+                                       Margin="0,8,0,0"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ItemsControl.GroupStyle>
+        </ItemsControl>
 
     </Grid>
 </Page>

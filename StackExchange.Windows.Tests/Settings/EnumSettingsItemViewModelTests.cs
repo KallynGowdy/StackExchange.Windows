@@ -34,9 +34,9 @@ namespace StackExchange.Windows.Tests.Settings
         public void Test_Lists_Out_Enum_Values_In_Order_Of_Value()
         {
             Assert.Collection(Subject.Values,
-                val => Assert.Equal(1, val.Value),
-                val => Assert.Equal(2, val.Value),
-                val => Assert.Equal(3, val.Value));
+                val => Assert.Equal(TestEnum.C, val.Value),
+                val => Assert.Equal(TestEnum.B, val.Value),
+                val => Assert.Equal(TestEnum.A, val.Value));
         }
 
         [Fact]

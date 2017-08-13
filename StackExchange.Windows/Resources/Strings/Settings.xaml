@@ -12,7 +12,7 @@
 
     <!-- Open Post Links -->
     <x:String x:Key="OpenPostLinksBrowserTypeSettingName">Browser Type</x:String>
-    <x:String x:Key="OpenPostLinksBrowserTypeSettingDescription"></x:String>
+    <x:String x:Key="OpenPostLinksBrowserTypeSettingDescription">Which browser type should links open?</x:String>
 
     <x:String x:Key="OpenPostEmbeddedBrowserType">Embedded</x:String>
     <x:String x:Key="OpenPostExternalBrowserType">External</x:String>

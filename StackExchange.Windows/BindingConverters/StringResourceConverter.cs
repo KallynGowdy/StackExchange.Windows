@@ -13,7 +13,7 @@ namespace StackExchange.Windows.BindingConverters
     /// <summary>
     /// Defines a <see cref="IBindingTypeConverter"/> that looks up strings in the application resource dictionary.
     /// </summary>
-    public class StringResourceConverter : IBindingTypeConverter, IValueConverter
+    public class StringResourceConverter : ConverterBase
     {
         private static readonly Lazy<StringResourceConverter> app = new Lazy<StringResourceConverter>(() => new StringResourceConverter());
         public static StringResourceConverter App => app.Value;
@@ -29,7 +29,7 @@ namespace StackExchange.Windows.BindingConverters
             dictionary = resourceDictionary ?? throw new ArgumentNullException(nameof(resourceDictionary));
         }
 
-        public int GetAffinityForObjects(Type fromType, Type toType)
+        public override int GetAffinityForObjects(Type fromType, Type toType)
         {
             if (fromType == typeof(string) && toType == typeof(string))
             {
@@ -38,31 +38,13 @@ namespace StackExchange.Windows.BindingConverters
             return 0;
         }
 
-        public bool TryConvert(object @from, Type toType, object conversionHint, out object result)
+        protected override object ConvertCore(object @from, Type toType, object conversionHint)
         {
-            string fromStr = (string) @from;
-            try
-            {
-                result = dictionary[fromStr];
-            }
-            catch (Exception ex)
-            {
-                this.Log().WarnException($"Couldnt convert object to type {toType}", ex);
-                result = fromStr;
-                return false;
-            }
-
-            return true;
+            var fromStr = (string)@from;
+            return dictionary.ContainsKey(fromStr) ? dictionary[fromStr] : fromStr;
         }
 
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            object result;
-            TryConvert(value, targetType, parameter, out result);
-            return result;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        public override object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
         }
