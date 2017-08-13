@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StackExchange.Windows.Attributes;
 
 namespace StackExchange.Windows.Services.Settings
 {
@@ -11,7 +12,10 @@ namespace StackExchange.Windows.Services.Settings
     /// </summary>
     public enum OpenPostLinksBrowserType
     {
+        [Resource("OpenPostEmbeddedBrowserType")]
         EmbeddedBrowser,
+
+        [Resource("OpenPostExternalBrowserType")]
         ExternalBrowser
     }
 }

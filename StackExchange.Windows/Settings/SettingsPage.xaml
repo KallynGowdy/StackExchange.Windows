@@ -35,7 +35,7 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="local:EnumValue">
                                         <RadioButton x:Name="Option"
-                                                     Content="{x:Bind Name}"
+                                                     Content="{x:Bind Name, Converter={StaticResource ResourceConverter}}"
                                                      Margin="0,4,0,0"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

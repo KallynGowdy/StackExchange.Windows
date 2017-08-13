@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using StackExchange.Windows.Attributes;
 using StackExchange.Windows.Services.Settings;
 
 namespace StackExchange.Windows.Settings
@@ -29,7 +30,11 @@ namespace StackExchange.Windows.Settings
 
         private static string GetName(SavedSetting setting, int val)
         {
-            return Enum.GetName(setting.Definition.Type, val);
+            var name = Enum.GetName(setting.Definition.Type, val);
+            var members = setting.Definition.Type.GetMember(name);
+            var attribute = members.Select(m => m.GetCustomAttribute<ResourceAttribute>()).FirstOrDefault();
+
+            return attribute?.ResourceName ?? name;
         }
     }
 }

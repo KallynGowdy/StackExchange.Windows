@@ -11,6 +11,9 @@
     <x:String x:Key="ColorModeSettingDescription">Choose a theme</x:String>
 
     <!-- Open Post Links -->
-    <x:String x:Key="OpenPostLinksBrowserTypeSettingName">Open post links in</x:String>
+    <x:String x:Key="OpenPostLinksBrowserTypeSettingName">Browser Type</x:String>
     <x:String x:Key="OpenPostLinksBrowserTypeSettingDescription"></x:String>
+
+    <x:String x:Key="OpenPostEmbeddedBrowserType">Embedded</x:String>
+    <x:String x:Key="OpenPostExternalBrowserType">External</x:String>
 </ResourceDictionary>
