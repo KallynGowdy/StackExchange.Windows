@@ -11,8 +11,8 @@
     <AssemblyName>StackExchange.Windows</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -96,6 +96,7 @@
     <Compile Include="Application\ApplicationViewModel.cs" />
     <Compile Include="Application\IApplicationViewModel.cs" />
     <Compile Include="Application\NavigationParams.cs" />
+    <Compile Include="Attributes\ResourceAttribute.cs" />
     <Compile Include="Authentication\AuthenticationSettings.cs" />
     <Compile Include="Authentication\AuthenticationViewModel.cs" />
     <Compile Include="Authentication\IAuthenticationViewModel.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Services\IClipboard.cs" />
     <Compile Include="Services\Settings\ColorMode.cs" />
     <Compile Include="Services\Settings\ISettingsStore.cs" />
+    <Compile Include="Services\Settings\OpenPostLinksBrowserType.cs" />
     <Compile Include="Services\Settings\SavedSetting.cs" />
     <Compile Include="Services\Settings\SettingDefinition.cs" />
     <Compile Include="Services\Settings\SettingsConstraints.cs" />

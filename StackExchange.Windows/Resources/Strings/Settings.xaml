@@ -1,12 +1,16 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:StackExchange.Windows.Resources.Strings">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Groups -->
     <x:String x:Key="AppearanceSettingGroup">Appearance</x:String>
+    <x:String x:Key="FunctionalitySettingGroup">Functionality</x:String>
 
     <!-- Color Mode -->
     <x:String x:Key="ColorModeSettingName">Color Mode</x:String>
     <x:String x:Key="ColorModeSettingDescription">Choose a theme</x:String>
+
+    <!-- Open Post Links -->
+    <x:String x:Key="OpenPostLinksBrowserTypeSettingName">Open post links in</x:String>
+    <x:String x:Key="OpenPostLinksBrowserTypeSettingDescription"></x:String>
 </ResourceDictionary>

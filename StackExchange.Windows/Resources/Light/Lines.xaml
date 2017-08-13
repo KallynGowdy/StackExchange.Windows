@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:StackExchange.Windows.Resources.Light">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="PostSeparator" TargetType="Line">
         <Setter Property="X1" Value="0"/>
         <Setter Property="X2" Value="1"/>

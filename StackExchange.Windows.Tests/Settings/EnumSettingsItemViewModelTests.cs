@@ -37,11 +37,6 @@ namespace StackExchange.Windows.Tests.Settings
                 val => Assert.Equal(1, val.Value),
                 val => Assert.Equal(2, val.Value),
                 val => Assert.Equal(3, val.Value));
-
-            Assert.Collection(Subject.Values,
-                val => Assert.Equal("C", val.Name),
-                val => Assert.Equal("B", val.Name),
-                val => Assert.Equal("A", val.Name));
         }
 
         [Fact]
@@ -53,5 +48,13 @@ namespace StackExchange.Windows.Tests.Settings
             Assert.Equal(first.Value, Subject.Value);
         }
 
+        [Fact]
+        public void Test_Pulls_Name_From_ResourceAttribute_If_Available()
+        {
+            Assert.Collection(Subject.Values,
+                val => Assert.Equal("C", val.Name),
+                val => Assert.Equal("B", val.Name),
+                val => Assert.Equal("TheResource", val.Name));
+        }
     }
 }

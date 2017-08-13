@@ -40,14 +40,15 @@ namespace StackExchange.Windows.BindingConverters
 
         public bool TryConvert(object @from, Type toType, object conversionHint, out object result)
         {
+            string fromStr = (string) @from;
             try
             {
-                result = dictionary[(string)@from];
+                result = dictionary[fromStr];
             }
             catch (Exception ex)
             {
                 this.Log().WarnException($"Couldnt convert object to type {toType}", ex);
-                result = null;
+                result = fromStr;
                 return false;
             }
 

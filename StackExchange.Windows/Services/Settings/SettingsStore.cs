@@ -20,11 +20,26 @@ namespace StackExchange.Windows.Services.Settings
             DescriptionResource = "ColorModeSettingDescription",
             Key = "ColorMode",
             GroupResource = "AppearanceSettingGroup",
-            Type = typeof(ColorMode)
+            Type = typeof(ColorMode),
+            DefaultValue = ColorMode.Light
+        };
+
+        /// <summary>
+        /// Gets the <see cref="SettingDefinition"/> for the current way to open post links.
+        /// </summary>
+        public static readonly SettingDefinition OpenPostLinksBrowserTypeDefinition = new SettingDefinition()
+        {
+            NameResource = "OpenPostLinksBrowserTypeSettingName",
+            DescriptionResource = "OpenPostLinksBrowserTypeSettingDescription",
+            Key = "OpenPostLinksBrowserType",
+            GroupResource = "FunctionalitySettingGroup",
+            Type = typeof(OpenPostLinksBrowserType),
+            DefaultValue = OpenPostLinksBrowserType.EmbeddedBrowser
         };
 
         private static readonly SettingDefinition[] Definitions = {
-            ColorModeDefinition
+            ColorModeDefinition,
+            OpenPostLinksBrowserTypeDefinition
         };
 
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
