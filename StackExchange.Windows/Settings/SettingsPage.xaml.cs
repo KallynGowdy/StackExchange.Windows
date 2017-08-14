@@ -29,8 +29,8 @@ namespace StackExchange.Windows.Settings
             this.WhenActivated(d =>
             {
                 this.OneWayBind(ViewModel, vm => vm.GroupedSettings, view => view.SettingsCollectionSource.Source);
-
-                //
+                this.WhenAnyObservable(view => view.ViewModel.SaveSettings.IsExecuting)
+                    .BindTo(this, view => view.SavingProgress.Visibility);
             });
         }
 

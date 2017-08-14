@@ -1,0 +1,10 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StackExchange.Windows.Resources.Common">
+
+    <Color x:Key="AcceptedColor">#FF7FFFD4</Color>
+    <Color x:Key="GoodAnswerColor">#FF00FFFF</Color>
+    <Color x:Key="TransparentColor">#00FFFFFF</Color>
+
+</ResourceDictionary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using ReactiveUI;
@@ -32,6 +33,10 @@ namespace StackExchange.Windows.BindingConverters
         public override int GetAffinityForObjects(Type fromType, Type toType)
         {
             if (fromType == typeof(string) && toType == typeof(string))
+            {
+                return 100;
+            }
+            else if (fromType == typeof(string) && toType == typeof(Color))
             {
                 return 100;
             }

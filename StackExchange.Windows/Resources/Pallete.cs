@@ -9,7 +9,8 @@ namespace StackExchange.Windows.Resources
 {
     public static class Pallete
     {
-        public static Color AcceptedColor => global::Windows.UI.Colors.Aquamarine;
-        public static Color GoodAnswerColor => global::Windows.UI.Colors.Aqua;
+        public const string AcceptedColorResource = "AcceptedColor";
+        public const string GoodAnswerColorResource = "GoodAnswerColor";
+        public const string TransparentResource = "TransparentColor";
     }
 }

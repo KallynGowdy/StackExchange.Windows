@@ -24,6 +24,7 @@ namespace StackExchange.Windows.Settings
         public string NameResource => setting.Definition.NameResource;
         public string DescriptionResource => setting.Definition.DescriptionResource;
         public bool HasDescription => !string.IsNullOrEmpty(DescriptionResource);
+        public SavedSetting Setting => setting;
 
         public object Value
         {

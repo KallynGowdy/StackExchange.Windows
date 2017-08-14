@@ -32,7 +32,7 @@ namespace StackExchange.Windows.Services.Settings
         /// Gets or sets the key that this setting is stored under.
         /// </summary>
         public string Key { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the data type of the setting.
         /// </summary>
@@ -52,6 +52,18 @@ namespace StackExchange.Windows.Services.Settings
         /// Gets whether this setting stores an enum value.
         /// </summary>
         public bool StoresEnum => Type.GetTypeInfo().IsEnum;
+
+        /// <summary>
+        /// Gets or sets a function that can be used to serialize the setting value
+        /// before it is stored.
+        /// </summary>
+        public Func<object, object> Serialize { get; set; } = o => o;
+
+        /// <summary>
+        /// Gets or sets a function that can be used to deserialize the setting value
+        /// before it is loaded.
+        /// </summary>
+        public Func<object, object> Deserialize { get; set; } = o => o;
 
         /// <summary>
         /// Gets the default <see cref="SavedSetting"/> representation of this definition.

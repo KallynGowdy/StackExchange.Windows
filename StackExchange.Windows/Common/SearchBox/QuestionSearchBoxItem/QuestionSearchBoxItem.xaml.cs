@@ -1,4 +1,5 @@
-﻿using System.Reactive.Linq;
+﻿using System.Globalization;
+using System.Reactive.Linq;
 using Windows.ApplicationModel;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -35,7 +36,8 @@ namespace StackExchange.Windows.Common.SearchBox.QuestionSearchBoxItem
                             view => view.ViewModel.HasAGoodAnswer,
                             view => view.ViewModel.HasAnAcceptedAnswer,
                             (good, accepted) => new { good, accepted })
-                        .Select(tuple => tuple.accepted ? Pallete.AcceptedColor : tuple.good ? Pallete.GoodAnswerColor : Colors.Transparent)
+                        .Select(tuple => tuple.accepted ? Pallete.AcceptedColorResource : tuple.good ? Pallete.GoodAnswerColorResource : Pallete.TransparentResource)
+                        .MapResources<Color>()
                         .BindTo(this, view => view.ScorePanel.Background)
                         .DisposeWith(d);
                     d(this.OneWayBind(ViewModel, vm => vm.Tags, view => view.Tags.ViewModel));

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -43,24 +45,62 @@ namespace StackExchange.Windows.Services.Settings
         };
 
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private readonly Subject<SavedSetting> settingUpdated = new Subject<SavedSetting>();
+
+        public IObservable<SavedSetting> SettingUpdated => settingUpdated;
 
         public Task SaveSettingAsync(SavedSetting setting)
         {
             if (setting == null) throw new ArgumentNullException(nameof(setting));
-            localSettings.Values[setting.Definition.Key] = setting.SavedValue;
+            if (setting.SavedValue == null)
+            {
+                localSettings.Values.Remove(setting.Definition.Key);
+            }
+            else
+            {
+                localSettings.Values[setting.Definition.Key] = Serialize(setting);
+            }
+            settingUpdated.OnNext(setting);
             return Task.FromResult(0);
         }
 
         public Task<IEnumerable<SavedSetting>> GetSettingsAsync()
         {
-            return Task.FromResult(Definitions.Select(GetSetting));
+            return Task.FromResult(Definitions.Select(GetSettingImpl));
         }
 
-        public SavedSetting GetSetting(SettingDefinition definition)
+        public IObservable<SavedSetting> GetSetting(SettingDefinition definition)
+        {
+            if (definition == null) throw new ArgumentNullException(nameof(definition));
+            return SettingUpdated
+                .Where(s => s.Definition == definition)
+                .StartWith(GetSettingImpl(definition));
+        }
+
+        private SavedSetting GetSettingImpl(SettingDefinition definition)
         {
             return localSettings.Values.ContainsKey(definition.Key)
-                ? new SavedSetting(localSettings.Values[definition.Key], definition)
+                ? new SavedSetting(Deserialize(definition, localSettings.Values[definition.Key]), definition)
                 : definition.Default();
+        }
+
+        private static object Serialize(SavedSetting setting)
+        {
+            if (setting.Definition.StoresEnum)
+            {
+                return setting.SavedValue.ToString();
+            }
+
+            return setting.SavedValue;
+        }
+
+        private object Deserialize(SettingDefinition definition, object value)
+        {
+            if (definition.StoresEnum)
+            {
+                return Enum.Parse(definition.Type, value.ToString());
+            }
+            return value;
         }
     }
 }

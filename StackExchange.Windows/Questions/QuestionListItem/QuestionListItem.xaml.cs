@@ -46,7 +46,8 @@ namespace StackExchange.Windows.Questions.QuestionListItem
                             view => view.ViewModel.HasAGoodAnswer,
                             view => view.ViewModel.HasAnAcceptedAnswer,
                             (good, accepted) => new { good, accepted })
-                        .Select(tuple => tuple.accepted ? Pallete.AcceptedColor : tuple.good ? Pallete.GoodAnswerColor : Colors.Transparent)
+                        .Select(tuple => tuple.accepted ? Pallete.AcceptedColorResource : tuple.good ? Pallete.GoodAnswerColorResource : Pallete.TransparentResource)
+                        .MapResources<Color>()
                         .BindTo(this, view => view.AnswersPanel.Background)
                         .DisposeWith(d);
                     this.Bind(ViewModel, vm => vm.User, view => view.UserCard.ViewModel)

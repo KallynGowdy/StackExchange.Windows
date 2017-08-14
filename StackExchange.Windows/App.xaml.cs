@@ -21,6 +21,7 @@ using ReactiveUI;
 using StackExchange.Windows.Application;
 using StackExchange.Windows.Login;
 using Windows.UI.Core;
+using StackExchange.Windows.Services.Settings;
 
 namespace StackExchange.Windows
 {
@@ -31,6 +32,7 @@ namespace StackExchange.Windows
     {
         private Frame rootFrame;
         public ApplicationViewModel Application { get; private set; }
+        private ISettingsStore settings;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -40,6 +42,14 @@ namespace StackExchange.Windows
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            settings = new SettingsStore();
+            settings.GetSetting(SettingsStore.ColorModeDefinition)
+                .FirstAsync()
+                .Subscribe(setting =>
+                {
+                    RequestedTheme = ConvertToApplicationTheme((ColorMode)setting.SavedValue);
+                });
         }
 
         /// <summary>
@@ -49,7 +59,7 @@ namespace StackExchange.Windows
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Application = new ApplicationViewModel();
+            Application = new ApplicationViewModel(settings);
             Application.Navigate.RegisterHandler(context =>
             {
                 if (!context.IsHandled)
@@ -117,6 +127,21 @@ namespace StackExchange.Windows
 
             rootFrame.Navigated += RootFrameOnNavigated;
             SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+        }
+
+        private ApplicationTheme ConvertToApplicationTheme(ColorMode color)
+        {
+            switch (color)
+            {
+                case ColorMode.Light:
+                    return ApplicationTheme.Light;
+                case ColorMode.Dark:
+                    return ApplicationTheme.Dark;
+                case ColorMode.Default:
+                    return ConvertToApplicationTheme(ColorMode.Light);
+                default:
+                    return ConvertToApplicationTheme(ColorMode.Default);
+            }
         }
 
         private void RootFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)

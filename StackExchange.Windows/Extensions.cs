@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
+using StackExchange.Windows.BindingConverters;
 using StackExchange.Windows.Common.TagsList;
 
 namespace StackExchange.Windows
@@ -54,6 +57,39 @@ namespace StackExchange.Windows
         public static TagViewModel[] ToViewModels(this IEnumerable<string> tags)
         {
             return tags.Select(t => new TagViewModel(t)).ToArray();
+        }
+
+        /// <summary>
+        /// Maps the given list of resource names to their actual representations.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="resourceEnumerable"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> MapResources<T>(this IEnumerable<string> resourceEnumerable)
+        {
+            return resourceEnumerable.Select(MapResource<T>);
+        }
+
+        /// <summary>
+        /// Maps the given stream of resource names to their actual resource representations.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="resourceObservable"></param>
+        /// <returns></returns>
+        public static IObservable<T> MapResources<T>(this IObservable<string> resourceObservable)
+        {
+            return resourceObservable.Select(MapResource<T>);
+        }
+
+        /// <summary>
+        /// Maps the given resource to the actual entity it represents.
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <returns></returns>
+        public static T MapResource<T>(string resource)
+        {
+            return (T)StringResourceConverter.App.Convert(resource, typeof(T), null,
+                CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
         }
     }
 }

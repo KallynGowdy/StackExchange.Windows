@@ -28,7 +28,7 @@ namespace StackExchange.Windows.Settings
         {
             this.Value = value;
             this.Name = name;
-            this.Key = $"{viewModel.NameResource}.{Name}";
+            this.Key = viewModel.NameResource;
             this.viewModel = viewModel;
 
             Select = ReactiveCommand.Create(SelectImpl);

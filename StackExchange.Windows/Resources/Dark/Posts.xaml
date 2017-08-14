@@ -5,7 +5,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Common/Posts.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
+    
     <Style x:Key="AcceptedBox" TargetType="FontIcon" BasedOn="{StaticResource AcceptedBoxCommon}">
     </Style>
 </ResourceDictionary>

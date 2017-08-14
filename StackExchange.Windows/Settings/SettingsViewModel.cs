@@ -21,6 +21,7 @@ namespace StackExchange.Windows.Settings
         private readonly ISettingsItemViewModelFactory factory;
         private readonly ObservableAsPropertyHelper<SettingsItemViewModel[]> loadedSettings;
         private readonly ObservableAsPropertyHelper<IGrouping<string, SettingsItemViewModel>[]> groupedSettings;
+        private string savingNotice;
 
         /// <summary>
         /// Gets the list of settings that have been loaded into this view model.
@@ -37,11 +38,17 @@ namespace StackExchange.Windows.Settings
         /// </summary>
         public ReactiveCommand<Unit, SettingsItemViewModel[]> LoadSettings { get; }
 
+        /// <summary>
+        /// Saves the given list of settings.
+        /// </summary>
+        public ReactiveCommand<IList<SettingsItemViewModel>, Unit> SaveSettings { get; }
+
         public SettingsViewModel(ISettingsItemViewModelFactory factory = null, ISettingsStore store = null, IApplicationViewModel application = null) : base(application)
         {
             this.factory = factory ?? Locator.Current.GetService<ISettingsItemViewModelFactory>();
             settingsStore = store ?? Locator.Current.GetService<ISettingsStore>();
             LoadSettings = ReactiveCommand.CreateFromTask(LoadSettingsImpl, outputScheduler: RxApp.MainThreadScheduler);
+            SaveSettings = ReactiveCommand.CreateFromTask<IList<SettingsItemViewModel>, Unit>(SaveSettingsImpl, outputScheduler: RxApp.MainThreadScheduler);
 
             loadedSettings = LoadSettings.ToProperty(this, vm => vm.LoadedSettings);
             groupedSettings = LoadSettings.Select(settings => settings.GroupBy(s => s.GroupResource).ToArray())
@@ -49,8 +56,26 @@ namespace StackExchange.Windows.Settings
 
             this.WhenActivated(d =>
             {
+                LoadSettings
+                    .Select(ChagnedSettings)
+                    .Switch()
+                    .Buffer(TimeSpan.FromSeconds(3), RxApp.TaskpoolScheduler)
+                    .InvokeCommand(this, vm => vm.SaveSettings)
+                    .DisposeWith(d);
+
                 LoadSettings.Execute().Subscribe().DisposeWith(d);
             });
+        }
+
+        private async Task<Unit> SaveSettingsImpl(IList<SettingsItemViewModel> settings)
+        {
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
+            foreach (var setting in settings)
+            {
+                await settingsStore.SaveSettingAsync(setting.Setting);
+            }
+
+            return Unit.Default;
         }
 
         private async Task<SettingsItemViewModel[]> LoadSettingsImpl()
@@ -58,6 +83,11 @@ namespace StackExchange.Windows.Settings
             var settings = await settingsStore.GetSettingsAsync();
 
             return settings.Select(s => factory.CreateViewModel(s)).ToArray();
+        }
+
+        private static IObservable<SettingsItemViewModel> ChagnedSettings(SettingsItemViewModel[] settings)
+        {
+            return settings.Select(setting => setting.WhenAny(s => s.Value, ctx => ctx.Sender)).Merge();
         }
 
         public ViewModelActivator Activator { get; } = new ViewModelActivator();

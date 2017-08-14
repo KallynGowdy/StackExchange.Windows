@@ -13,9 +13,10 @@
     d:DesignWidth="400">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
+            <!--<ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary Source="../../Resources/Light/Light.xaml" x:Key="Light"/>
-            </ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="../../Resources/Dark/Dark.xaml" x:Key="Dark"/>
+            </ResourceDictionary.ThemeDictionaries>-->
             <DataTemplate x:Name="TagTemplate" x:DataType="x:String">
                 <Button x:Name="Tag"
                         Margin="0,0,8,0"

@@ -1,15 +1,22 @@
 using System;
+using System.ComponentModel;
 using System.Reactive;
 using ReactiveUI;
 using StackExchange.Windows.Authentication;
+using StackExchange.Windows.Services.Settings;
 
 namespace StackExchange.Windows.Application
 {
     /// <summary>
     /// Defines an interface for a view model that contains the shared application state.
     /// </summary>
-    public interface IApplicationViewModel
+    public interface IApplicationViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Gets the current color mode that the view model has requested.
+        /// </summary>
+        ColorMode CurrentColorMode { get; }
+
         /// <summary>
         /// Gets a view model that represents the current authentication state.
         /// </summary>

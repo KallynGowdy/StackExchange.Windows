@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.System;
+using Windows.UI.Xaml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ReactiveUI;
@@ -30,6 +31,8 @@ namespace StackExchange.Windows.Application
     /// </summary>
     public class ApplicationViewModel : ReactiveObject, IApplicationViewModel
     {
+        private readonly ObservableAsPropertyHelper<ColorMode> currentColorMode;
+
         /// <summary>
         /// Gets the view model in charge of authentication.
         /// </summary>
@@ -39,6 +42,11 @@ namespace StackExchange.Windows.Application
         /// Gets the view model in charge of search for the site.
         /// </summary>
         public ISearchViewModel Search { get; private set; }
+
+        /// <summary>
+        /// Gets the store in charge of storing settings for the application.
+        /// </summary>
+        public ISettingsStore Settings { get; private set; }
 
         /// <summary>
         /// Gets the interaction that requests navigation to other pages.
@@ -69,12 +77,24 @@ namespace StackExchange.Windows.Application
         /// Gets the current HTTP client for the application.
         /// </summary>
         public HttpClient HttpClient { get; private set; }
+        
+        /// <summary>
+        /// Gets the current color mode that the view model has requested.
+        /// </summary>
+        public ColorMode CurrentColorMode => currentColorMode.Value;
 
-        public ApplicationViewModel(ISearchViewModel search = null)
+        public ApplicationViewModel(ISettingsStore settings = null, ISearchViewModel search = null)
         {
             Search = search;
+            Settings = settings ?? new SettingsStore();
+
+            // ApplicationViewModel is expected to live while the application is running.
             Authentication = new AuthenticationViewModel();
             Authentication.Login.Do(u => OnLogin()).Subscribe();
+
+            currentColorMode = Settings.GetSetting(SettingsStore.ColorModeDefinition)
+                .Select(setting => (ColorMode)setting.SavedValue)
+                .ToProperty(this, vm => vm.CurrentColorMode);
         }
 
         public void OnLogin()
@@ -98,9 +118,9 @@ namespace StackExchange.Windows.Application
         {
             Locator.CurrentMutable.RegisterConstant(this, typeof(IApplicationViewModel));
             Locator.CurrentMutable.RegisterConstant(Authentication, typeof(IAuthenticationViewModel));
+            Locator.CurrentMutable.RegisterConstant(Settings, typeof(ISettingsStore));
 
             Locator.CurrentMutable.RegisterLazySingleton(() => new UwpClipboard(), typeof(IClipboard));
-            Locator.CurrentMutable.RegisterLazySingleton(() => new SettingsStore(), typeof(ISettingsStore));
             Locator.CurrentMutable.RegisterLazySingleton(() => new QuestionsViewModel(), typeof(QuestionsViewModel));
             Locator.CurrentMutable.RegisterLazySingleton(() => new SettingsItemViewModelFactory(), typeof(ISettingsItemViewModelFactory));
             Locator.CurrentMutable.Register(UriToImageSourceBindingTypeConverter.Create, typeof(IBindingTypeConverter));
