@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using StackExchange.Windows.BindingConverters;
 using StackExchange.Windows.Common.TagsList;
+using StackExchange.Windows.Services.Settings;
 
 namespace StackExchange.Windows
 {
@@ -90,6 +91,20 @@ namespace StackExchange.Windows
         {
             return (T)StringResourceConverter.App.Convert(resource, typeof(T), null,
                 CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
+        }
+
+        /// <summary>
+        /// Gets the current value stored in the given settings store for the given definition.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="store"></param>
+        /// <param name="definition"></param>
+        /// <returns></returns>
+        public static IObservable<T> GetSettingValue<T>(this ISettingsStore store, SettingDefinition definition)
+        {
+            return store.GetSetting(definition)
+                .Select(s => (T)s.SavedValue)
+                .FirstAsync();
         }
     }
 }

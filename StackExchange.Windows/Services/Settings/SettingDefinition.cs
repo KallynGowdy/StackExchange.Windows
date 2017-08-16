@@ -70,5 +70,12 @@ namespace StackExchange.Windows.Services.Settings
         /// </summary>
         /// <returns></returns>
         public SavedSetting Default() => new SavedSetting(DefaultValue, this);
+
+        /// <summary>
+        /// Gets a new <see cref="SavedSetting"/> that contains the given value.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public SavedSetting WithValue(object value) => new SavedSetting(value, this);
     }
 }

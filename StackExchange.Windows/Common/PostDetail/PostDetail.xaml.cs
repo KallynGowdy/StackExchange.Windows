@@ -93,7 +93,7 @@ namespace StackExchange.Windows.Common.PostDetail
             if (args.Uri != null)
             {
                 args.Cancel = true;
-                await app.OpenUri.Handle(args.Uri);
+                await app.OpenUri.Execute(args.Uri);
             }
         }
     }

@@ -6,14 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Refit;
 using StackExchange.Windows.Api.Models;
+using System.ComponentModel;
 using System.Reactive;
 using ReactiveUI;
 using StackExchange.Windows.Authentication;
+using StackExchange.Windows.Interactions;
+using StackExchange.Windows.Services.Settings;
 using System.Windows.Input;
 using StackExchange.Windows.Questions;
 using Windows.ApplicationModel.DataTransfer;
 using System.Linq;
-using StackExchange.Windows.Services.Settings;
 
 namespace StackExchange.Windows.Api
 {
@@ -109,6 +111,14 @@ namespace StackExchange.Windows.Application
     {
         private readonly StubContainer<StubIApplicationViewModel> _stubs = new StubContainer<StubIApplicationViewModel>();
 
+        global::StackExchange.Windows.Services.Settings.ColorMode global::StackExchange.Windows.Application.IApplicationViewModel.CurrentColorMode
+        {
+            get
+            {
+                return _stubs.GetMethodStub<CurrentColorMode_Get_Delegate>("get_CurrentColorMode").Invoke();
+            }
+        }
+
         global::StackExchange.Windows.Authentication.IAuthenticationViewModel global::StackExchange.Windows.Application.IApplicationViewModel.Authentication
         {
             get
@@ -141,7 +151,15 @@ namespace StackExchange.Windows.Application
             }
         }
 
-        global::ReactiveUI.Interaction<global::System.Uri, global::System.Reactive.Unit> global::StackExchange.Windows.Application.IApplicationViewModel.OpenUri
+        global::ReactiveUI.Interaction<global::StackExchange.Windows.Interactions.OpenUriOptions, global::System.Reactive.Unit> global::StackExchange.Windows.Application.IApplicationViewModel.UriOpened
+        {
+            get
+            {
+                return _stubs.GetMethodStub<UriOpened_Get_Delegate>("get_UriOpened").Invoke();
+            }
+        }
+
+        global::ReactiveUI.ReactiveCommand<global::System.Uri, global::System.Reactive.Unit> global::StackExchange.Windows.Application.IApplicationViewModel.OpenUri
         {
             get
             {
@@ -155,6 +173,14 @@ namespace StackExchange.Windows.Application
             {
                 return _stubs.GetMethodStub<CurrentSite_Get_Delegate>("get_CurrentSite").Invoke();
             }
+        }
+
+        public delegate global::StackExchange.Windows.Services.Settings.ColorMode CurrentColorMode_Get_Delegate();
+
+        public StubIApplicationViewModel CurrentColorMode_Get(CurrentColorMode_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
         }
 
         public delegate global::StackExchange.Windows.Authentication.IAuthenticationViewModel Authentication_Get_Delegate();
@@ -189,7 +215,15 @@ namespace StackExchange.Windows.Application
             return this;
         }
 
-        public delegate global::ReactiveUI.Interaction<global::System.Uri, global::System.Reactive.Unit> OpenUri_Get_Delegate();
+        public delegate global::ReactiveUI.Interaction<global::StackExchange.Windows.Interactions.OpenUriOptions, global::System.Reactive.Unit> UriOpened_Get_Delegate();
+
+        public StubIApplicationViewModel UriOpened_Get(UriOpened_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        public delegate global::ReactiveUI.ReactiveCommand<global::System.Uri, global::System.Reactive.Unit> OpenUri_Get_Delegate();
 
         public StubIApplicationViewModel OpenUri_Get(OpenUri_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
@@ -216,6 +250,19 @@ namespace StackExchange.Windows.Application
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;
+        }
+
+        public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected void On_PropertyChanged(object sender)
+        {
+            global::System.ComponentModel.PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) { handler(sender, null); }
+        }
+
+        public void PropertyChanged_Raise(object sender)
+        {
+            On_PropertyChanged(sender);
         }
     }
 }
@@ -482,6 +529,22 @@ namespace StackExchange.Windows.Services.Settings
     {
         private readonly StubContainer<StubISettingsStore> _stubs = new StubContainer<StubISettingsStore>();
 
+        global::System.IObservable<global::StackExchange.Windows.Services.Settings.SavedSetting> global::StackExchange.Windows.Services.Settings.ISettingsStore.SettingUpdated
+        {
+            get
+            {
+                return _stubs.GetMethodStub<SettingUpdated_Get_Delegate>("get_SettingUpdated").Invoke();
+            }
+        }
+
+        public delegate global::System.IObservable<global::StackExchange.Windows.Services.Settings.SavedSetting> SettingUpdated_Get_Delegate();
+
+        public StubISettingsStore SettingUpdated_Get(SettingUpdated_Get_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
         global::System.Threading.Tasks.Task global::StackExchange.Windows.Services.Settings.ISettingsStore.SaveSettingAsync(global::StackExchange.Windows.Services.Settings.SavedSetting setting)
         {
             return _stubs.GetMethodStub<SaveSettingAsync_SavedSetting_Delegate>("SaveSettingAsync").Invoke(setting);
@@ -503,6 +566,19 @@ namespace StackExchange.Windows.Services.Settings
         public delegate global::System.Threading.Tasks.Task<global::System.Collections.Generic.IEnumerable<global::StackExchange.Windows.Services.Settings.SavedSetting>> GetSettingsAsync_Delegate();
 
         public StubISettingsStore GetSettingsAsync(GetSettingsAsync_Delegate del, int count = Times.Forever, bool overwrite = false)
+        {
+            _stubs.SetMethodStub(del, count, overwrite);
+            return this;
+        }
+
+        global::System.IObservable<global::StackExchange.Windows.Services.Settings.SavedSetting> global::StackExchange.Windows.Services.Settings.ISettingsStore.GetSetting(global::StackExchange.Windows.Services.Settings.SettingDefinition definition)
+        {
+            return _stubs.GetMethodStub<GetSetting_SettingDefinition_Delegate>("GetSetting").Invoke(definition);
+        }
+
+        public delegate global::System.IObservable<global::StackExchange.Windows.Services.Settings.SavedSetting> GetSetting_SettingDefinition_Delegate(global::StackExchange.Windows.Services.Settings.SettingDefinition definition);
+
+        public StubISettingsStore GetSetting(GetSetting_SettingDefinition_Delegate del, int count = Times.Forever, bool overwrite = false)
         {
             _stubs.SetMethodStub(del, count, overwrite);
             return this;

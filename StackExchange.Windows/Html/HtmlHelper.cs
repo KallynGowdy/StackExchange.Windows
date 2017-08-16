@@ -208,7 +208,7 @@ namespace StackExchange.Windows.Html
             link.Click += async (sender, args) =>
             {
                 var app = Locator.Current.GetService<IApplicationViewModel>();
-                await app.OpenUri.Handle(uri);
+                await app.OpenUri.Execute(uri);
             };
             AddInlines(element, link);
             return link;

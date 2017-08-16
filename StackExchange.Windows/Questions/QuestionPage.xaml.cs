@@ -18,6 +18,7 @@ using ReactiveUI;
 using Splat;
 using StackExchange.Windows.Api.Models;
 using StackExchange.Windows.Application;
+using StackExchange.Windows.Services.Settings;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -42,14 +43,14 @@ namespace StackExchange.Windows.Questions
                 d(ViewModel.Load.Execute().Subscribe());
 
                 var app = Locator.Current.GetService<IApplicationViewModel>();
-                app.OpenUri.RegisterHandler(ctx =>
+                app.UriOpened.RegisterHandler(ctx =>
                 {
                     // TODO: Allow the user to specify whether to open in a real browser
                     //       or our pseudo-browser.
-                    if (!ctx.IsHandled)
+                    if (!ctx.IsHandled && ctx.Input.BrowserType == OpenPostLinksBrowserType.EmbeddedBrowser)
                     {
                         SplitContent.IsPaneOpen = true;
-                        WebResults.Navigate(ctx.Input);
+                        WebResults.Navigate(ctx.Input.Uri);
                         ctx.SetOutput(Unit.Default);
                     }
                 })
@@ -73,7 +74,7 @@ namespace StackExchange.Windows.Questions
 
         private void WebResults_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
-            
+
         }
     }
 }

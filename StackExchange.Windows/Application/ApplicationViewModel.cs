@@ -19,6 +19,7 @@ using StackExchange.Windows.Api.Converters;
 using StackExchange.Windows.Authentication;
 using StackExchange.Windows.BindingConverters;
 using StackExchange.Windows.Common.SearchBox;
+using StackExchange.Windows.Interactions;
 using StackExchange.Windows.Questions;
 using StackExchange.Windows.Services;
 using StackExchange.Windows.Services.Settings;
@@ -63,10 +64,9 @@ namespace StackExchange.Windows.Application
         /// </summary>
         public Interaction<NavigationParams, Unit> NavigateAndClearStack { get; } = new Interaction<NavigationParams, Unit>();
 
-        /// <summary>
-        /// Gets the interaction that requests a URI to be opened.
-        /// </summary>
-        public Interaction<Uri, Unit> OpenUri { get; } = new Interaction<Uri, Unit>();
+        public Interaction<OpenUriOptions, Unit> UriOpened { get; } = new Interaction<OpenUriOptions, Unit>();
+
+        public ReactiveCommand<Uri, Unit> OpenUri { get; }
 
         /// <summary>
         /// Gets the site that the user is currently viewing.
@@ -77,7 +77,7 @@ namespace StackExchange.Windows.Application
         /// Gets the current HTTP client for the application.
         /// </summary>
         public HttpClient HttpClient { get; private set; }
-        
+
         /// <summary>
         /// Gets the current color mode that the view model has requested.
         /// </summary>
@@ -87,6 +87,7 @@ namespace StackExchange.Windows.Application
         {
             Search = search;
             Settings = settings ?? new SettingsStore();
+            OpenUri = ReactiveCommand.CreateFromTask<Uri, Unit>(OpenUriImpl);
 
             // ApplicationViewModel is expected to live while the application is running.
             Authentication = new AuthenticationViewModel();
@@ -138,9 +139,9 @@ namespace StackExchange.Windows.Application
                 }
             };
 
-            OpenUri.RegisterHandler(async ctx =>
+            UriOpened.RegisterHandler(async ctx =>
             {
-                await Launcher.LaunchUriAsync(ctx.Input);
+                await Launcher.LaunchUriAsync(ctx.Input.Uri);
                 ctx.SetOutput(Unit.Default);
             });
         }
@@ -148,6 +149,19 @@ namespace StackExchange.Windows.Application
         public TService Api<TService>()
         {
             return RestService.For<TService>(HttpClient);
+        }
+
+        private async Task<Unit> OpenUriImpl(Uri uri)
+        {
+            OpenUriOptions options = new OpenUriOptions()
+            {
+                Uri = uri,
+                BrowserType = await Settings.GetSettingValue<OpenPostLinksBrowserType>(SettingsStore.OpenPostLinksBrowserTypeDefinition)
+            };
+
+            await UriOpened.Handle(options);
+
+            return Unit.Default;
         }
     }
 }

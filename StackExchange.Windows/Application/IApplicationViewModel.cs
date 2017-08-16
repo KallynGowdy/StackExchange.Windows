@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Reactive;
 using ReactiveUI;
 using StackExchange.Windows.Authentication;
+using StackExchange.Windows.Interactions;
 using StackExchange.Windows.Services.Settings;
 
 namespace StackExchange.Windows.Application
@@ -40,7 +41,12 @@ namespace StackExchange.Windows.Application
         /// <summary>
         /// Gets the interaction that requests a URI to be opened.
         /// </summary>
-        Interaction<Uri, Unit> OpenUri { get; }
+        Interaction<OpenUriOptions, Unit> UriOpened { get; }
+
+        /// <summary>
+        /// Gets a command that can be used to open a URI.
+        /// </summary>
+        ReactiveCommand<Uri, Unit> OpenUri { get; }
 
         /// <summary>
         /// Gets the API parameter of the site that the user is currently viewing.
