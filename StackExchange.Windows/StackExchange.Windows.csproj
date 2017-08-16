@@ -171,6 +171,7 @@
     <Compile Include="Common\SearchBox\SiteViewModel.cs" />
     <Compile Include="Resources\Pallete.cs" />
     <Compile Include="Services\IClipboard.cs" />
+    <Compile Include="Services\IResourceStore.cs" />
     <Compile Include="Services\Settings\ColorMode.cs" />
     <Compile Include="Services\Settings\ISettingsStore.cs" />
     <Compile Include="Services\Settings\OpenPostLinksBrowserType.cs" />

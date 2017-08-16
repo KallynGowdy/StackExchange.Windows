@@ -54,18 +54,6 @@ namespace StackExchange.Windows.Services.Settings
         public bool StoresEnum => Type.GetTypeInfo().IsEnum;
 
         /// <summary>
-        /// Gets or sets a function that can be used to serialize the setting value
-        /// before it is stored.
-        /// </summary>
-        public Func<object, object> Serialize { get; set; } = o => o;
-
-        /// <summary>
-        /// Gets or sets a function that can be used to deserialize the setting value
-        /// before it is loaded.
-        /// </summary>
-        public Func<object, object> Deserialize { get; set; } = o => o;
-
-        /// <summary>
         /// Gets the default <see cref="SavedSetting"/> representation of this definition.
         /// </summary>
         /// <returns></returns>

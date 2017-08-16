@@ -8,13 +8,14 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using ReactiveUI;
 using Splat;
+using StackExchange.Windows.Services;
 
 namespace StackExchange.Windows.BindingConverters
 {
     /// <summary>
     /// Defines a <see cref="IBindingTypeConverter"/> that looks up strings in the application resource dictionary.
     /// </summary>
-    public class StringResourceConverter : ConverterBase
+    public class StringResourceConverter : ConverterBase, IResourceStore
     {
         private static readonly Lazy<StringResourceConverter> app = new Lazy<StringResourceConverter>(() => new StringResourceConverter());
         public static StringResourceConverter App => app.Value;
@@ -52,6 +53,18 @@ namespace StackExchange.Windows.BindingConverters
         public override object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
+        }
+
+        public object GetResource(string key)
+        {
+            if (dictionary.ContainsKey(key))
+            {
+                return dictionary[key];
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using StackExchange.Windows.BindingConverters;
 using StackExchange.Windows.Common.TagsList;
+using StackExchange.Windows.Services;
 using StackExchange.Windows.Services.Settings;
 
 namespace StackExchange.Windows
@@ -105,6 +106,17 @@ namespace StackExchange.Windows
             return store.GetSetting(definition)
                 .Select(s => (T)s.SavedValue)
                 .FirstAsync();
+        }
+
+        /// <summary>
+        /// Gets a string resource with the given key.
+        /// </summary>
+        /// <param name="resources"></param>
+        /// <param name="key">The key of the resource to retrieve.</param>
+        /// <returns>The resource cast into a string or null if it doesn't exist.</returns>
+        public static string GetString(this IResourceStore resources, string key)
+        {
+            return (string)resources.GetResource(key);
         }
     }
 }

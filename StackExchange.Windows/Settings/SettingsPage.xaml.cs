@@ -28,6 +28,7 @@ namespace StackExchange.Windows.Settings
             this.InitializeComponent();
             this.WhenActivated(d =>
             {
+                this.Bind(ViewModel, vm => vm.SearchTerm, view => view.SearchBox.Text);
                 this.OneWayBind(ViewModel, vm => vm.GroupedSettings, view => view.SettingsCollectionSource.Source);
                 this.WhenAnyObservable(view => view.ViewModel.SaveSettings.IsExecuting)
                     .BindTo(this, view => view.SavingProgress.Visibility);
