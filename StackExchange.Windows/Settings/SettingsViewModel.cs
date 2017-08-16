@@ -57,9 +57,9 @@ namespace StackExchange.Windows.Settings
             this.WhenActivated(d =>
             {
                 LoadSettings
-                    .Select(ChagnedSettings)
+                    .Select(ChangedSettings)
                     .Switch()
-                    .Buffer(TimeSpan.FromSeconds(3), RxApp.TaskpoolScheduler)
+                    .Buffer(TimeSpan.FromSeconds(0.3), RxApp.TaskpoolScheduler)
                     .InvokeCommand(this, vm => vm.SaveSettings)
                     .DisposeWith(d);
 
@@ -85,7 +85,7 @@ namespace StackExchange.Windows.Settings
             return settings.Select(s => factory.CreateViewModel(s)).ToArray();
         }
 
-        private static IObservable<SettingsItemViewModel> ChagnedSettings(SettingsItemViewModel[] settings)
+        private static IObservable<SettingsItemViewModel> ChangedSettings(SettingsItemViewModel[] settings)
         {
             return settings.Select(setting => setting.WhenAny(s => s.Value, ctx => ctx.Sender)).Merge();
         }
