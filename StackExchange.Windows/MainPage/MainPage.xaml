@@ -30,7 +30,7 @@
                     <StackPanel>
                         <RadioButton x:Name="MenuButton" 
                                      Checked="DontCheck"
-                                     Content="MENU"
+                                     Content="{StaticResource ShowNavigationMenuButtonText}"
                                      FontWeight="Bold"
                                      Style="{StaticResource SplitViewRadioButtonStyle}">
                             <RadioButton.Tag>
@@ -47,7 +47,8 @@
                             Grid.Column="0">
                     <RadioButton x:Name="HomeButton" 
                                  GroupName="Nav"
-                                 Content="Home"
+                                 Content="{StaticResource NavigateHomeButtonText}"
+                                 Checked="DontCheck"
                                  Style="{StaticResource SplitViewRadioButtonStyle}">
                         <RadioButton.Tag>
                             <TextBlock Text="&#xE80F;"
@@ -61,10 +62,11 @@
                             Grid.Column="0">
                     <RadioButton x:Name="SettingsButton" 
                                  GroupName="Nav"
-                                 Content="Settings"
+                                 Content="{StaticResource NavigateSettingsButtonText}"
+                                 Checked="DontCheck"
                                  Style="{StaticResource SplitViewRadioButtonStyle}">
                         <RadioButton.Tag>
-                            <TextBlock Text="&#xE713;"
+                            <TextBlock Text="{StaticResource NavigateSettingsButtonIcon}"
                                        Style="{StaticResource SplitViewTextBlockStyle}" />
                         </RadioButton.Tag>
                     </RadioButton>

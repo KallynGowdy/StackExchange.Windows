@@ -44,7 +44,7 @@
                    Grid.Row="0"
                    Grid.Column="0"
                    Padding="8"
-                   Text="Questions"
+                   Text="{StaticResource QuestionsPageTitleText}"
                    Style="{StaticResource HeaderTextBlockStyle}"/>
 
         <ListView x:Name="Questions"

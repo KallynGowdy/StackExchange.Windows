@@ -57,7 +57,7 @@
                                Grid.Row="2"
                                Grid.Column="0"
                                Margin="0,8,0,0"
-                               Text="Answers"
+                               Text="{StaticResource QuestionPageAnswersTitleText}"
                                Style="{StaticResource TitleTextBlockStyle}"/>
 
                     <ItemsControl x:Name="Answers"

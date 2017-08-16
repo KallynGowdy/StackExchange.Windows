@@ -91,15 +91,13 @@
                     Margin="0,8,0,0"
                     Orientation="Horizontal">
             <Button x:Name="Link"
-                    FontSize="16"
-                    FontFamily="Segoe MDL2 Assets"
-                    Content="&#xE71B;"
-                    ToolTipService.ToolTip="Copy link"/>
+                    Content="{StaticResource CopyLinkIconText}"
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="{StaticResource CopyLinkToolTipText}"/>
             <Button x:Name="OpenInBrowser"
-                    FontSize="16"
-                    FontFamily="Segoe MDL2 Assets"
-                    Content="&#xE909;"
-                    ToolTipService.ToolTip="Open In Browser"/>
+                    Content="{StaticResource OpenInBrowserIconText}"
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="{StaticResource OpenInBrowserToolTipText}"/>
         </StackPanel>
 
         <StackPanel x:Name="PostAuthorInformation"

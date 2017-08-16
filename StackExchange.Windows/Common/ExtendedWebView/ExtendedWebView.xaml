@@ -39,9 +39,9 @@
         <Button x:Name="OpenResultsInBrowser"
                 Grid.Row="0"
                 Grid.Column="2"
-                FontFamily="Segoe MDL2 Assets"
-                Content="&#xE909;"
-                ToolTipService.ToolTip="Open In Browser"
+                Style="{StaticResource IconButtonStyle}"
+                Content="{StaticResource OpenInBrowserIconText}"
+                ToolTipService.ToolTip="{StaticResource OpenInBrowserToolTipText}"
                 Click="OpenResultsInBrowser_OnClick"/>
 
         <WebView x:Name="WebResults"
@@ -52,7 +52,7 @@
                  VerticalAlignment="Stretch"
                  NavigationStarting="WebResults_OnNavigationStarting"
                  NavigationCompleted="WebResults_OnNavigationCompleted"/>
-        
+
         <ProgressRing x:Name="Progress"
                       Grid.Row="1"
                       Grid.Column="0"

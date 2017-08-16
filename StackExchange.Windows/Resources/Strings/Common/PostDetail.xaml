@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StackExchange.Windows.Resources.Strings.Common">
+    
+    <x:String x:Key="OpenInBrowserToolTipText">Open In Browser</x:String>
+    <x:String x:Key="OpenInBrowserIconText">&#xE909;</x:String>
+
+    <x:String x:Key="CopyLinkToolTipText">Copy link</x:String>
+    <x:String x:Key="CopyLinkIconText">&#xE71B;</x:String>
+    
+</ResourceDictionary>
