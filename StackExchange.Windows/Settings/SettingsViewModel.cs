@@ -72,7 +72,7 @@ namespace StackExchange.Windows.Settings
             this.resources = resources ?? Locator.Current.GetService<IResourceStore>();
             LoadSettings = ReactiveCommand.CreateFromTask(LoadSettingsImpl, outputScheduler: RxApp.MainThreadScheduler);
             SaveSettings = ReactiveCommand.CreateFromTask<IEnumerable<SettingsItemViewModel>, Unit>(SaveSettingsImpl, outputScheduler: RxApp.MainThreadScheduler);
-            FilterSettings = ReactiveCommand.CreateFromTask<FilterOptions, SettingsItemViewModel[]>(FilterSettingsImpl, outputScheduler: RxApp.MainThreadScheduler);
+            FilterSettings = ReactiveCommand.Create<FilterOptions, SettingsItemViewModel[]>(FilterSettingsImpl, outputScheduler: RxApp.MainThreadScheduler);
 
             loadedSettings = LoadSettings.ToProperty(this, vm => vm.LoadedSettings);
             filteredSettings = FilterSettings.ToProperty(this, vm => vm.FilteredSettings);
@@ -90,7 +90,7 @@ namespace StackExchange.Windows.Settings
                     .DisposeWith(d);
 
                 this.WhenAnyValue(vm => vm.LoadedSettings, vm => vm.SearchTerm, (settings, search) => new FilterOptions(settings, search))
-                    .Throttle(TimeSpan.FromSeconds(0.4), RxApp.TaskpoolScheduler)
+                    .Throttle(TimeSpan.FromSeconds(0.4), RxApp.MainThreadScheduler)
                     .InvokeCommand(this, vm => vm.FilterSettings)
                     .DisposeWith(d);
 
@@ -98,25 +98,22 @@ namespace StackExchange.Windows.Settings
             });
         }
 
-        private Task<SettingsItemViewModel[]> FilterSettingsImpl(FilterOptions options)
+        private SettingsItemViewModel[] FilterSettingsImpl(FilterOptions options)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
-            return Task.Run(() =>
+            if (string.IsNullOrEmpty(options.SearchTerm))
             {
-                if (string.IsNullOrEmpty(options.SearchTerm))
-                {
-                    return options.Settings;
-                }
-                else
-                {
-                    return options.Settings
-                        .Select(setting => (Setting: setting, Score: ScoreSetting(options.SearchTerm, setting)))
-                        .OrderByDescending(pair => pair.Score)
-                        .Where(pair => pair.Score > 0.8)
-                        .Select(pair => pair.Setting)
-                        .ToArray();
-                }
-            });
+                return options.Settings;
+            }
+            else
+            {
+                return options.Settings
+                    .Select(setting => (Setting: setting, Score: ScoreSetting(options.SearchTerm, setting)))
+                    .OrderByDescending(pair => pair.Score)
+                    .Where(pair => pair.Score > 0.8)
+                    .Select(pair => pair.Setting)
+                    .ToArray();
+            }
         }
 
         private async Task<Unit> SaveSettingsImpl(IEnumerable<SettingsItemViewModel> settings)
