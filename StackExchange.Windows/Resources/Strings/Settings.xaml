@@ -10,6 +10,18 @@
     <x:String x:Key="ColorModeSettingName">Color Mode</x:String>
     <x:String x:Key="ColorModeSettingDescription">Choose a theme</x:String>
 
+    <!-- Syntax Theme -->
+    <x:String x:Key="SyntaxStyleSettingName">Syntax Theme</x:String>
+    <x:String x:Key="SyntaxStyleSettingDescription">Choose your syntax colors</x:String>
+
+    <x:String x:Key="AtelierHeathLight">Atelier Heath (Light)</x:String>
+    <x:String x:Key="AtelierHeathDark">Atelier Heath (Dark)</x:String>
+
+    <x:String x:Key="SyntaxStyleTomorrow">Tomorrow</x:String>
+    <x:String x:Key="SyntaxStyleTomorrowNight">Tomorrow (Night)</x:String>
+    <x:String x:Key="SyntaxStyleVibrantInk">Vibrant Ink</x:String>
+    <x:String x:Key="SyntaxStyleGithub">Github</x:String>
+
     <!-- Open Post Links -->
     <x:String x:Key="OpenPostLinksBrowserTypeSettingName">Browser Type</x:String>
     <x:String x:Key="OpenPostLinksBrowserTypeSettingDescription">Which browser type should links open?</x:String>

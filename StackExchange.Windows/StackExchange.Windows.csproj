@@ -179,6 +179,7 @@
     <Compile Include="Services\Settings\SettingDefinition.cs" />
     <Compile Include="Services\Settings\SettingsConstraints.cs" />
     <Compile Include="Services\Settings\SettingsStore.cs" />
+    <Compile Include="Services\Settings\SyntaxStyle.cs" />
     <Compile Include="Services\UwpClipboard.cs" />
     <Compile Include="Settings\BoolSettingsItemViewModel.cs" />
     <Compile Include="Settings\EnumSettingsItemViewModel.cs" />

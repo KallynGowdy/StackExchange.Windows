@@ -13,6 +13,9 @@ namespace StackExchange.Windows.Services.Settings
     /// </summary>
     public class SettingsStore : ISettingsStore
     {
+        public const string AppearanceSettingGroup = "AppearanceSettingGroup";
+        public const string FunctionalitySettingGroup = "FunctionalitySettingGroup";
+
         /// <summary>
         /// Gets the <see cref="SettingDefinition"/> for the current color mode.
         /// </summary>
@@ -21,7 +24,7 @@ namespace StackExchange.Windows.Services.Settings
             NameResource = "ColorModeSettingName",
             DescriptionResource = "ColorModeSettingDescription",
             Key = "ColorMode",
-            GroupResource = "AppearanceSettingGroup",
+            GroupResource = AppearanceSettingGroup,
             Type = typeof(ColorMode),
             DefaultValue = ColorMode.Light
         };
@@ -34,13 +37,24 @@ namespace StackExchange.Windows.Services.Settings
             NameResource = "OpenPostLinksBrowserTypeSettingName",
             DescriptionResource = "OpenPostLinksBrowserTypeSettingDescription",
             Key = "OpenPostLinksBrowserType",
-            GroupResource = "FunctionalitySettingGroup",
+            GroupResource = FunctionalitySettingGroup,
             Type = typeof(OpenPostLinksBrowserType),
             DefaultValue = OpenPostLinksBrowserType.EmbeddedBrowser
         };
 
+        public static readonly SettingDefinition SyntaxStyleDefinition = new SettingDefinition()
+        {
+            NameResource = "SyntaxStyleSettingName",
+            DescriptionResource = "SyntaxStyleSettingDescription",
+            Key = "SyntaxStyle",
+            GroupResource = AppearanceSettingGroup,
+            Type = typeof(SyntaxStyle),
+            DefaultValue = SyntaxStyle.AtelierHeathLight
+        };
+
         private static readonly SettingDefinition[] Definitions = {
             ColorModeDefinition,
+            SyntaxStyleDefinition,
             OpenPostLinksBrowserTypeDefinition
         };
 

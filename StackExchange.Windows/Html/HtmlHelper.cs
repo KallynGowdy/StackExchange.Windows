@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Media;
 using HtmlAgilityPack;
 using Splat;
 using StackExchange.Windows.Application;
+using StackExchange.Windows.Services.Settings;
 
 namespace StackExchange.Windows.Html
 {
@@ -27,13 +28,23 @@ namespace StackExchange.Windows.Html
     /// </summary>
     public class HtmlHelper
     {
-        public string WrapPostBody(string body)
+        private static readonly Dictionary<SyntaxStyle, string> StyleToCssMap = new Dictionary<SyntaxStyle, string>()
+        {
+            {SyntaxStyle.AtelierHeathLight,  "ms-appx-web:///Html/lib/themes/atelier-heath-light.css"},
+            {SyntaxStyle.AtelierHeathDark,  "ms-appx-web:///Html/lib/themes/atelier-heath-dark.css"},
+            {SyntaxStyle.Tomorrow,  "ms-appx-web:///Html/lib/themes/tomorrow.css"},
+            {SyntaxStyle.TomorrowNight,  "ms-appx-web:///Html/lib/themes/tomorrow-night.css"},
+            {SyntaxStyle.VibrantInk,  "ms-appx-web:///Html/lib/themes/vibrant-ink.css"},
+            {SyntaxStyle.Github,  "ms-appx-web:///Html/lib/themes/github-v2.css"}
+        };
+
+        public static string WrapPostBody(string body, SyntaxStyle style)
         {
             return Html(
                 Head(
                     ContentSecurityPolicy("script-src 'self' ms-appx-web:; style-src 'self' ms-appx-web: https://cdn.rawgit.com/google/code-prettify/master/loader/prettify.css"),
                     Stylesheet("ms-appx-web:///Html/post.css"),
-                    Stylesheet("ms-appx-web:///Html/lib/themes/atelier-heath-light.css")
+                    Stylesheet(StyleToCssMap[style])
                 ),
                 Body(
                     body,
@@ -43,12 +54,12 @@ namespace StackExchange.Windows.Html
             );
         }
 
-        public string Html(params string[] content)
+        public static string Html(params string[] content)
         {
             return Tag("html", content);
         }
 
-        public string Body(params string[] content)
+        public static string Body(params string[] content)
         {
             return Tag("body", content);
         }
@@ -80,12 +91,12 @@ namespace StackExchange.Windows.Html
             }
         }
 
-        public string Head(params string[] content)
+        public static string Head(params string[] content)
         {
             return Tag("head", content);
         }
 
-        public string Link(string rel, string href, string type)
+        public static string Link(string rel, string href, string type)
         {
             return $@"
 <link rel=""{rel}""
@@ -93,17 +104,17 @@ namespace StackExchange.Windows.Html
       type=""{type}"" />".Trim();
         }
 
-        public string Stylesheet(string href)
+        public static string Stylesheet(string href)
         {
             return Link("stylesheet", href, "text/css");
         }
 
-        public string ContentSecurityPolicy(string content)
+        public static string ContentSecurityPolicy(string content)
         {
             return Tag($"meta http-equiv=\"Content-Security-Policy\" content=\"{content}\"");
         }
 
-        public string Script(string src)
+        public static string Script(string src)
         {
             return $@"<script type=""text/javascript"" src=""{src}""></script>";
         }
